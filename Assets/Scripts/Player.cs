@@ -9,14 +9,17 @@ public class Player : MonoBehaviour
     [SerializeField] private float speedMax;
     [SerializeField] private float forceUpRatio;
     [SerializeField] private float forceHorizontalRatio;
+    [SerializeField] private float forceWindRatio;
     [SerializeField] private GameObject player;
     private Rigidbody2D rb;
     private float playerScale;
     private bool MouseButtonDown=false;
+    private Vector2 windForceVector;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerScale = player.transform.localScale.x;
+        windForceVector = Vector2.zero;
     }
 
    
@@ -36,6 +39,11 @@ public class Player : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * speedMax;
         }
+        if (windForceVector.magnitude>0)
+        {
+        rb.AddForce(windForceVector);
+
+        }
     }
 
     private void AddForcePlayer()
@@ -51,4 +59,9 @@ public class Player : MonoBehaviour
         return (vectorpoint - rb.transform.position).x * Vector2.right;
     }
 
+    public void Wind(Vector2Int wind)
+    {
+        Debug.Log("Ветер" + wind);
+        windForceVector = new Vector2(wind.x * forceWindRatio, wind.y * forceWindRatio);
+    }
 }
