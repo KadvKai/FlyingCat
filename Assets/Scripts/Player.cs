@@ -13,19 +13,13 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private float playerScale;
     private bool MouseButtonDown=false;
-    private Camera cam;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerScale = player.transform.localScale.x;
-        cam = UnityEngine.Camera.main;
     }
 
-    private void Update()
-    {
-        Vector3 viewPos = cam.WorldToViewportPoint(transform.position);
-        Debug.Log(viewPos);
-    }
+   
 
     private void FixedUpdate()
     {
