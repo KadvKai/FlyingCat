@@ -143,6 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26c4a5483ed2640a10cfe55933c3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points: 1
+  foodQuantity: 1
   speed: 0
   destroyEffect: {fileID: 3052101275658370736, guid: a85d3970e71384348ad530c928ab2f85, type: 3}

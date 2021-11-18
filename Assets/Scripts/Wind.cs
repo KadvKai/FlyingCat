@@ -17,7 +17,7 @@ public class Wind : MonoBehaviour
     private ParticleSystemRenderer windRenderer;
     void Start()
     {
-        cam = UnityEngine.Camera.main;
+        cam = Camera.main;
         camHight = cam.scaledPixelHeight;
         camWidth = cam.scaledPixelWidth;
         camSize = cam.orthographicSize;
@@ -29,7 +29,24 @@ public class Wind : MonoBehaviour
         StartCoroutine(WindMethod());
     }
 
-    IEnumerator WindMethod()
+    private void Update()
+    {
+        if (windForce>0)
+        {
+                if (windDirectionRight)
+                {
+                    wind.transform.position = new Vector3(cam.transform.position.x + 2 - camWidth * camSize / camHight, 0, 0);
+                    windRenderer.flip = new Vector3(0, 0, 0);
+                }
+                else
+                {
+                    wind.transform.position = new Vector3(cam.transform.position.x - 2 + camWidth * camSize / camHight, 0, 0);
+                    windRenderer.flip = new Vector3(1, 0, 0);
+                }
+        }
+    }
+
+    private IEnumerator WindMethod()
     {
         for (int i = 0; i < 50; i++)
         {
@@ -48,16 +65,6 @@ public class Wind : MonoBehaviour
                 var windEmission = wind.emission;
                 windEmission.rateOverTime = windForce;
 
-                if (windDirectionRight)
-                {
-                    wind.transform.position = new Vector3(cam.transform.position.x + 2 - camWidth * camSize / camHight, 0, 0);
-                    windRenderer.flip = new Vector3(0, 0, 0);
-                }
-                else
-                {
-                    wind.transform.position = new Vector3(cam.transform.position.x - 2 + camWidth * camSize / camHight, 0, 0);
-                    windRenderer.flip = new Vector3(1, 0, 0);
-                }
             }
             if (windForceOld != windForce)
             {

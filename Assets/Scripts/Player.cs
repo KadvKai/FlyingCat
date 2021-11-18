@@ -61,7 +61,10 @@ public class Player : MonoBehaviour
 
     public void Wind(Vector2Int wind)
     {
-        Debug.Log("Ветер" + wind);
         windForceVector = new Vector2(wind.x * forceWindRatio, wind.y * forceWindRatio);
+    }
+
+    public void TakeDamage()
+    {
     }
 }
