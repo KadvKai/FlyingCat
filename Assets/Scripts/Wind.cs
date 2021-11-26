@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Wind : MonoBehaviour
 {
-    [SerializeField] private Player player;
     [SerializeField] private ParticleSystem wind;
     [SerializeField] private int maxWindForce;
     private Camera cam;
@@ -15,6 +15,7 @@ public class Wind : MonoBehaviour
     private int windForceOld;
     private bool windDirectionRight;
     private ParticleSystemRenderer windRenderer;
+    public static event UnityAction<Vector2Int> WindChanged;
     void Start()
     {
         cam = Camera.main;
@@ -69,8 +70,8 @@ public class Wind : MonoBehaviour
             if (windForceOld != windForce)
             {
                 windForceOld = windForce;
-                if (windDirectionRight) player.Wind(new Vector2Int(windForce,0));
-                else player.Wind(new Vector2Int(-windForce, 0));
+                if (windDirectionRight) WindChanged?.Invoke(new Vector2Int(windForce, 0));
+                else WindChanged?.Invoke(new Vector2Int(-windForce, 0));
             }
             yield return new WaitForSeconds(10);
         }

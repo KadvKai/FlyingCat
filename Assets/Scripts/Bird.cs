@@ -1,43 +1,61 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Bird : MonoBehaviour
 {
-    [SerializeField] private GameObject bird;
-    [SerializeField] private float speed;
-    private float startOffsetX;
-    private bool move;
+    [SerializeField] private float _speed;
+    [SerializeField] private GameObject _way;
+    private Vector3[] _flightPoints;
+    private Vector3 _targetFlightPosition;
+    private bool _directionRightOld;
 
     private void Start()
     {
-        var cam = UnityEngine.Camera.main;
-        var camHight = cam.scaledPixelHeight;
-        var camWidth = cam.scaledPixelWidth;
-        var camSize = cam.orthographicSize;
-        startOffsetX = camWidth * camSize / camHight;
-        bird.transform.localPosition = bird.transform.localPosition - bird.transform.right * startOffsetX;
-        bird.SetActive(false);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        var camera = collision.GetComponent<CameraMover>();
-        if (camera != null)
-        {
-            gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            bird.SetActive(true);
-            move = true;
-        }
+        _flightPoints = FlightPointsCreation(transform.position, _way);
+        _targetFlightPosition = _flightPoints[0];
+        _directionRightOld = true;
     }
     private void Update()
     {
-        if (move == true&& bird!=null)
-        {
-            bird.transform.Translate(speed * Time.deltaTime * bird.transform.right);
 
+        if (Vector3.Distance(transform.position, _targetFlightPosition) < 0.01f)
+        {
+            _targetFlightPosition = NewTargetPosition();
+            bool directionRight = (_targetFlightPosition - transform.position).x > 0;
+            if (directionRight != _directionRightOld)
+            {
+                ChangeScale();
+            }
+            _directionRightOld = directionRight;
         }
+        transform.position = Vector3.MoveTowards(transform.position, _targetFlightPosition, _speed * Time.deltaTime);
     }
+
+    private void ChangeScale()
+    {
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+
+    private Vector3 NewTargetPosition()
+    {
+
+        return _flightPoints[Random.Range(0, _flightPoints.Length)];
+    }
+    private Vector3[] FlightPointsCreation(Vector3 startPosition, GameObject way)
+    {
+        Transform[] points = way.GetComponentsInChildren<Transform>();
+        Vector3[] flightPoints = new Vector3[points.Length + 1];
+        flightPoints[0] = startPosition;
+        for (int i = 0; i < points.Length; i++)
+        {
+            flightPoints[i + 1] = points[i].position;
+        }
+        return flightPoints;
+    }
+
 
 
 }

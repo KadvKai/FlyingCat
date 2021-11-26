@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5197740276433341700}
-  - component: {fileID: 7316418938554746376}
-  - component: {fileID: 8724857006273634425}
   - component: {fileID: 4554823250336560005}
+  - component: {fileID: 2768237062585602560}
   m_Layer: 0
   m_Name: Bird1Red 1
   m_TagString: Untagged
@@ -34,46 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &7316418938554746376
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601438883129885622}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.7825}
-    newSize: {x: 8, y: 6.26}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &8724857006273634425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601438883129885622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce26c4a5483ed2640a10cfe55933c3cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bird: {fileID: 1710193360960072996}
-  speed: 3
 --- !u!50 &4554823250336560005
 Rigidbody2D:
   serializedVersion: 4
@@ -95,6 +54,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2768237062585602560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601438883129885622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606cb1da838d14947b4d9b6f48852a4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bird: {fileID: 217223392687799018}
 --- !u!1 &1710193360960072996
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +80,7 @@ GameObject:
   - component: {fileID: 1710193360960072997}
   - component: {fileID: 2234004909744896308}
   - component: {fileID: 4700805208028002147}
+  - component: {fileID: 217223392687799018}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -240,3 +213,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodQuantity: 1
   destroyEffect: {fileID: 3052101275658370736, guid: a85d3970e71384348ad530c928ab2f85, type: 3}
+--- !u!114 &217223392687799018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710193360960072996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce26c4a5483ed2640a10cfe55933c3cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 1
+  _way: {fileID: 0}
