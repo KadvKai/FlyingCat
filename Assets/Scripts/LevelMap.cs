@@ -45,11 +45,10 @@ public class LevelMap : MonoBehaviour
 
     private IEnumerator LevelController()
     {
-        for (int i = 0; i < _levelGameObject.Length; i++)
+        for (int i = 1; i < _levelGameObject.Length; i++)
         {
-            Debug.Log("Стартует корутина"+i);
             yield return new WaitUntil(() => (_camTransform.position.x > i * _lengthPartLevel));
-            if (i>0) _levelGameObject[i - 1].SetActive(false);
+            _levelGameObject[i - 1].SetActive(false);
             if (i< _levelGameObject.Length-1) _levelGameObject[i + 1].SetActive(true);
             //StartCoroutine(WaitingPartLevel(i));
         }

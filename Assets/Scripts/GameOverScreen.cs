@@ -5,15 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class GameOverScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private GameObject _gameOverScreen;
 
     private void Start()
     {
-        gameOverScreen.SetActive(false);
+        _gameOverScreen.SetActive(false);
     }
     private void GameOver()
     {
-        gameOverScreen.SetActive(true);
+        _gameOverScreen.SetActive(true);
         Time.timeScale = 0;
 
     }

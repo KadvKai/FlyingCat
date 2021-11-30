@@ -9,13 +9,15 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(GameParameters))]
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] TMP_Text userName;
-    [SerializeField] GameObject menyUserNameAge;
+    [SerializeField] TMP_Text _userName;
+    [SerializeField] GameObject _menyUserNameAge;
+    [SerializeField] GameObject _levelMap;
 
     private GameParameters gameParameters;
     void Start()
     {
-        menyUserNameAge.SetActive(false);
+        Time.timeScale = 0;
+        _menyUserNameAge.SetActive(false);
         gameParameters= GetComponent<GameParameters>();
         if (gameParameters.HaveSaveFile())
         {
@@ -26,15 +28,17 @@ public class MainMenu : MonoBehaviour
     }
     public void UserNameChanged()
     {
-        userName.text = gameParameters.GetUserName();
+        _userName.text = gameParameters.GetUserName();
     }
     private void UserNameAge()
     {
-        menyUserNameAge.SetActive(true);
+        _menyUserNameAge.SetActive(true);
     }
 
     public void Play()
     {
-        SceneManager.LoadScene(1);
+        gameObject.SetActive(false);
+        _levelMap.SetActive(true);
+        Time.timeScale = 1;
     }
 }

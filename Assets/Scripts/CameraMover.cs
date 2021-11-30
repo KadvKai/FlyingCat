@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMover : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] private float _speed;
     void Start()
     {
         gameObject.transform.position = new Vector3(0f, 0f, -10f);  
@@ -12,6 +12,6 @@ public class CameraMover : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(speed * Time.deltaTime * Vector3.right);
+        transform.Translate(_speed * Time.deltaTime * Vector3.right);
     }
 }
