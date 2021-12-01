@@ -285,6 +285,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73427600}
   m_CullTransparentMesh: 1
+--- !u!1 &82447028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 82447030}
+  - component: {fileID: 82447029}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &82447029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82447028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab969531d2806964eb9145dcbaa07cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelMap: {fileID: 1941216210}
+  _camera: {fileID: 519420033}
+  _levelParameters:
+  - {fileID: 11400000, guid: 09c994434afb97445a625f398fff795f, type: 2}
+--- !u!4 &82447030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82447028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &93010757
 GameObject:
   m_ObjectHideFlags: 0
@@ -5812,7 +5859,7 @@ Transform:
   - {fileID: 594711753}
   - {fileID: 310289726}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &455319983
 MonoBehaviour:
@@ -6777,7 +6824,7 @@ RectTransform:
   - {fileID: 1487343777}
   - {fileID: 910543771}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7488,7 +7535,7 @@ Transform:
   - {fileID: 277845749}
   - {fileID: 714906491}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1397841003
 MonoBehaviour:
@@ -7672,7 +7719,7 @@ RectTransform:
   - {fileID: 1753058146}
   - {fileID: 1106701558}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7829,7 +7876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _userName: {fileID: 1997511759}
   _menyUserNameAge: {fileID: 1559167592}
-  _levelMap: {fileID: 1941216209}
+  _levelManager: {fileID: 82447029}
 --- !u!114 &1545406922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8725,18 +8772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04aa36ecd7fe8648ad7da4f69c7e13c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberLevelParts: 5
-  _startPartLevel: {fileID: 4107358076843380325, guid: 6b0c96c1277e0864aa233c68f595f599, type: 3}
-  _partLevel:
-  - {fileID: 4107358076843380325, guid: b783dd0bec11e3342839d27596b0cd5d, type: 3}
-  - {fileID: 4107358076843380325, guid: 6117eb3bba59d9e4bab6537e6e1ca29c, type: 3}
-  - {fileID: 4107358076843380325, guid: 21e0ad8c17fa3f34a94a0b354777360f, type: 3}
-  - {fileID: 4107358076843380325, guid: 47838bf08d6521e4c95697f4ac657572, type: 3}
-  - {fileID: 4107358076843380325, guid: 1cc1a57d7ea0bd842bdc83a5b2458b22, type: 3}
-  - {fileID: 4107358076843380325, guid: 47a61d7522fe870499a447cefd029c50, type: 3}
-  - {fileID: 4107358076843380325, guid: a2d08ad35ca73824eabde024474dd1fa, type: 3}
-  - {fileID: 4107358076843380325, guid: ca487bbde2b235547b194817c69529c0, type: 3}
-  _finishPartLevel: {fileID: 4107358076843380325, guid: 12fd7a6ced0a6224a8b8537b071199e2, type: 3}
 --- !u!4 &1941216211
 Transform:
   m_ObjectHideFlags: 0
@@ -8749,7 +8784,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1991064500
 GameObject:

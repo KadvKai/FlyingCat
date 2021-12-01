@@ -11,8 +11,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
     [SerializeField] GameObject _menyUserNameAge;
-    [SerializeField] GameObject _levelMap;
-
+    [SerializeField] LevelManager _levelManager;
     private GameParameters gameParameters;
     void Start()
     {
@@ -38,7 +37,7 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         gameObject.SetActive(false);
-        _levelMap.SetActive(true);
+        _levelManager.LoadingLevel(0);
         Time.timeScale = 1;
     }
 }
