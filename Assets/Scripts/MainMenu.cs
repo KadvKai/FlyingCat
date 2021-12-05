@@ -12,13 +12,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TMP_Text _userName;
     [SerializeField] GameObject _menyUserNameAge;
     [SerializeField] LevelManager _levelManager;
-    private GameParameters gameParameters;
+    private GameParameters _gameParameters;
     void Start()
     {
         Time.timeScale = 0;
         _menyUserNameAge.SetActive(false);
-        gameParameters= GetComponent<GameParameters>();
-        if (gameParameters.HaveSaveFile())
+        _gameParameters= GetComponent<GameParameters>();
+        if (_gameParameters.HaveSaveFile())
         {
             UserNameChanged();
         }
@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
     }
     public void UserNameChanged()
     {
-        _userName.text = gameParameters.GetUserName();
+        _userName.text = _gameParameters.GetUserName();
     }
     private void UserNameAge()
     {

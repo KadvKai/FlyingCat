@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject[] balloon;
     [SerializeField] private GameObject[] balloonBurst;
     public static event UnityAction GameOver;
+    public event UnityAction EndLevel;
     private int lives;
     private Rigidbody2D rb;
     private float playerScale;
@@ -23,21 +24,11 @@ public class Player : MonoBehaviour
     private Vector2 windForceVector;
     void Start()
     {
-        lives = balloon.Length;
         rb = GetComponent<Rigidbody2D>();
         playerScale = player.transform.localScale.x;
-        windForceVector = Vector2.zero;
     }
-    private void OnEnable()
-    {
-        Wind.WindChanged += WindChanged;
-    }
-    private void OnDisable()
-    {
-        Wind.WindChanged -= WindChanged;
-    }
-
-    private void WindChanged(Vector2Int wind)
+    
+    public void WindChanged(Vector2Int wind)
     {
         windForceVector = new Vector2(wind.x * forceWindRatio, wind.y * forceWindRatio);
     }
@@ -53,14 +44,28 @@ public class Player : MonoBehaviour
         {
             MouseButtonDown = false;
         }
+        SpeedCorrection();
+        WindForce();
+    }
+    public void SetStartParameters()
+    {
+        transform.position = new Vector3(-2, -8, 0);
+        lives = balloon.Length;
+        windForceVector = Vector2.zero;
+    }
+
+    private void SpeedCorrection()
+    {
         if (rb.velocity.magnitude> speedMax)
         {
             rb.velocity = rb.velocity.normalized * speedMax;
         }
+    }
+    private void WindForce()
+    {
         if (windForceVector.magnitude>0)
         {
         rb.AddForce(windForceVector);
-
         }
     }
 
@@ -89,5 +94,10 @@ public class Player : MonoBehaviour
     private void PlayerGameOver()
     {
         GameOver?.Invoke();
+    }
+
+    private void PlayerEndLevel()
+    {
+        EndLevel?.Invoke();
     }
 }
