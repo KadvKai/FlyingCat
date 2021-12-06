@@ -2,76 +2,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
 public class Wind : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem wind;
-    [SerializeField] private int maxWindForce;
-    private Camera cam;
-    private int camHight;
-    private int camWidth;
-    private float camSize;
-    private int windForce;
-    private int windForceOld;
-    private bool windDirectionRight;
-    private ParticleSystemRenderer windRenderer;
-    public static event UnityAction<Vector2Int> WindChanged;
-    void Start()
-    {
-        cam = Camera.main;
-        camHight = cam.scaledPixelHeight;
-        camWidth = cam.scaledPixelWidth;
-        camSize = cam.orthographicSize;
-        windForce = 0;
-        windForceOld = windForce;
-        var windShape = wind.shape;
-        windShape.scale = new Vector3(2, 2 * camSize, 1);
-        windRenderer = wind.GetComponent<ParticleSystemRenderer>();
-        StartCoroutine(WindMethod());
-    }
+    [SerializeField] private ParticleSystem _wind;
+    private int _maxWindForce;
+    private int _windForce;
+    private int _windForceOld;
+    private bool _windDirectionRight;
+    private float _windRightPozition;
+    private ParticleSystemRenderer _windRenderer;
+    public event UnityAction<Vector2Int> WindChanged;
 
-    private void Update()
+    public void SetStartParameters(Camera cam, int maxWindForce)
     {
-        if (windForce>0)
+        _maxWindForce= maxWindForce;
+        _windForce = 0;
+        _windForceOld = _windForce;
+        _windRightPozition = 2 - cam.scaledPixelWidth * cam.orthographicSize / cam.scaledPixelHeight;
+        var windShape = _wind.shape;
+        windShape.scale = new Vector3(2, 2 * cam.orthographicSize, 1);
+        StartCoroutine(WindChange());
+    
+    }
+    private IEnumerator WindChange()
+    {
+        _windRenderer = _wind.GetComponent<ParticleSystemRenderer>();
+        for (int i = 0; i < 50; i++)
         {
-                if (windDirectionRight)
-                {
-                    wind.transform.position = new Vector3(cam.transform.position.x + 2 - camWidth * camSize / camHight, 0, 0);
-                    windRenderer.flip = new Vector3(0, 0, 0);
+            _windForce += Random.Range(-1, 2);
+            if (_windForce < 0) _windForce = 0;
+            if (_windForce > _maxWindForce) _windForce = _maxWindForce;
+            if (_windForce == 0)
+            {
+                if (Random.Range(0, 2) < 1)
+                { 
+                    _windDirectionRight = false;
+                    _wind.transform.localPosition = new Vector3(-_windRightPozition, 0, 0);
+                    _windRenderer.flip = new Vector3(1, 0, 0);
                 }
                 else
                 {
-                    wind.transform.position = new Vector3(cam.transform.position.x - 2 + camWidth * camSize / camHight, 0, 0);
-                    windRenderer.flip = new Vector3(1, 0, 0);
+                    _windDirectionRight = true;
+                    _wind.transform.localPosition = new Vector3(_windRightPozition, 0, 0);
+                    _windRenderer.flip = new Vector3(0, 0, 0);
                 }
-        }
-    }
-
-    private IEnumerator WindMethod()
-    {
-        for (int i = 0; i < 50; i++)
-        {
-            windForce += Random.Range(-1, 2);
-            if (windForce < 0) windForce = 0;
-            if (windForce > maxWindForce) windForce = maxWindForce;
-            if (windForce == 0)
-            {
-                if (Random.Range(0, 2) < 1) windDirectionRight = false;
-                else windDirectionRight = true;
-                wind.gameObject.SetActive(false);
+                _wind.gameObject.SetActive(false);
             }
             else
             {
-                wind.gameObject.SetActive(true);
-                var windEmission = wind.emission;
-                windEmission.rateOverTime = windForce;
+                _wind.gameObject.SetActive(true);
+                var windEmission = _wind.emission;
+                windEmission.rateOverTime = _windForce;
 
             }
-            if (windForceOld != windForce)
+            if (_windForceOld != _windForce)
             {
-                windForceOld = windForce;
-                if (windDirectionRight) WindChanged?.Invoke(new Vector2Int(windForce, 0));
-                else WindChanged?.Invoke(new Vector2Int(-windForce, 0));
+                _windForceOld = _windForce;
+                if (_windDirectionRight) WindChanged?.Invoke(new Vector2Int(_windForce, 0));
+                else WindChanged?.Invoke(new Vector2Int(-_windForce, 0));
             }
             yield return new WaitForSeconds(10);
         }

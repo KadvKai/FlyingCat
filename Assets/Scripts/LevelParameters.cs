@@ -11,10 +11,12 @@ public class LevelParameters : ScriptableObject
     [SerializeField] private GameObject _startPartLevel;
     [SerializeField] private GameObject[] _partLevel;
     [SerializeField] private GameObject _finishPartLevel;
+    [SerializeField] private int _maxWindForce;
 
 
     public int NumberLevelParts => _numberLevelParts;
     public GameObject StartPartLevel =>_startPartLevel;
     public GameObject[] PartLevel => _partLevel;
     public GameObject FinishPartLevel =>_finishPartLevel;
+    public int MaxWindForce => _maxWindForce;
 }

@@ -13,16 +13,7 @@ public class ParallaxCloud : ParallaxBackground
         RectPosition(_rectPosition);
     }
 
-    private void OnEnable()
-    {
-        Wind.WindChanged += WindChanged;
-    }
-    private void OnDisable()
-    {
-        Wind.WindChanged -= WindChanged;
-    }
-
-    private void WindChanged(Vector2Int wind)
+    public void WindChanged(Vector2Int wind)
     {
         _wind=wind.x;
     }
