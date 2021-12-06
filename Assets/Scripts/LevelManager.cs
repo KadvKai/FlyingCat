@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CameraMover _camera;
     [SerializeField] private LevelParameters[] _levelParameters;
     [SerializeField] private Wind _wind;
+    [SerializeField] private ArrowOnPlayer _arrowOnPlayer;
     [SerializeField] private Canvas _background;
     private int _level;
     public void LoadingLevel(int level)
@@ -18,7 +20,15 @@ public class LevelManager : MonoBehaviour
         SetPlayerParameters();
         SetWindParameters();
         SetBackgroundParameters();
+        SetArrowOnPlayerParameters();
     }
+
+    private void SetArrowOnPlayerParameters()
+    {
+        _arrowOnPlayer.SetStartParameters(_player);
+        _arrowOnPlayer.enabled=true;
+    }
+
     private void SetLevelMapParameters()
     {
         _levelMap.SetCameraTransform(_camera);
@@ -36,8 +46,8 @@ public class LevelManager : MonoBehaviour
 
     private void SetWindParameters()
     {
-        _wind.SetStartParameters(_camera.GetComponent<Camera>(), _levelParameters[_level].MaxWindForce);
-        _wind.gameObject.SetActive(true);
+        _wind.SetStartParameters(_levelParameters[_level].MaxWindForce);
+        _wind.enabled = true;
     }
 
     private void SetBackgroundParameters()

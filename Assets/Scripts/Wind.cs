@@ -9,16 +9,17 @@ public class Wind : MonoBehaviour
     private int _windForce;
     private int _windForceOld;
     private bool _windDirectionRight;
-    private float _windRightPozition;
+    private float _windDirectionRightPozition;
     private ParticleSystemRenderer _windRenderer;
     public event UnityAction<Vector2Int> WindChanged;
 
-    public void SetStartParameters(Camera cam, int maxWindForce)
+    public void SetStartParameters(int maxWindForce)
     {
         _maxWindForce= maxWindForce;
         _windForce = 0;
         _windForceOld = _windForce;
-        _windRightPozition = 2 - cam.scaledPixelWidth * cam.orthographicSize / cam.scaledPixelHeight;
+        Camera cam = GetComponent<Camera>();
+        _windDirectionRightPozition = 2 - cam.scaledPixelWidth * cam.orthographicSize / cam.scaledPixelHeight;
         var windShape = _wind.shape;
         windShape.scale = new Vector3(2, 2 * cam.orthographicSize, 1);
         StartCoroutine(WindChange());
@@ -37,13 +38,13 @@ public class Wind : MonoBehaviour
                 if (Random.Range(0, 2) < 1)
                 { 
                     _windDirectionRight = false;
-                    _wind.transform.localPosition = new Vector3(-_windRightPozition, 0, 0);
+                    _wind.transform.localPosition = new Vector3(-_windDirectionRightPozition, 0, 0);
                     _windRenderer.flip = new Vector3(1, 0, 0);
                 }
                 else
                 {
                     _windDirectionRight = true;
-                    _wind.transform.localPosition = new Vector3(_windRightPozition, 0, 0);
+                    _wind.transform.localPosition = new Vector3(_windDirectionRightPozition, 0, 0);
                     _windRenderer.flip = new Vector3(0, 0, 0);
                 }
                 _wind.gameObject.SetActive(false);

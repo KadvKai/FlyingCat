@@ -320,7 +320,7 @@ MonoBehaviour:
   _levelParameters:
   - {fileID: 11400000, guid: 09c994434afb97445a625f398fff795f, type: 2}
   _wind: {fileID: 519420034}
-  _background: {fileID: 0}
+  _background: {fileID: 1431596913}
 --- !u!4 &82447030
 Transform:
   m_ObjectHideFlags: 0

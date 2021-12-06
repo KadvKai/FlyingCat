@@ -11,7 +11,7 @@ public class PlayerOutsideCamera : MonoBehaviour
     private Camera _cam;
     private Coroutine _coroutineCountdown;
     public static event UnityAction<int> TimeToDestruction;
-
+    public event UnityAction<bool> PlayerOutsideCameraTrue;
 
 
     void Start()
@@ -39,6 +39,7 @@ public class PlayerOutsideCamera : MonoBehaviour
                 StopCoroutine(_coroutineCountdown);
                 _coroutineCountdown = null;
                 TimeToDestruction?.Invoke(0);
+                PlayerOutsideCameraTrue?.Invoke(false);
             }
         }
 
@@ -46,6 +47,7 @@ public class PlayerOutsideCamera : MonoBehaviour
 
     private IEnumerator Countdown()
     {
+        PlayerOutsideCameraTrue?.Invoke(true);
         if (_startTimeToDestruction > 10)
         {
             yield return new WaitForSeconds(_startTimeToDestruction - 10);
