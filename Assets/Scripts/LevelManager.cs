@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerParameters()
     {
         _player.SetStartParameters();
-        _wind.WindChanged += _player.WindChanged;
+        _wind.WindChanged += _player.GetComponent<PlayerMover>().WindChanged;
         _player.EndLevel += EndLevel;
         _player.gameObject.SetActive(true);
     }
@@ -64,7 +64,7 @@ public class LevelManager : MonoBehaviour
 
     private void EndLevel()
     {
-        _wind.WindChanged -= _player.WindChanged;
+        _wind.WindChanged -= _player.GetComponent<PlayerMover>().WindChanged;
         var clouds = _background.GetComponentsInChildren<ParallaxCloud>();
         foreach (var cloud in clouds)
         {

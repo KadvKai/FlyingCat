@@ -17,7 +17,7 @@ public class PlayerMover : MonoBehaviour
     private float playerScale;
     private bool MouseButtonDown=false;
     private Vector2 windForceVector;
-    public void SetStartParameters()
+    public void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerScale = player.transform.localScale.x;

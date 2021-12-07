@@ -29,49 +29,49 @@ public class ArrowOnPlayer : MonoBehaviour
             _arrow.transform.rotation = Quaternion.Euler(0f, 0f, rotationArrow);
         }
     }
-    private Vector2 PositionArrow(Vector3 playerPos)
+    private Vector3 PositionArrow(Vector3 playerPos)
     {
         if (playerPos.x < 0 && playerPos.y > 0 && playerPos.y < 1)//левый край
         {
 
-            return new Vector2(-_camRightPosition, (2*playerPos.y-1)* _camTopPosition);
+            return new Vector3(-_camRightPosition, (2*playerPos.y-1)* _camTopPosition,10);
         }
 
         if (playerPos.x > 1 && playerPos.y > 0 && playerPos.y < 1)//правый край
         {
-            return new Vector2(_camRightPosition, (2 * playerPos.y - 1) * _camTopPosition);
+            return new Vector3(_camRightPosition, (2 * playerPos.y - 1) * _camTopPosition, 10);
         }
 
         if (playerPos.y < 0 && playerPos.x > 0 && playerPos.x < 1)//нижеий край
         {
-            return new Vector2((2 * playerPos.x - 1) * _camRightPosition, -_camTopPosition);
+            return new Vector3((2 * playerPos.x - 1) * _camRightPosition, -_camTopPosition, 10);
         }
 
         if (playerPos.y > 1 && playerPos.x > 0 && playerPos.x < 1)//верхний край
         {
-            return new Vector2((2 * playerPos.x - 1) * _camRightPosition, _camTopPosition);
+            return new Vector3((2 * playerPos.x - 1) * _camRightPosition, _camTopPosition, 10);
         }
 
         if (playerPos.x < 0 && playerPos.y < 0)//левый нижний край
         {
-            return new Vector2(-_camRightPosition, -_camTopPosition);
+            return new Vector3(-_camRightPosition, -_camTopPosition, 10);
         }
 
         if (playerPos.x < 0 && playerPos.y > 1)//левый верхний край
         {
-            return new Vector2(-_camRightPosition, _camTopPosition);
+            return new Vector3(-_camRightPosition, _camTopPosition, 10);
         }
 
         if (playerPos.x > 1 && playerPos.y < 0)//правый нижний край
         {
-            return new Vector2(_camRightPosition, -_camTopPosition);
+            return new Vector3(_camRightPosition, -_camTopPosition, 10);
         }
 
         if (playerPos.x > 1 && playerPos.y > 1)//правый верхний край
         {
-            return new Vector2(_camRightPosition, _camTopPosition);
+            return new Vector3(_camRightPosition, _camTopPosition, 10);
         }
-        return Vector2.zero;
+        return Vector3.zero;
 
 
     }
