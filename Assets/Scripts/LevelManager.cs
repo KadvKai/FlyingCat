@@ -25,9 +25,12 @@ public class LevelManager : MonoBehaviour
 
     private void SetArrowOnPlayerParameters()
     {
-        _arrowOnPlayer.SetStartParameters(_player);
+        var playerOutsideCamera = _player.GetComponent<PlayerOutsideCamera>();
+        playerOutsideCamera.PlayerOutsideCameraTrue +=_arrowOnPlayer.PlayerOutsideCameraTrue;
+        _arrowOnPlayer.SetStartParameters();
         _arrowOnPlayer.enabled=true;
     }
+   
 
     private void SetLevelMapParameters()
     {
@@ -67,6 +70,7 @@ public class LevelManager : MonoBehaviour
         {
             _wind.WindChanged -= cloud.WindChanged;
         }
+        _player.GetComponent<PlayerOutsideCamera>().PlayerOutsideCameraTrue -= _arrowOnPlayer.PlayerOutsideCameraTrue;
     }
 
 }

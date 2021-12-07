@@ -7,17 +7,7 @@ public class PlayerOutsideCameraTextIndicator : MonoBehaviour
 {
     [SerializeField] private Text _playerOutsideCameraText;
 
-    void Start()
-    {
-        _playerOutsideCameraText.gameObject.SetActive(false);   
-    }
-
-    private void OnEnable()
-    {
-        PlayerOutsideCamera.TimeToDestruction += TimeToDestructionIndicator;
-    }
-
-    private void TimeToDestructionIndicator(int time)
+    public void TimeToDestructionIndicator(int time)
     {
         
         if (time<=0) _playerOutsideCameraText.gameObject.SetActive(false);
@@ -29,11 +19,5 @@ public class PlayerOutsideCameraTextIndicator : MonoBehaviour
 
         
     }
-
-    private void OnDisable()
-    {
-        PlayerOutsideCamera.TimeToDestruction -= TimeToDestructionIndicator;
-    }
-
 
 }

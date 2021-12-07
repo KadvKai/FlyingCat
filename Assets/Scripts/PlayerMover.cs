@@ -5,32 +5,22 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(PlayerOutsideCamera))]
 
-public class Player : MonoBehaviour
+public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float speedMax;
     [SerializeField] private float forceUpRatio;
     [SerializeField] private float forceHorizontalRatio;
     [SerializeField] private float forceWindRatio;
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject[] balloon;
-    [SerializeField] private GameObject[] balloonBurst;
-    [SerializeField] private Canvas _canvas;
-    public static event UnityAction GameOver;
-    public event UnityAction EndLevel;
-    private int lives;
     private Rigidbody2D rb;
     private float playerScale;
     private bool MouseButtonDown=false;
     private Vector2 windForceVector;
     public void SetStartParameters()
     {
-        GetComponent<PlayerOutsideCamera>().TimeToDestruction += _canvas.GetComponent<PlayerOutsideCameraTextIndicator>().TimeToDestructionIndicator;
         rb = GetComponent<Rigidbody2D>();
         playerScale = player.transform.localScale.x;
-        transform.position = new Vector3(-2, -8, 0);
-        lives = balloon.Length;
         windForceVector = Vector2.zero;
     }
     
@@ -50,11 +40,7 @@ public class Player : MonoBehaviour
         WindForce();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        var endLevel = collision.GetComponent<EndLevel>();
-        if (endLevel != null) PlayerEndLevel();
-    }
+   
     public void WindChanged(Vector2Int wind)
     {
         windForceVector = new Vector2(wind.x * forceWindRatio, wind.y * forceWindRatio);
@@ -86,30 +72,5 @@ public class Player : MonoBehaviour
     private Vector2 VectorHorizontalDisplacement(Vector3 vectorpoint)
     {
         return (vectorpoint - rb.transform.position).x * Vector2.right;
-    }
-
-
-    public void TakeDamage()
-    {
-        lives -= 1;
-        balloon[lives].SetActive(false);
-        balloonBurst[lives].SetActive(true);
-        if (lives < 1) PlayerGameOver();
-    }
-
-    private void PlayerGameOver()
-    {
-        GameOver?.Invoke();
-    }
-
-    private void PlayerEndLevel()
-    {
-        EndLevel?.Invoke();
-    }
-
-    private void OnDisable()
-    {
-
-        GetComponent<PlayerOutsideCamera>().TimeToDestruction -= _canvas.GetComponent<PlayerOutsideCameraTextIndicator>().TimeToDestructionIndicator;
     }
 }

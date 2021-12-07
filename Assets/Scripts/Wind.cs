@@ -38,13 +38,13 @@ public class Wind : MonoBehaviour
                 if (Random.Range(0, 2) < 1)
                 { 
                     _windDirectionRight = false;
-                    _wind.transform.localPosition = new Vector3(-_windDirectionRightPozition, 0, 0);
+                    _wind.transform.localPosition = new Vector3(-_windDirectionRightPozition, 0, 10);
                     _windRenderer.flip = new Vector3(1, 0, 0);
                 }
                 else
                 {
                     _windDirectionRight = true;
-                    _wind.transform.localPosition = new Vector3(_windDirectionRightPozition, 0, 0);
+                    _wind.transform.localPosition = new Vector3(_windDirectionRightPozition, 0, 10);
                     _windRenderer.flip = new Vector3(0, 0, 0);
                 }
                 _wind.gameObject.SetActive(false);

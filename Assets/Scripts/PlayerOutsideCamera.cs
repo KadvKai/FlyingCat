@@ -10,8 +10,8 @@ public class PlayerOutsideCamera : MonoBehaviour
     private Player _player;
     private Camera _cam;
     private Coroutine _coroutineCountdown;
-    public static event UnityAction<int> TimeToDestruction;
-    public event UnityAction<bool> PlayerOutsideCameraTrue;
+    public event UnityAction<int> TimeToDestruction;
+    public event UnityAction<bool,Vector3> PlayerOutsideCameraTrue;
 
 
     void Start()
@@ -27,6 +27,7 @@ public class PlayerOutsideCamera : MonoBehaviour
         Vector3 playerPos = _cam.WorldToViewportPoint(_player.transform.position);
         if (playerPos.x < -0 || playerPos.x > 1 || playerPos.y < 0 || playerPos.y > 1)
         {
+            PlayerOutsideCameraTrue?.Invoke(true, playerPos);
             if (_coroutineCountdown == null)
             {
                 _coroutineCountdown = StartCoroutine(Countdown());
@@ -39,7 +40,7 @@ public class PlayerOutsideCamera : MonoBehaviour
                 StopCoroutine(_coroutineCountdown);
                 _coroutineCountdown = null;
                 TimeToDestruction?.Invoke(0);
-                PlayerOutsideCameraTrue?.Invoke(false);
+                PlayerOutsideCameraTrue?.Invoke(false, playerPos);
             }
         }
 
@@ -47,7 +48,7 @@ public class PlayerOutsideCamera : MonoBehaviour
 
     private IEnumerator Countdown()
     {
-        PlayerOutsideCameraTrue?.Invoke(true);
+        
         if (_startTimeToDestruction > 10)
         {
             yield return new WaitForSeconds(_startTimeToDestruction - 10);
