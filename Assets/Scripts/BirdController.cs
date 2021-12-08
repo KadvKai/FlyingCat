@@ -23,6 +23,7 @@ public class BirdController : MonoBehaviour
 
     private void ObjectOutsideCameraTrue(bool birdOutsideCamera)
     {
+        Debug.Log("За экраном"+ birdOutsideCamera);
         _birdOutsideCamera = birdOutsideCamera;
     }
 

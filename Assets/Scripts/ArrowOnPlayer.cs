@@ -14,12 +14,15 @@ public class ArrowOnPlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerOutsideCamera.PlayerOutsideCameraTrue += PlayerOutsideCameraTrue;
+        _playerOutsideCamera.ObjectOutsideCameraTrue += ArrowIsActiveTrue;
+        _playerOutsideCamera.PlayerOutsideCameraPosition += ArrowPosition;
     }
+
 
     private void OnDisable()
     {
-        _playerOutsideCamera.PlayerOutsideCameraTrue -= PlayerOutsideCameraTrue;
+        _playerOutsideCamera.ObjectOutsideCameraTrue -= ArrowIsActiveTrue;
+        _playerOutsideCamera.PlayerOutsideCameraPosition -= ArrowPosition;
     }
     private void Start()
     {
@@ -28,9 +31,12 @@ public class ArrowOnPlayer : MonoBehaviour
         _camRightPosition = _cam.scaledPixelWidth * _cam.orthographicSize / _cam.scaledPixelHeight;
         _arrow.SetActive(false);
     }
-    private void PlayerOutsideCameraTrue(bool playerOutsideCamera, Vector3 playerPos)
+    private void ArrowIsActiveTrue(bool isActive)
     {
-             _arrow.SetActive(playerOutsideCamera);
+        _arrow.SetActive(isActive);
+    }
+    private void ArrowPosition( Vector3 playerPos)
+    {
         if (_arrow.activeSelf)
         {
             _arrow.transform.localPosition = PositionArrow(playerPos);

@@ -4,47 +4,30 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Player))]
-public class PlayerOutsideCamera : MonoBehaviour
+public class PlayerOutsideCamera : ObjectOutsideCamera
 {
     [SerializeField] int _startTimeToDestruction;
-    private Player _player;
-    private Camera _cam;
     private Coroutine _coroutineCountdown;
     public event UnityAction<int> TimeToDestruction;
-    public event UnityAction<bool,Vector3> PlayerOutsideCameraTrue;
+    public event UnityAction<Vector3> PlayerOutsideCameraPosition;
 
-
-    void Start()
+    private new void Update()
     {
-        _player = gameObject.GetComponent<Player>();
-        _cam = UnityEngine.Camera.main;
-
+        base.Update();
+        if (_objectOutsideCamera == true) PlayerOutsideCameraPosition(_objectPos);
+    }
+     protected override void ObjectOutside(bool objectOutsideCamera)
+    {
+        base.ObjectOutside(objectOutsideCamera);
+        if (objectOutsideCamera == true)
+            _coroutineCountdown = StartCoroutine(Countdown());
+        else if (_coroutineCountdown != null)
+        {
+        StopCoroutine(_coroutineCountdown);
+            TimeToDestruction?.Invoke(0);
+        } 
     }
 
-
-    void Update()
-    {
-        Vector3 playerPos = _cam.WorldToViewportPoint(_player.transform.position);
-        if (playerPos.x < -0 || playerPos.x > 1 || playerPos.y < 0 || playerPos.y > 1)
-        {
-            PlayerOutsideCameraTrue?.Invoke(true, playerPos);
-            if (_coroutineCountdown == null)
-            {
-                _coroutineCountdown = StartCoroutine(Countdown());
-            }
-        }
-        else
-        {
-            if (_coroutineCountdown != null)
-            { 
-                StopCoroutine(_coroutineCountdown);
-                _coroutineCountdown = null;
-                TimeToDestruction?.Invoke(0);
-                PlayerOutsideCameraTrue?.Invoke(false, playerPos);
-            }
-        }
-
-    }
 
     private IEnumerator Countdown()
     {
@@ -58,7 +41,7 @@ public class PlayerOutsideCamera : MonoBehaviour
             yield return new WaitForSeconds(1);
             TimeToDestruction?.Invoke(i);
         }
-        _player.TakeDamage();
-        _player.transform.position = _cam.transform.position+new Vector3(0,0,10);
+        GetComponent<Player>().TakeDamage();
+        transform.position = _cam.transform.position+new Vector3(0,0,10);
     }
 }

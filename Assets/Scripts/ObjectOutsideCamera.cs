@@ -5,22 +5,25 @@ using UnityEngine.Events;
 
 public class ObjectOutsideCamera : MonoBehaviour
 {
-    private bool _objectOutsideCamera;
-    private Camera _cam;
+    protected bool _objectOutsideCamera;
+    protected Camera _cam;
+    protected Vector3 _objectPos;
     public event UnityAction<bool> ObjectOutsideCameraTrue;
 
 
     private void Start()
     {
         _cam = UnityEngine.Camera.main;
-
+        _objectPos = _cam.WorldToViewportPoint(transform.position);
+        if (_objectPos.x < -0 || _objectPos.x > 1 || _objectPos.y < -0 || _objectPos.y > 1) _objectOutsideCamera = false;
+        else _objectOutsideCamera = true;
     }
 
 
-    private void Update()
+    protected void Update()
     {
-        Vector3 objectPos = _cam.WorldToViewportPoint(transform.position);
-        if (objectPos.x < -0.1 || objectPos.x > 1.1 || objectPos.y < -0.1 || objectPos.y > 1.1)
+        _objectPos = _cam.WorldToViewportPoint(transform.position);
+        if (_objectPos.x < -0 || _objectPos.x > 1 || _objectPos.y < -0 || _objectPos.y > 1)
         {
 
             if (_objectOutsideCamera ==false)
@@ -40,7 +43,7 @@ public class ObjectOutsideCamera : MonoBehaviour
 
     }
 
-    protected void ObjectOutside(bool objectOutsideCamera)
+    protected virtual void ObjectOutside(bool objectOutsideCamera)
     {
         ObjectOutsideCameraTrue?.Invoke(objectOutsideCamera);
     }
