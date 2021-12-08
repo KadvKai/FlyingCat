@@ -6,8 +6,18 @@ using UnityEngine.UI;
 public class PlayerOutsideCameraTextIndicator : MonoBehaviour
 {
     [SerializeField] private Text _playerOutsideCameraText;
+    [SerializeField] private PlayerOutsideCamera _playerOutsideCamera;
 
-    public void TimeToDestructionIndicator(int time)
+    private void OnEnable()
+    {
+        _playerOutsideCamera.TimeToDestruction += TimeToDestructionIndicator;
+    }
+
+    private void OnDisable()
+    {
+        _playerOutsideCamera.TimeToDestruction -= TimeToDestructionIndicator;
+    }
+    private void TimeToDestructionIndicator(int time)
     {
         
         if (time<=0) _playerOutsideCameraText.gameObject.SetActive(false);

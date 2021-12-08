@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Bird : MonoBehaviour
+public class BirdMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private GameObject _way;

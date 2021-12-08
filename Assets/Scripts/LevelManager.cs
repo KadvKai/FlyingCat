@@ -10,8 +10,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CameraMover _camera;
     [SerializeField] private LevelParameters[] _levelParameters;
     [SerializeField] private Wind _wind;
-    [SerializeField] private ArrowOnPlayer _arrowOnPlayer;
-    [SerializeField] private Canvas _background;
     private int _level;
     public void LoadingLevel(int level)
     {
@@ -19,18 +17,7 @@ public class LevelManager : MonoBehaviour
         SetLevelMapParameters();
         SetPlayerParameters();
         SetWindParameters();
-        SetBackgroundParameters();
-        SetArrowOnPlayerParameters();
     }
-
-    private void SetArrowOnPlayerParameters()
-    {
-        var playerOutsideCamera = _player.GetComponent<PlayerOutsideCamera>();
-        playerOutsideCamera.PlayerOutsideCameraTrue +=_arrowOnPlayer.PlayerOutsideCameraTrue;
-        _arrowOnPlayer.SetStartParameters();
-        _arrowOnPlayer.enabled=true;
-    }
-   
 
     private void SetLevelMapParameters()
     {
@@ -42,7 +29,6 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerParameters()
     {
         _player.SetStartParameters();
-        _wind.WindChanged += _player.GetComponent<PlayerMover>().WindChanged;
         _player.EndLevel += EndLevel;
         _player.gameObject.SetActive(true);
     }
@@ -53,24 +39,9 @@ public class LevelManager : MonoBehaviour
         _wind.enabled = true;
     }
 
-    private void SetBackgroundParameters()
-    {
-        var clouds=_background.GetComponentsInChildren<ParallaxCloud>();
-        foreach (var cloud in clouds)
-        {
-            _wind.WindChanged += cloud.WindChanged;
-        }
-    }
-
     private void EndLevel()
     {
-        _wind.WindChanged -= _player.GetComponent<PlayerMover>().WindChanged;
-        var clouds = _background.GetComponentsInChildren<ParallaxCloud>();
-        foreach (var cloud in clouds)
-        {
-            _wind.WindChanged -= cloud.WindChanged;
-        }
-        _player.GetComponent<PlayerOutsideCamera>().PlayerOutsideCameraTrue -= _arrowOnPlayer.PlayerOutsideCameraTrue;
+       
     }
 
 }

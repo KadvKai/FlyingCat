@@ -2,21 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Camera))]
 public class ArrowOnPlayer : MonoBehaviour
 {
     [SerializeField] private GameObject _arrow;
+    [SerializeField] private PlayerOutsideCamera _playerOutsideCamera;
     private Camera _cam;
     private float _camTopPosition;
     private float _camRightPosition;
 
-    public void SetStartParameters()
+    private void OnEnable()
+    {
+        _playerOutsideCamera.PlayerOutsideCameraTrue += PlayerOutsideCameraTrue;
+    }
+
+    private void OnDisable()
+    {
+        _playerOutsideCamera.PlayerOutsideCameraTrue -= PlayerOutsideCameraTrue;
+    }
+    private void Start()
     {
         _cam = GetComponent<Camera>();
         _camTopPosition=_cam.orthographicSize;
         _camRightPosition = _cam.scaledPixelWidth * _cam.orthographicSize / _cam.scaledPixelHeight;
         _arrow.SetActive(false);
     }
-    public void PlayerOutsideCameraTrue(bool playerOutsideCamera, Vector3 playerPos)
+    private void PlayerOutsideCameraTrue(bool playerOutsideCamera, Vector3 playerPos)
     {
              _arrow.SetActive(playerOutsideCamera);
         if (_arrow.activeSelf)

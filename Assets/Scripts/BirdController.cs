@@ -2,34 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BirdMover))]
 public class BirdController : MonoBehaviour
 {
-    [SerializeField] private Bird _bird;
-    private Camera _cam;
-    private Vector3 _birdPos;
-    void Start()
+    private bool _birdOutsideCamera = true;
+    private BirdMover _birdMover;
+
+    private void Awake()
     {
-        _cam = Camera.main;
-        _bird.gameObject.SetActive(false);
+        _birdMover = GetComponent<BirdMover>();
+        _birdMover.enabled = false;
+        GetComponent<ObjectOutsideCamera>().ObjectOutsideCameraTrue += ObjectOutsideCameraTrue;
         StartCoroutine(WaitingBirdOnScreen());
     }
 
-    void Update()
+    private void OnDisable()
     {
-        if (_bird==null) Destroy(gameObject);
-        else _birdPos = _cam.WorldToViewportPoint(_bird.transform.position);
+        GetComponent<ObjectOutsideCamera>().ObjectOutsideCameraTrue -= ObjectOutsideCameraTrue;
+    }
+
+    private void ObjectOutsideCameraTrue(bool birdOutsideCamera)
+    {
+        _birdOutsideCamera = birdOutsideCamera;
     }
 
     private IEnumerator WaitingBirdOnScreen()
     {
-        yield return new WaitUntil(() => (_birdPos.x > -0.1 && _birdPos.x < 1.1));
-        _bird.gameObject.SetActive(true);
+        yield return new WaitUntil(() => (_birdOutsideCamera == false));
+        _birdMover.enabled = true;
         StartCoroutine(WaitingBirdOffScreen());
     }
 
     private IEnumerator WaitingBirdOffScreen()
     {
-        yield return new WaitUntil(() => (_birdPos.x < -0.1 || _birdPos.x > 1.1));
+        yield return new WaitUntil(() => (_birdOutsideCamera == true));
         Destroy(gameObject);
     }
 }

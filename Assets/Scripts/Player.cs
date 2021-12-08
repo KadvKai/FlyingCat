@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     private int lives;
     public void SetStartParameters()
     {
-        GetComponent<PlayerOutsideCamera>().TimeToDestruction += _canvas.GetComponent<PlayerOutsideCameraTextIndicator>().TimeToDestructionIndicator;
         transform.position = new Vector3(-2, -8, 0);
         lives = balloon.Length;
     }
@@ -45,11 +44,5 @@ public class Player : MonoBehaviour
     private void PlayerEndLevel()
     {
         EndLevel?.Invoke();
-    }
-
-    private void OnDisable()
-    {
-
-        GetComponent<PlayerOutsideCamera>().TimeToDestruction -= _canvas.GetComponent<PlayerOutsideCameraTextIndicator>().TimeToDestructionIndicator;
     }
 }

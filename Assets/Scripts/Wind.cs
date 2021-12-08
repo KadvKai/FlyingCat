@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+  
+
+[RequireComponent(typeof(Camera))]
 public class Wind : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _wind;
