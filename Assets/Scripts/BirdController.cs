@@ -11,7 +11,6 @@ public class BirdController : MonoBehaviour
     private void Awake()
     {
         _birdMover = GetComponent<BirdMover>();
-        _birdMover.enabled = false;
         GetComponent<ObjectOutsideCamera>().ObjectOutsideCameraTrue += ObjectOutsideCameraTrue;
         StartCoroutine(WaitingBirdOnScreen());
     }
@@ -23,19 +22,19 @@ public class BirdController : MonoBehaviour
 
     private void ObjectOutsideCameraTrue(bool birdOutsideCamera)
     {
-        Debug.Log("За экраном"+ birdOutsideCamera);
         _birdOutsideCamera = birdOutsideCamera;
     }
 
     private IEnumerator WaitingBirdOnScreen()
     {
+        _birdMover.enabled = false;
         yield return new WaitUntil(() => (_birdOutsideCamera == false));
-        _birdMover.enabled = true;
         StartCoroutine(WaitingBirdOffScreen());
     }
 
     private IEnumerator WaitingBirdOffScreen()
     {
+        _birdMover.enabled = true;
         yield return new WaitUntil(() => (_birdOutsideCamera == true));
         Destroy(gameObject);
     }

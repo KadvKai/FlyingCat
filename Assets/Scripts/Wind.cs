@@ -12,7 +12,7 @@ public class Wind : MonoBehaviour
     private int _windForce;
     private int _windForceOld;
     private bool _windDirectionRight;
-    private float _windDirectionRightPozition;
+    private float _windRightPozition;
     private ParticleSystemRenderer _windRenderer;
     public event UnityAction<Vector2Int> WindChanged;
 
@@ -22,7 +22,7 @@ public class Wind : MonoBehaviour
         _windForce = 0;
         _windForceOld = _windForce;
         Camera cam = GetComponent<Camera>();
-        _windDirectionRightPozition = 2 - cam.scaledPixelWidth * cam.orthographicSize / cam.scaledPixelHeight;
+        _windRightPozition = 2 - cam.scaledPixelWidth * cam.orthographicSize / cam.scaledPixelHeight;
         var windShape = _wind.shape;
         windShape.scale = new Vector3(2, 2 * cam.orthographicSize, 1);
         StartCoroutine(WindChange());
@@ -33,31 +33,34 @@ public class Wind : MonoBehaviour
         _windRenderer = _wind.GetComponent<ParticleSystemRenderer>();
         for (int i = 0; i < 50; i++)
         {
-            _windForce += Random.Range(-1, 2);
-            if (_windForce < 0) _windForce = 0;
-            if (_windForce > _maxWindForce) _windForce = _maxWindForce;
             if (_windForce == 0)
             {
                 if (Random.Range(0, 2) < 1)
                 { 
                     _windDirectionRight = false;
-                    _wind.transform.localPosition = new Vector3(-_windDirectionRightPozition, 0, 10);
+                    _wind.transform.localPosition = new Vector3(-_windRightPozition, 0, 10);
                     _windRenderer.flip = new Vector3(1, 0, 0);
                 }
                 else
                 {
                     _windDirectionRight = true;
-                    _wind.transform.localPosition = new Vector3(_windDirectionRightPozition, 0, 10);
+                    _wind.transform.localPosition = new Vector3(_windRightPozition, 0, 10);
                     _windRenderer.flip = new Vector3(0, 0, 0);
                 }
-                _wind.gameObject.SetActive(false);
             }
-            else
+            _windForce += Random.Range(-1, 2);
+            if (_windForce < 0) _windForce = 0;
+            if (_windForce > _maxWindForce) _windForce = _maxWindForce;
+
+            if (_windForce != 0)
             {
                 _wind.gameObject.SetActive(true);
                 var windEmission = _wind.emission;
                 windEmission.rateOverTime = _windForce;
-
+            }
+            else
+            {
+                _wind.gameObject.SetActive(false);
             }
             if (_windForceOld != _windForce)
             {

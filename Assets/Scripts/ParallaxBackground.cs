@@ -22,4 +22,8 @@ public class ParallaxBackground : MonoBehaviour
     {
         _image.uvRect = new Rect(rectPosition, 0, _image.uvRect.width, _image.uvRect.height);
     }
+    public void SetCalm()
+    {
+        _speed = 0;
+    }
 }

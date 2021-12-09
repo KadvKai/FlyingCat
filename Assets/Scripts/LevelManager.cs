@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CameraMover _camera;
     [SerializeField] private LevelParameters[] _levelParameters;
     [SerializeField] private Wind _wind;
+    [SerializeField] private EndCanvas _endCanvas;
     private int _level;
     public void LoadingLevel(int level)
     {
@@ -30,8 +31,10 @@ public class LevelManager : MonoBehaviour
     {
         _player.SetStartParameters();
         _player.EndLevel += EndLevel;
+        _player.GameOver += GameOver;
         _player.gameObject.SetActive(true);
     }
+
 
     private void SetWindParameters()
     {
@@ -39,9 +42,19 @@ public class LevelManager : MonoBehaviour
         _wind.enabled = true;
     }
 
+    private void GameOver()
+    {
+        StartCoroutine(_endCanvas.GameOver());
+        _levelMap.StopCamera();
+    }
     private void EndLevel()
     {
-       
+        StartCoroutine(_endCanvas.EndLevel());
     }
 
+    private void OnDisable()
+    {
+        _player.EndLevel -= EndLevel;
+        _player.GameOver -= GameOver;
+    }
 }

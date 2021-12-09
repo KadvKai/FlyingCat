@@ -15,8 +15,7 @@ public class ObjectOutsideCamera : MonoBehaviour
     {
         _cam = UnityEngine.Camera.main;
         _objectPos = _cam.WorldToViewportPoint(transform.position);
-        if (_objectPos.x < -0 || _objectPos.x > 1 || _objectPos.y < -0 || _objectPos.y > 1) _objectOutsideCamera = false;
-        else _objectOutsideCamera = true;
+        ObjectOutside(_objectPos.x < -0 || _objectPos.x > 1 || _objectPos.y < -0 || _objectPos.y > 1);
     }
 
 
@@ -26,10 +25,9 @@ public class ObjectOutsideCamera : MonoBehaviour
         if (_objectPos.x < -0 || _objectPos.x > 1 || _objectPos.y < -0 || _objectPos.y > 1)
         {
 
-            if (_objectOutsideCamera ==false)
+            if (_objectOutsideCamera == false)
             {
                 ObjectOutside(true);
-                _objectOutsideCamera = true;
             }
         }
         else
@@ -37,7 +35,6 @@ public class ObjectOutsideCamera : MonoBehaviour
             if (_objectOutsideCamera == true)
             {
                 ObjectOutside(false);
-                _objectOutsideCamera = false;
             }
         }
 
@@ -45,7 +42,8 @@ public class ObjectOutsideCamera : MonoBehaviour
 
     protected virtual void ObjectOutside(bool objectOutsideCamera)
     {
-        ObjectOutsideCameraTrue?.Invoke(objectOutsideCamera);
+        _objectOutsideCamera = objectOutsideCamera;
+        ObjectOutsideCameraTrue?.Invoke(_objectOutsideCamera);
     }
 
 
