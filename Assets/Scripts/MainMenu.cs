@@ -4,40 +4,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(GameParameters))]
+[RequireComponent(typeof(MenuUserNameAge))]
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
-    [SerializeField] GameObject _menyUserNameAge;
-    [SerializeField] LevelManager _levelManager;
-    private GameParameters _gameParameters;
-    void Start()
+    [SerializeField] GameObject _mainMenuPanel;
+    private MenuUserNameAge _menyUserNameAge;
+    public event UnityAction<int> PlayLevel;
+    public event UnityAction<string, int> MainMenuUserNameAgeSet;
+    public void StartMainMenu(string userName)
     {
-        Time.timeScale = 0;
-        _menyUserNameAge.SetActive(false);
-        _gameParameters= GetComponent<GameParameters>();
-        if (_gameParameters.HaveSaveFile())
+        if (userName!=null)
         {
-            UserNameChanged();
+            MainMenuPanel(userName);
         }
         else UserNameAge();
 
     }
-    public void UserNameChanged()
+    public void MainMenuPanel(string userName)
     {
-        _userName.text = _gameParameters.GetUserName();
+        _mainMenuPanel.SetActive(true);
+        _userName.text = userName;
     }
     private void UserNameAge()
     {
-        _menyUserNameAge.SetActive(true);
+        _menyUserNameAge = GetComponent<MenuUserNameAge>();
+        _menyUserNameAge.UserNameAgeSet += UserNameAgeSet;
+        _menyUserNameAge.StartMenuUserNameAge();
+    }
+
+    private void UserNameAgeSet(string name, int age)
+    {
+        _menyUserNameAge.UserNameAgeSet -= UserNameAgeSet;
+        MainMenuUserNameAgeSet?.Invoke(name,age);
     }
 
     public void Play()
     {
         gameObject.SetActive(false);
-        _levelManager.LoadingLevel(0);
-        Time.timeScale = 1;
+        PlayLevel?.Invoke(0);
     }
 }

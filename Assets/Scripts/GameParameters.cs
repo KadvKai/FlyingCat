@@ -10,19 +10,19 @@ public class GameParameters : MonoBehaviour
     [SerializeField]  private string _userName;
     [SerializeField]  private int _userAge;
 
-    private void Awake()
+   /* private void start()
     {
         LoadParameters();
 
-    }
+    }*/
 
     private void LoadParameters()
     {
-        if (HaveSaveFile())
-        {
+        //if (HaveSaveFile())
+        //{
             var json = File.ReadAllText(Application.persistentDataPath + _directory + _fileName);
             JsonUtility.FromJsonOverwrite(json,this);
-        }
+        //}
     }
 
     public void SaveParameters()
@@ -35,8 +35,9 @@ public class GameParameters : MonoBehaviour
     {
         if (File.Exists(Application.persistentDataPath + _directory + _fileName))
         {
+            LoadParameters();
             return true;
-        }
+}
         else return false;
     }
     public string GetUserName()

@@ -1,25 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 
-[RequireComponent(typeof(GameParameters))]
 public class MenuUserNameAge : MonoBehaviour
 {
     [SerializeField] GameObject _menyUserNameAge;
     [SerializeField] InputField _userName;
     [SerializeField] InputField _userAge;
-    private GameParameters _gameParameters;
-    public void Start()
+    public event UnityAction<string, int> UserNameAgeSet;
+    public void StartMenuUserNameAge()
     {
-        _gameParameters = GetComponent<GameParameters>();
+        _menyUserNameAge.SetActive(true);
     }
 
     public void ButtonOK()
     {
-        _gameParameters.SetUserNameAge(_userName.text, int.Parse(_userAge.text));
-        _gameParameters.SaveParameters();
+        UserNameAgeSet?.Invoke(_userName.text, int.Parse(_userAge.text));
         _menyUserNameAge.SetActive(false);
     }
 }

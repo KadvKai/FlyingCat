@@ -1,32 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class EndCanvas : MonoBehaviour
 {
     [SerializeField] private GameObject _gameOverScreen;
     [SerializeField] private GameObject _endLevelScreen;
-    
+    public event UnityAction EndCanvasExit;
+    public event UnityAction EndCanvasReiterate;
+
     public IEnumerator GameOver()
     {
         yield return new WaitForSeconds(2);
         _gameOverScreen.SetActive(true);
-        //Time.timeScale = 0;
 
     }
     public IEnumerator EndLevel()
     {
         yield return new WaitForSeconds(2);
         _endLevelScreen.SetActive(true);
-        //Time.timeScale = 0;
-
+        EndCanvasExit?.Invoke();
     }
 
     public void ExitButton()
     {
-        //Time.timeScale = 1;
         _gameOverScreen.SetActive(false);
         _endLevelScreen.SetActive(false);
+
+    }
+
+    public void ReiterateButton()
+    {
+        _gameOverScreen.SetActive(false);
+        _endLevelScreen.SetActive(false);
+        EndCanvasReiterate?.Invoke();
     }
 }
