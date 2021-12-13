@@ -17,8 +17,10 @@ public class Player : MonoBehaviour
     private int lives;
     public void SetStartParameters()
     {
+        _canvas.gameObject.SetActive(true);
         transform.position = new Vector3(-2, -8, 0);
         lives = balloon.Length;
+        GetComponent<PlayerMover>().enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

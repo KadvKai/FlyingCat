@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(GameParameters))]
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -15,26 +14,32 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private EndCanvas _endCanvas;
     [SerializeField] private MainMenu _mainMenu;
     private int _level;
-    private GameParameters _gameParameters;
+    private SaveLoadSystem _saveLoadSystem;
+    private SaveData _saveData;
 
     private void Start()
     {
-        _gameParameters = GetComponent<GameParameters>();
+        _saveLoadSystem = new SaveLoadSystem();
+        _saveData = new SaveData();
+        _saveData=_saveLoadSystem.Load();
         MainMenu();
     }
 
     private void MainMenu()
     {
-        string UserName;
-        if (_gameParameters.HaveSaveFile())
-        {
-            UserName= _gameParameters.GetUserName();
-        }
-        else UserName=null;
+        
         Time.timeScale = 0;
         _mainMenu.PlayLevel += LoadingLevel;
-        _mainMenu.StartMainMenu(UserName);
+        _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
+        _mainMenu.StartMainMenu(_saveData._userName);
 
+    }
+
+    private void MainMenuUserNameAgeSet(string userName, int userAge)
+    {
+        _saveData._userName=userName;
+        _saveData._userAge = userAge;
+        _saveLoadSystem.Save(_saveData);
     }
 
     private void LoadingLevel(int level)
@@ -45,6 +50,12 @@ public class LevelManager : MonoBehaviour
         SetLevelMapParameters();
         SetPlayerParameters();
         SetWindParameters();
+        SetCameraParametrs();
+    }
+
+    private void SetCameraParametrs()
+    {
+        _camera.SetStartParameters();
     }
 
     private void SetLevelMapParameters()
@@ -57,8 +68,8 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerParameters()
     {
         _player.SetStartParameters();
-        _player.EndLevel += EndLevel;
-        _player.GameOver += GameOver;
+        _player.EndLevel += PlayerEndLevel;
+        _player.GameOver += PlayerGameOver;
         _player.gameObject.SetActive(true);
     }
 
@@ -69,12 +80,15 @@ public class LevelManager : MonoBehaviour
         _wind.enabled = true;
     }
 
-    private void GameOver()
+    private void PlayerGameOver()
     {
         StartCoroutine(_endCanvas.GameOver());
+        _endCanvas.EndCanvasExit += EndCanvasExit;
+        _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
         _levelMap.StopCamera();
     }
-    private void EndLevel()
+
+    private void PlayerEndLevel()
     {
         StartCoroutine(_endCanvas.EndLevel());
         _endCanvas.EndCanvasExit += EndCanvasExit;
@@ -83,17 +97,21 @@ public class LevelManager : MonoBehaviour
 
     private void EndCanvasReiterate()
     {
+        _endCanvas.EndCanvasExit -= EndCanvasExit;
         _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
+        LoadingLevel(_level);
     }
 
     private void EndCanvasExit()
     {
         _endCanvas.EndCanvasExit -= EndCanvasExit;
+        _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
+        MainMenu();
     }
 
     private void OnDisable()
     {
-        _player.EndLevel -= EndLevel;
-        _player.GameOver -= GameOver;
+        _player.EndLevel -= PlayerEndLevel;
+        _player.GameOver -= PlayerGameOver;
     }
 }

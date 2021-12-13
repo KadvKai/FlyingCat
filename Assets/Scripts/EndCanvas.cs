@@ -12,21 +12,21 @@ public class EndCanvas : MonoBehaviour
 
     public IEnumerator GameOver()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0);
         _gameOverScreen.SetActive(true);
 
     }
     public IEnumerator EndLevel()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0);
         _endLevelScreen.SetActive(true);
-        EndCanvasExit?.Invoke();
     }
 
     public void ExitButton()
     {
         _gameOverScreen.SetActive(false);
         _endLevelScreen.SetActive(false);
+        EndCanvasExit?.Invoke();
 
     }
 

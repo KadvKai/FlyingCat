@@ -20,6 +20,7 @@ public class Wind : MonoBehaviour
     {
         _maxWindForce= maxWindForce;
         _windForce = 0;
+        WindChanged?.Invoke(new Vector2Int(0,0));
         _windForceOld = _windForce;
         Camera cam = GetComponent<Camera>();
         _windRightPozition = 2 - cam.scaledPixelWidth * cam.orthographicSize / cam.scaledPixelHeight;

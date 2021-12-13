@@ -21,6 +21,7 @@ public class SaveLoadSystem
         {
             saveData._userName = PlayerPrefs.GetString(USER_NAME);
         }
+        else saveData._userName = null;
         if (PlayerPrefs.HasKey(USER_AGE))
         {
             saveData._userAge = PlayerPrefs.GetInt(USER_AGE);

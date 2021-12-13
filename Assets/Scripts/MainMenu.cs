@@ -37,13 +37,14 @@ public class MainMenu : MonoBehaviour
 
     private void UserNameAgeSet(string name, int age)
     {
+        MainMenuPanel(name);
         _menyUserNameAge.UserNameAgeSet -= UserNameAgeSet;
         MainMenuUserNameAgeSet?.Invoke(name,age);
     }
 
     public void Play()
     {
-        gameObject.SetActive(false);
+        _mainMenuPanel.SetActive(false);
         PlayLevel?.Invoke(0);
     }
 }

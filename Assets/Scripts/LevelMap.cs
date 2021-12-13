@@ -19,6 +19,14 @@ public class LevelMap : MonoBehaviour
     }
     public void CreateNewLevel(int numberLevelParts, GameObject startPartLevel, GameObject[] partLevel, GameObject finishPartLevel)
     {
+        if (_levelGameObject != null)
+        {
+            foreach (var gameObject in _levelGameObject)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         _levelGameObject = new GameObject[numberLevelParts + 2];
         _levelGameObject[0] = Instantiate(startPartLevel, new Vector3(0, 0, 0), Quaternion.identity);
         Queue<int> oldNumbersPartLevel = new Queue<int>();
@@ -54,14 +62,14 @@ public class LevelMap : MonoBehaviour
     }
 
     public void StopCamera()
-    { 
+    {
         _cameraMover.enabled = false;
         ParallaxBackground[] parallaxBackground = _background.GetComponentsInChildren<ParallaxBackground>();
         foreach (var item in parallaxBackground)
         {
             item.SetCalm();
         }
-    
+
     }
 
 }
