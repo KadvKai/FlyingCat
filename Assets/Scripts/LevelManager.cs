@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AppodealAds.Unity.Api;
 
 
 public class LevelManager : MonoBehaviour
@@ -16,9 +17,11 @@ public class LevelManager : MonoBehaviour
     private int _level;
     private SaveLoadSystem _saveLoadSystem;
     private SaveData _saveData;
+    private const string APPODEAL_APP_KEY = "9f1fcdef38d53a7a17ea35b5b0249b46b439473e47d6f052";
 
     private void Start()
     {
+        Appodeal.initialize(APPODEAL_APP_KEY, Appodeal.BANNER, true);
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();

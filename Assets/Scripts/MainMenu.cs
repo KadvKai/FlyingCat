@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using AppodealAds.Unity.Api;
 
 [RequireComponent(typeof(MenuUserNameAge))]
 public class MainMenu : MonoBehaviour
@@ -16,6 +17,7 @@ public class MainMenu : MonoBehaviour
     public event UnityAction<string, int> MainMenuUserNameAgeSet;
     public void StartMainMenu(string userName)
     {
+        Appodeal.show(Appodeal.BANNER_TOP);
         if (userName!=null)
         {
             MainMenuPanel(userName);
