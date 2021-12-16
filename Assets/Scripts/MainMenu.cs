@@ -17,13 +17,19 @@ public class MainMenu : MonoBehaviour
     public event UnityAction<string, int> MainMenuUserNameAgeSet;
     public void StartMainMenu(string userName)
     {
-        Appodeal.show(Appodeal.BANNER_TOP);
         if (userName!=null)
         {
             MainMenuPanel(userName);
         }
         else UserNameAge();
 
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Exit();
+        }
     }
     public void MainMenuPanel(string userName)
     {
@@ -48,5 +54,10 @@ public class MainMenu : MonoBehaviour
     {
         _mainMenuPanel.SetActive(false);
         PlayLevel?.Invoke(0);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

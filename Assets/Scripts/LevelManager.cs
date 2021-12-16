@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour
 
     private void MainMenu()
     {
-        
+        Appodeal.show(Appodeal.BANNER_TOP);
         Time.timeScale = 0;
         _mainMenu.PlayLevel += LoadingLevel;
         _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
@@ -47,6 +47,7 @@ public class LevelManager : MonoBehaviour
 
     private void LoadingLevel(int level)
     {
+        Appodeal.hide(Appodeal.BANNER);
         _mainMenu.PlayLevel -= LoadingLevel;
         Time.timeScale = 1;
         _level = level;
@@ -73,9 +74,14 @@ public class LevelManager : MonoBehaviour
         _player.SetStartParameters();
         _player.EndLevel += PlayerEndLevel;
         _player.GameOver += PlayerGameOver;
+        _player.Exit += PlayerExit;
         _player.gameObject.SetActive(true);
     }
 
+    private void PlayerExit()
+    {
+        MainMenu(); 
+    }
 
     private void SetWindParameters()
     {
@@ -85,6 +91,7 @@ public class LevelManager : MonoBehaviour
 
     private void PlayerGameOver()
     {
+        Appodeal.show(Appodeal.BANNER_TOP);
         StartCoroutine(_endCanvas.GameOver());
         _endCanvas.EndCanvasExit += EndCanvasExit;
         _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
@@ -93,6 +100,7 @@ public class LevelManager : MonoBehaviour
 
     private void PlayerEndLevel()
     {
+        Appodeal.show(Appodeal.BANNER_TOP);
         StartCoroutine(_endCanvas.EndLevel());
         _endCanvas.EndCanvasExit += EndCanvasExit;
         _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
@@ -100,6 +108,7 @@ public class LevelManager : MonoBehaviour
 
     private void EndCanvasReiterate()
     {
+
         _endCanvas.EndCanvasExit -= EndCanvasExit;
         _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
         LoadingLevel(_level);
@@ -116,5 +125,6 @@ public class LevelManager : MonoBehaviour
     {
         _player.EndLevel -= PlayerEndLevel;
         _player.GameOver -= PlayerGameOver;
+        _player.Exit -= PlayerExit;
     }
 }

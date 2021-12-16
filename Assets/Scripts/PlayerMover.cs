@@ -16,11 +16,17 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private GameObject player;
     private Rigidbody2D rb;
     private float playerScale;
-    private bool MouseButtonDown=false;
+    private bool ButtonDown=false;
     private Vector2 windForceVector;
 
+    private void Awake()
+    {
+     rb = GetComponent<Rigidbody2D>();   
+    }
     private void OnEnable()
     {
+        rb.velocity = Vector2.zero;
+        windForceVector = Vector2.zero;
         _wind.WindChanged += WindChanged;
     }
 
@@ -30,22 +36,19 @@ public class PlayerMover : MonoBehaviour
     }
     public void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         playerScale = player.transform.localScale.x;
-        windForceVector = Vector2.zero;
     }
-    
 
     private void FixedUpdate()
     {
-        if (Input.GetMouseButton(0)==true && MouseButtonDown == false)
+        if (Input.GetMouseButton(0)==true && ButtonDown == false)
         {
-            MouseButtonDown = true;
+            ButtonDown = true;
             AddForcePlayer();
         }
-        if (Input.GetMouseButton(0) == false && MouseButtonDown == true)
+        if (Input.GetMouseButton(0) == false && ButtonDown == true)
         {
-            MouseButtonDown = false;
+            ButtonDown = false;
         }
         SpeedCorrection();
         WindForce();

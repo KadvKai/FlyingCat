@@ -10,6 +10,13 @@ public class EndCanvas : MonoBehaviour
     public event UnityAction EndCanvasExit;
     public event UnityAction EndCanvasReiterate;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ExitButton();
+        }
+    }
     public IEnumerator GameOver()
     {
         yield return new WaitForSeconds(0);
