@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
-using AppodealAds.Unity.Api;
 
 [RequireComponent(typeof(MenuUserNameAge))]
 public class MainMenu : MonoBehaviour
@@ -24,13 +23,7 @@ public class MainMenu : MonoBehaviour
         else UserNameAge();
 
     }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Exit();
-        }
-    }
+  
     public void MainMenuPanel(string userName)
     {
         _mainMenuPanel.SetActive(true);

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AppodealAds.Unity.Api;
 
 
 public class LevelManager : MonoBehaviour
@@ -17,11 +16,9 @@ public class LevelManager : MonoBehaviour
     private int _level;
     private SaveLoadSystem _saveLoadSystem;
     private SaveData _saveData;
-    private const string APPODEAL_APP_KEY = "9f1fcdef38d53a7a17ea35b5b0249b46b439473e47d6f052";
 
     private void Start()
     {
-        Appodeal.initialize(APPODEAL_APP_KEY, Appodeal.BANNER, true);
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
@@ -30,7 +27,6 @@ public class LevelManager : MonoBehaviour
 
     private void MainMenu()
     {
-        Appodeal.show(Appodeal.BANNER_TOP);
         Time.timeScale = 0;
         _mainMenu.PlayLevel += LoadingLevel;
         _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
@@ -47,7 +43,6 @@ public class LevelManager : MonoBehaviour
 
     private void LoadingLevel(int level)
     {
-        Appodeal.hide(Appodeal.BANNER);
         _mainMenu.PlayLevel -= LoadingLevel;
         Time.timeScale = 1;
         _level = level;
@@ -91,7 +86,6 @@ public class LevelManager : MonoBehaviour
 
     private void PlayerGameOver()
     {
-        Appodeal.show(Appodeal.BANNER_TOP);
         StartCoroutine(_endCanvas.GameOver());
         _endCanvas.EndCanvasExit += EndCanvasExit;
         _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
@@ -100,7 +94,6 @@ public class LevelManager : MonoBehaviour
 
     private void PlayerEndLevel()
     {
-        Appodeal.show(Appodeal.BANNER_TOP);
         StartCoroutine(_endCanvas.EndLevel());
         _endCanvas.EndCanvasExit += EndCanvasExit;
         _endCanvas.EndCanvasReiterate += EndCanvasReiterate;

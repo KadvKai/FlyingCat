@@ -84,6 +84,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -592,6 +593,27 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Bird 1 Pink_6: -9024359780168019371
+      Bird 1 Pink_13: -487822518045934534
+      Bird 1 Pink_7: -2926393200404017661
+      Bird 1 Pink_11: -1431831356897797116
+      Bird 1 Pink_0: -7679294837404564279
+      Bird 1 Pink_18: 359047657200764714
+      Bird 1 Pink_10: -8233798443257351730
+      Bird 1 Pink_5: -7347327282653200455
+      Bird 1 Pink_16: 4897481352748124513
+      Bird 1 Pink_9: 6116258664926529784
+      Bird 1 Pink_15: 4897483899644568153
+      Bird 1 Pink_17: -6847504382021933752
+      Bird 1 Pink_14: 329732924472321588
+      Bird 1 Pink_8: 6706778525771399695
+      Bird 1 Pink_2: -7525376622689764276
+      Bird 1 Pink_19: 3924886318073046559
+      Bird 1 Pink_3: -8854007602851169699
+      Bird 1 Pink_12: 2003778318219995322
+      Bird 1 Pink_4: 7878624048501622865
+      Bird 1 Pink_1: -1223666733001301847
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
