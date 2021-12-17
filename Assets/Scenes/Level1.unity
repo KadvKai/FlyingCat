@@ -7569,7 +7569,7 @@ GameObject:
   - component: {fileID: 934869002}
   - component: {fileID: 934869001}
   m_Layer: 5
-  m_Name: Nanber
+  m_Name: VersionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9082,6 +9082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _userName: {fileID: 1997511759}
+  _versionText: {fileID: 934869001}
   _mainMenuPanel: {fileID: 1685043121}
 --- !u!114 &1545406923
 MonoBehaviour:
@@ -9470,7 +9471,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1685043122
 RectTransform:
   m_ObjectHideFlags: 0

@@ -10,12 +10,14 @@ using UnityEngine.Events;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
+    [SerializeField] TMP_Text _versionText;
     [SerializeField] GameObject _mainMenuPanel;
     private MenuUserNameAge _menyUserNameAge;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int> MainMenuUserNameAgeSet;
     public void StartMainMenu(string userName)
     {
+        _versionText.text= Application.version;
         if (userName!=null)
         {
             MainMenuPanel(userName);
