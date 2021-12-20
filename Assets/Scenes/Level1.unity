@@ -611,6 +611,7 @@ MonoBehaviour:
   _wind: {fileID: 519420034}
   _endCanvas: {fileID: 163906271}
   _mainMenu: {fileID: 1545406921}
+  _bannerId: ca-app-pub-3940256099942544/6300978111
 --- !u!4 &82447030
 Transform:
   m_ObjectHideFlags: 0

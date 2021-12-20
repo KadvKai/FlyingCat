@@ -13,15 +13,22 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Wind _wind;
     [SerializeField] private EndCanvas _endCanvas;
     [SerializeField] private MainMenu _mainMenu;
+    [SerializeField] private string _bannerId;
     private int _level;
     private SaveLoadSystem _saveLoadSystem;
     private SaveData _saveData;
+    private AdMobManager _adMob;
 
-    private void Start()
+    private void Awake()
     {
+        _adMob = new AdMobManager(personalization:false,adForChild:true,bannerId:_bannerId);
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
+        
+    }
+    private void Start()
+    {
         MainMenu();
     }
 
