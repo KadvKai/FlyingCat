@@ -17,30 +17,31 @@ public class EndCanvas : MonoBehaviour
             ExitButton();
         }
     }
+
     public IEnumerator GameOver()
     {
         yield return new WaitForSeconds(0);
         _gameOverScreen.SetActive(true);
+        _endLevelScreen.SetActive(false);
 
     }
     public IEnumerator EndLevel()
     {
         yield return new WaitForSeconds(0);
         _endLevelScreen.SetActive(true);
+        _gameOverScreen.SetActive(false);
     }
 
     public void ExitButton()
     {
-        _gameOverScreen.SetActive(false);
-        _endLevelScreen.SetActive(false);
+        gameObject.SetActive(false);
         EndCanvasExit?.Invoke();
 
     }
 
     public void ReiterateButton()
     {
-        _gameOverScreen.SetActive(false);
-        _endLevelScreen.SetActive(false);
+        gameObject.SetActive(false);
         EndCanvasReiterate?.Invoke();
     }
 }

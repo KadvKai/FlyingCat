@@ -9,8 +9,8 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
 
-    [SerializeField] private GameObject[] balloon;
-    [SerializeField] private GameObject[] balloonBurst;
+    [SerializeField] private GameObject[] _balloon;
+    [SerializeField] private GameObject[] _balloonBurst;
     [SerializeField] private PlayerCanvas _canvas;
     public event UnityAction EndLevel;
     public event UnityAction GameOver;
@@ -61,7 +61,15 @@ public class Player : MonoBehaviour
     {
         _canvas.gameObject.SetActive(true);
         transform.position = new Vector3(-2, -8, 0);
-        lives = balloon.Length;
+        lives = _balloon.Length;
+        foreach (var balloon in _balloon)
+        {
+            balloon.SetActive(true);
+        }
+        foreach (var balloon in _balloonBurst)
+        {
+            balloon.SetActive(false);
+        }
         GetComponent<PlayerMover>().enabled = true;
     }
 
@@ -76,25 +84,29 @@ public class Player : MonoBehaviour
     public void TakeDamage()
     {
         lives -= 1;
-        balloon[lives].SetActive(false);
-        balloonBurst[lives].SetActive(true);
+        _balloon[lives].SetActive(false);
+        _balloonBurst[lives].SetActive(true);
         if (lives < 1) PlayerGameOver();
     }
 
     private void PlayerGameOver()
     {
-        GetComponent<PlayerMover>().enabled = false;
+        //GetComponent<PlayerMover>().enabled = false;
         GameOver?.Invoke();
+        gameObject.SetActive(false);
+
     }
 
     private void PlayerEndLevel()
     {
-        GetComponent<PlayerMover>().enabled = false;
+        //GetComponent<PlayerMover>().enabled = false;
         EndLevel?.Invoke();
+        gameObject.SetActive(false);
     }
     private void PlayerExit()
     {
-        GetComponent<PlayerMover>().enabled = false;
+        //GetComponent<PlayerMover>().enabled = false;
         Exit?.Invoke();
+        gameObject.SetActive(false);
     }
 }

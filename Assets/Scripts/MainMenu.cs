@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour
   
     public void MainMenuPanel(string userName)
     {
-        _mainMenuPanel.SetActive(true);
+        //_mainMenuPanel.SetActive(true);
         _userName.text = userName;
     }
     private void UserNameAge()
@@ -47,7 +47,8 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        _mainMenuPanel.SetActive(false);
+        //_mainMenuPanel.SetActive(false);
+        gameObject.SetActive(false);
         PlayLevel?.Invoke(0);
     }
 

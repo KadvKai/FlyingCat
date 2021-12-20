@@ -189,7 +189,7 @@ public class AdMobManager
 
 
         //Cоздаем объект баннера
-        _bannerAd = new BannerView(_bannerId, AdSize.Banner, AdPosition.Bottom);
+        _bannerAd = new BannerView(_bannerId, AdSize.Banner, AdPosition.Top);
 
         //Добавляем слушателей: Удачная загрузка, Неудачная загрузка, Отработка клика по баннеру, Возвращение игрока в приложение после перехода (клика)
         _bannerAd.OnAdLoaded += HandleOnAdLoadedBanner;
@@ -199,7 +199,18 @@ public class AdMobManager
 
         //Загружаем баннер для показа (показ начинается автоматически)
         _bannerAd.LoadAd(GetAdRequest());
+        _bannerAd.Hide();
     }
+    public void ShowBanner()
+    {
+        _bannerAd.Show();
+    }
+    public void HideBanner()
+    {
+        _bannerAd.Hide();
+    }
+
+
 
     //Вызывается когда баннер загружен
     private void HandleOnAdLoadedBanner(object sender, EventArgs args)

@@ -31,17 +31,23 @@ public class PlayerOutsideCamera : ObjectOutsideCamera
 
     private IEnumerator Countdown()
     {
-        
+        int time;
         if (_startTimeToDestruction > 10)
         {
-            yield return new WaitForSeconds(_startTimeToDestruction - 10);
+            time = 10;
+            yield return new WaitForSeconds(_startTimeToDestruction - time);
         }
-        for (int i = 10; i > 0; i--)
+        else time = _startTimeToDestruction;
+        for (int i = time; i > 0; i--)
         {
             yield return new WaitForSeconds(1);
             TimeToDestruction?.Invoke(i);
         }
         GetComponent<Player>().TakeDamage();
         transform.position = _cam.transform.position+new Vector3(0,0,10);
+    }
+    private void OnDisable()
+    {
+        TimeToDestruction?.Invoke(0);
     }
 }

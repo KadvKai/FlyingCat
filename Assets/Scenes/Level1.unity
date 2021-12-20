@@ -939,7 +939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &163906271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8744,11 +8744,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892e82e8b4865ea4e9312a133246d807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balloon:
+  _balloon:
   - {fileID: 224064144}
   - {fileID: 44227311}
   - {fileID: 328499443}
-  balloonBurst:
+  _balloonBurst:
   - {fileID: 277845748}
   - {fileID: 134279954}
   - {fileID: 714906489}
@@ -8812,7 +8812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da77ac941fab6a498fb9bd15aab8d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startTimeToDestruction: 10
+  _startTimeToDestruction: 5
 --- !u!114 &1397841007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9054,7 +9054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1545406920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9472,7 +9472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1685043122
 RectTransform:
   m_ObjectHideFlags: 0

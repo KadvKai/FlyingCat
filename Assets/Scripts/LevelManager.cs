@@ -25,8 +25,8 @@ public class LevelManager : MonoBehaviour
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
-        
     }
+
     private void Start()
     {
         MainMenu();
@@ -34,11 +34,10 @@ public class LevelManager : MonoBehaviour
 
     private void MainMenu()
     {
-        Time.timeScale = 0;
-        _mainMenu.PlayLevel += LoadingLevel;
-        _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
+        _mainMenu.gameObject.SetActive(true);
+       Time.timeScale = 0;
         _mainMenu.StartMainMenu(_saveData._userName);
-
+        _adMob.ShowBanner();
     }
 
     private void MainMenuUserNameAgeSet(string userName, int userAge)
@@ -50,13 +49,14 @@ public class LevelManager : MonoBehaviour
 
     private void LoadingLevel(int level)
     {
-        _mainMenu.PlayLevel -= LoadingLevel;
+
         Time.timeScale = 1;
         _level = level;
         SetLevelMapParameters();
         SetPlayerParameters();
         SetWindParameters();
         SetCameraParametrs();
+        _adMob.HideBanner();
     }
 
     private void SetCameraParametrs()
@@ -74,57 +74,64 @@ public class LevelManager : MonoBehaviour
     private void SetPlayerParameters()
     {
         _player.SetStartParameters();
-        _player.EndLevel += PlayerEndLevel;
-        _player.GameOver += PlayerGameOver;
-        _player.Exit += PlayerExit;
         _player.gameObject.SetActive(true);
     }
-
-    private void PlayerExit()
-    {
-        MainMenu(); 
-    }
-
     private void SetWindParameters()
     {
         _wind.SetStartParameters(_levelParameters[_level].MaxWindForce);
         _wind.enabled = true;
     }
 
+    private void PlayerExit()
+    {
+        MainMenu(); 
+    }
     private void PlayerGameOver()
     {
+        _endCanvas.gameObject.SetActive(true);
         StartCoroutine(_endCanvas.GameOver());
-        _endCanvas.EndCanvasExit += EndCanvasExit;
-        _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
         _levelMap.StopCamera();
+        _adMob.ShowBanner();
     }
 
     private void PlayerEndLevel()
     {
+        _endCanvas.gameObject.SetActive(true);
         StartCoroutine(_endCanvas.EndLevel());
-        _endCanvas.EndCanvasExit += EndCanvasExit;
-        _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
+        _adMob.ShowBanner();
     }
 
     private void EndCanvasReiterate()
     {
-
-        _endCanvas.EndCanvasExit -= EndCanvasExit;
-        _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
         LoadingLevel(_level);
+        _adMob.HideBanner();
     }
 
     private void EndCanvasExit()
     {
-        _endCanvas.EndCanvasExit -= EndCanvasExit;
-        _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
         MainMenu();
+        _adMob.HideBanner();
+    }
+    private void OnEnable()
+    {
+        _mainMenu.PlayLevel += LoadingLevel;
+        _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
+        _player.EndLevel += PlayerEndLevel;
+        _player.GameOver += PlayerGameOver;
+        _player.Exit += PlayerExit;
+        _endCanvas.EndCanvasExit += EndCanvasExit;
+        _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
+        
     }
 
     private void OnDisable()
     {
+        _mainMenu.PlayLevel -= LoadingLevel;
+        _mainMenu.MainMenuUserNameAgeSet -= MainMenuUserNameAgeSet;
         _player.EndLevel -= PlayerEndLevel;
         _player.GameOver -= PlayerGameOver;
         _player.Exit -= PlayerExit;
+        _endCanvas.EndCanvasExit -= EndCanvasExit;
+        _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
     }
 }
