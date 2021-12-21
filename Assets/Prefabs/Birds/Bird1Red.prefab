@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2646582724094024131}
   - component: {fileID: 6436682983613051274}
   - component: {fileID: 5567437483803362709}
+  - component: {fileID: 4305134624343292582}
   m_Layer: 0
   m_Name: Bird1Red
   m_TagString: Untagged
@@ -48,7 +49,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _foodQuantity: 1
   _destroyEffect: {fileID: 3052101275658370736, guid: a85d3970e71384348ad530c928ab2f85, type: 3}
+  _destroySound: {fileID: 8300000, guid: 97815f5dc38390041887d77de02e580f, type: 3}
 --- !u!114 &2646582724094024131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,3 +187,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 606cb1da838d14947b4d9b6f48852a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4305134624343292582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3459578961841966605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7c4be05e8277945b285715187b0cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _birdSound: {fileID: 8300000, guid: d8ad88a844fa5ee46af27af6956d5b71, type: 3}
+  _timeBirdSound: 5

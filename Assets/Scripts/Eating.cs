@@ -8,6 +8,7 @@ public class Eating : MonoBehaviour
 {
     [SerializeField] int _foodQuantity;
     [SerializeField] private ParticleSystem _destroyEffect;
+    [SerializeField] private AudioClip _destroySound;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,6 +17,7 @@ public class Eating : MonoBehaviour
         {
             Destroy(gameObject);
             Instantiate(_destroyEffect,transform.position,Quaternion.identity);
+            AudioSource.PlayClipAtPoint(_destroySound, transform.position);
         }
     }
 

@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BirdMover))]
+[RequireComponent(typeof(BirdSound))]
 public class BirdController : MonoBehaviour
 {
     private bool _birdOutsideCamera = true;
     private BirdMover _birdMover;
+    private BirdSound _birdSound;
 
     private void Awake()
     {
         _birdMover = GetComponent<BirdMover>();
+        _birdSound = GetComponent<BirdSound>();
         GetComponent<ObjectOutsideCamera>().ObjectOutsideCameraTrue += ObjectOutsideCameraTrue;
         StartCoroutine(WaitingBirdOnScreen());
     }
@@ -28,6 +31,7 @@ public class BirdController : MonoBehaviour
     private IEnumerator WaitingBirdOnScreen()
     {
         _birdMover.enabled = false;
+        _birdSound.enabled = false;
         yield return new WaitUntil(() => (_birdOutsideCamera == false));
         StartCoroutine(WaitingBirdOffScreen());
     }
@@ -35,6 +39,7 @@ public class BirdController : MonoBehaviour
     private IEnumerator WaitingBirdOffScreen()
     {
         _birdMover.enabled = true;
+        _birdSound.enabled = true;
         yield return new WaitUntil(() => (_birdOutsideCamera == true));
         Destroy(gameObject);
     }
