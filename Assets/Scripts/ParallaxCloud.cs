@@ -6,7 +6,7 @@ public class ParallaxCloud : ParallaxBackground
 {
     [SerializeField] private float _speedWind;
     [SerializeField] Wind _wind;
-    private int _windForce;
+    private float _windForce;
 
     private void OnEnable()
     {
@@ -24,7 +24,7 @@ public class ParallaxCloud : ParallaxBackground
         RectPosition(_rectPosition);
     }
 
-    private void WindChanged(Vector2Int wind)
+    private void WindChanged(Vector2 wind)
     {
         _windForce=wind.x;
     }

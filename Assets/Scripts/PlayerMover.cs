@@ -55,7 +55,7 @@ public class PlayerMover : MonoBehaviour
     }
 
    
-    private void WindChanged(Vector2Int wind)
+    private void WindChanged(Vector2 wind)
     {
         windForceVector = new Vector2(wind.x * forceWindRatio, wind.y * forceWindRatio);
     }
