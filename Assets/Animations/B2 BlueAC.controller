@@ -67,7 +67,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: cb74b79d400202347b7bd89c3d561a9c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3d0c0e637eaa6a846b2f85d01c08987c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -104,7 +104,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: B1 Red AC
+  m_Name: B2 BlueAC
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Sound
@@ -178,7 +178,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d21817b5b308e3e47a2a8b73684009e6, type: 2}
+  m_Motion: {fileID: 7400000, guid: bbbdd361baf032b498d2f3dc87f0fab6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

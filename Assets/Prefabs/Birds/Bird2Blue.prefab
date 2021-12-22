@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5567437483803362709}
   - component: {fileID: 4305134624343292582}
   m_Layer: 0
-  m_Name: Bird1Red
+  m_Name: Bird2Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5978898516894778253, guid: 17c558ddb31742c42894aa507b18c308, type: 3}
+  m_Sprite: {fileID: -7068613016846842766, guid: b2aa4dabd5098a44d9db709d0d3c77f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ Animator:
   m_GameObject: {fileID: 3459578961841966605}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2f10fe7765368fe4eb7283d444aab727, type: 2}
+  m_Controller: {fileID: 9100000, guid: 115dda2a2c9bdd6498353b03b68d7c4a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04882c0c4defc0048a0d6da70ebcde42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _foodQuantity: 1
+  _foodQuantity: 2
   _destroyEffect: {fileID: 3052101275658370736, guid: a85d3970e71384348ad530c928ab2f85, type: 3}
   _destroySound: {fileID: 8300000, guid: 97815f5dc38390041887d77de02e580f, type: 3}
 --- !u!114 &2646582724094024131
@@ -161,9 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26c4a5483ed2640a10cfe55933c3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1
+  _speed: 1.5
   _way: {fileID: 0}
-  _random: 0
+  _random: 1
 --- !u!114 &6436682983613051274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,5 +200,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7c4be05e8277945b285715187b0cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _birdSound: {fileID: 8300000, guid: d8ad88a844fa5ee46af27af6956d5b71, type: 3}
-  _timeBirdSound: 5
+  _birdSound: {fileID: 8300000, guid: 3051cfc6a6658c84c836a0f49ee79aaf, type: 3}
+  _timeBirdSound: 3

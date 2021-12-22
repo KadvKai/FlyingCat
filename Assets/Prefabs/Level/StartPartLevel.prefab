@@ -199,7 +199,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -958,7 +957,6 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -1124,6 +1122,10 @@ PrefabInstance:
       propertyPath: _way
       value: 
       objectReference: {fileID: 6013426185209509886}
+    - target: {fileID: 2646582724094024131, guid: 899cf189c6b0aaa4cb19d12b0a17b74e, type: 3}
+      propertyPath: _random
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3459578961841966605, guid: 899cf189c6b0aaa4cb19d12b0a17b74e, type: 3}
       propertyPath: m_Name
       value: Bird1Red

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class BirdMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -13,12 +14,14 @@ public class BirdMover : MonoBehaviour
     private Vector3 _targetFlightPosition;
     private bool _directionRightOld;
     private int _newLightPosition;
+    private SpriteRenderer _spriteRenderer;
 
     private void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _flightPoints = FlightPointsCreation(_way);
         _newLightPosition = 0;
-        _targetFlightPosition = _flightPoints[_newLightPosition];
+        _targetFlightPosition = transform.position;
         _directionRightOld = true;
     }
     private void Update()
@@ -41,8 +44,7 @@ public class BirdMover : MonoBehaviour
 
     private void ChangeScale()
     {
-        Debug.Log("ChangeScale");
-        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        _spriteRenderer.flipX = !_spriteRenderer.flipX;
     }
 
     private Vector3 NewTargetPosition()
