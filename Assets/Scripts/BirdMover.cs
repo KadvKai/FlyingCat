@@ -8,14 +8,17 @@ public class BirdMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private GameObject _way;
+    [SerializeField] bool _random;
     private Vector3[] _flightPoints;
     private Vector3 _targetFlightPosition;
     private bool _directionRightOld;
+    private int _newLightPosition;
 
     private void Start()
     {
-        _flightPoints = FlightPointsCreation(transform.position, _way);
-        _targetFlightPosition = _flightPoints[0];
+        _flightPoints = FlightPointsCreation(_way);
+        _newLightPosition = 0;
+        _targetFlightPosition = _flightPoints[_newLightPosition];
         _directionRightOld = true;
     }
     private void Update()
@@ -25,6 +28,8 @@ public class BirdMover : MonoBehaviour
         {
             _targetFlightPosition = NewTargetPosition();
             bool directionRight = (_targetFlightPosition - transform.position).x > 0;
+            Debug.Log("directionRight=" + directionRight);
+            Debug.Log("directionRightOld=" + _directionRightOld);
             if (directionRight != _directionRightOld)
             {
                 ChangeScale();
@@ -36,22 +41,30 @@ public class BirdMover : MonoBehaviour
 
     private void ChangeScale()
     {
+        Debug.Log("ChangeScale");
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
 
     private Vector3 NewTargetPosition()
     {
-
-        return _flightPoints[Random.Range(0, _flightPoints.Length)];
+        if (_random)
+        {
+            _newLightPosition = Random.Range(0, _flightPoints.Length);
+        }
+        else
+        {
+            _newLightPosition ++;
+            if (_newLightPosition == _flightPoints.Length) _newLightPosition = 0;
+        }
+        return _flightPoints[_newLightPosition];
     }
-    private Vector3[] FlightPointsCreation(Vector3 startPosition, GameObject way)
+    private Vector3[] FlightPointsCreation(GameObject way)
     {
         Transform[] points = way.GetComponentsInChildren<Transform>();
-        Vector3[] flightPoints = new Vector3[points.Length + 1];
-        flightPoints[0] = startPosition;
+        Vector3[] flightPoints = new Vector3[points.Length];
         for (int i = 0; i < points.Length; i++)
         {
-            flightPoints[i + 1] = points[i].position;
+            flightPoints[i] = points[i].position;
         }
         return flightPoints;
     }

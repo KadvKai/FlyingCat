@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class LevelMap : MonoBehaviour
 {
     [SerializeField] Canvas _background;
@@ -10,7 +11,12 @@ public class LevelMap : MonoBehaviour
     private readonly int _lengthPartLevel = 61;
     private Transform _camTransform;
     private CameraMover _cameraMover;
+    private float _musicStartVolume;
 
+    private void Awake()
+    {
+        _musicStartVolume = GetComponent<AudioSource>().volume; 
+    }
 
     public void SetCameraTransform(CameraMover camera)
     {
@@ -67,9 +73,9 @@ public class LevelMap : MonoBehaviour
         ParallaxBackground[] parallaxBackground = _background.GetComponentsInChildren<ParallaxBackground>();
         foreach (var item in parallaxBackground)
         {
-            item.SetCalm();
+            item.SetStop();
         }
-
+        GetComponent<AudioSource>().volume = _musicStartVolume / 2;
     }
 
 }
