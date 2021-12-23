@@ -8922,12 +8922,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c3492cfcc60424ca50d867ed2efe78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMax: 5
-  forceUpRatio: 200
-  forceHorizontalRatio: 10
+  _speedMax: 5
+  _forceUpRatio: 200
+  _forceHorizontalRatio: 10
   _wind: {fileID: 519420034}
-  forceWindRatio: 0.5
-  player: {fileID: 2039294186}
+  _forceWindRatio: 0.5
+  _forcePushRatio: 100
+  _player: {fileID: 2039294186}
 --- !u!1 &1431596910
 GameObject:
   m_ObjectHideFlags: 0

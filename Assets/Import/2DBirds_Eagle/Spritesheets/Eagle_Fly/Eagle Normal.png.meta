@@ -84,7 +84,6 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -107,7 +106,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 800
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -150,6 +149,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
@@ -593,27 +604,6 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Eagle Normal_6: 5548900369481927980
-      Eagle Normal_17: -5753015887641443706
-      Eagle Normal_10: 8267308718971639279
-      Eagle Normal_12: -362321774618190992
-      Eagle Normal_13: 5186945601879594574
-      Eagle Normal_14: -2831482046566928939
-      Eagle Normal_18: -5040552008507732918
-      Eagle Normal_11: -1124094977955832863
-      Eagle Normal_2: -1164080654220311828
-      Eagle Normal_0: 3770968622880793076
-      Eagle Normal_4: 6283969687924756697
-      Eagle Normal_1: 4790338852642267541
-      Eagle Normal_16: -4763868218487552661
-      Eagle Normal_7: -1752001887468181280
-      Eagle Normal_5: -731429059838076238
-      Eagle Normal_19: -8944748581873943536
-      Eagle Normal_8: -2796333797259385576
-      Eagle Normal_15: -5172246311236383933
-      Eagle Normal_3: 7307749852707414618
-      Eagle Normal_9: 2985764399769757095
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

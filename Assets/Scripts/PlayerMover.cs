@@ -8,25 +8,27 @@ using UnityEngine.Events;
 
 public class PlayerMover : MonoBehaviour
 {
-    [SerializeField] private float speedMax;
-    [SerializeField] private float forceUpRatio;
-    [SerializeField] private float forceHorizontalRatio;
+    [SerializeField] private float _speedMax;
+    [SerializeField] private float _forceUpRatio;
+    [SerializeField] private float _forceHorizontalRatio;
     [SerializeField] private Wind _wind;
-    [SerializeField] private float forceWindRatio;
-    [SerializeField] private GameObject player;
-    private Rigidbody2D rb;
-    private float playerScale;
-    private bool ButtonDown=false;
-    private Vector2 windForceVector;
+    [SerializeField] private float _forceWindRatio;
+    [SerializeField] private float _forcePushRatio;
+    [SerializeField] private GameObject _player;
+    private Rigidbody2D _rb;
+    private float _playerScale;
+    private bool _buttonDown=false;
+    private Vector2 _windForceVector;
+    private bool _controlDisable;
 
     private void Awake()
     {
-     rb = GetComponent<Rigidbody2D>();   
+     _rb = GetComponent<Rigidbody2D>();   
     }
     private void OnEnable()
     {
-        rb.velocity = Vector2.zero;
-        windForceVector = Vector2.zero;
+        _rb.velocity = Vector2.zero;
+        _windForceVector = Vector2.zero;
         _wind.WindChanged += WindChanged;
     }
 
@@ -36,55 +38,71 @@ public class PlayerMover : MonoBehaviour
     }
     public void Start()
     {
-        playerScale = player.transform.localScale.x;
+        _playerScale = _player.transform.localScale.x;
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetMouseButton(0)==true && ButtonDown == false)
+        if (!_controlDisable)
         {
-            ButtonDown = true;
-            AddForcePlayer();
+            if (Input.GetMouseButton(0) == true && _buttonDown == false)
+            {
+                _buttonDown = true;
+                AddForcePlayer();
+            }
+            if (Input.GetMouseButton(0) == false && _buttonDown == true)
+            {
+                _buttonDown = false;
+            }
+            SpeedCorrection();
+            WindForce(); 
         }
-        if (Input.GetMouseButton(0) == false && ButtonDown == true)
-        {
-            ButtonDown = false;
-        }
-        SpeedCorrection();
-        WindForce();
     }
 
    
     private void WindChanged(Vector2 wind)
     {
-        windForceVector = new Vector2(wind.x * forceWindRatio, wind.y * forceWindRatio);
+        _windForceVector = new Vector2(wind.x * _forceWindRatio, wind.y * _forceWindRatio);
     }
 
     private void SpeedCorrection()
     {
-        if (rb.velocity.magnitude> speedMax)
+        if (_rb.velocity.magnitude> _speedMax)
         {
-            rb.velocity = rb.velocity.normalized * speedMax;
+            _rb.velocity = _rb.velocity.normalized * _speedMax;
         }
     }
     private void WindForce()
     {
-        if (windForceVector.magnitude>0)
+        if (_windForceVector.magnitude>0)
         {
-        rb.AddForce(windForceVector);
+        _rb.AddForce(_windForceVector);
         }
     }
 
     private void AddForcePlayer()
     {
-        Vector2 forceVector = Vector2.up * forceUpRatio + VectorHorizontalDisplacement(Camera.main.ScreenToWorldPoint(Input.mousePosition)) * forceHorizontalRatio;
-        rb.AddForce(forceVector);
-        if (forceVector.x < 0) player.transform.localScale = new Vector3(-playerScale, player.transform.localScale.y, player.transform.localScale.z);
-        else player.transform.localScale = new Vector3(playerScale, player.transform.localScale.y, player.transform.localScale.z);
+        Vector2 forceVector = Vector2.up * _forceUpRatio + VectorHorizontalDisplacement(Camera.main.ScreenToWorldPoint(Input.mousePosition)) * _forceHorizontalRatio;
+        _rb.AddForce(forceVector);
+        if (forceVector.x < 0) _player.transform.localScale = new Vector3(-_playerScale, _player.transform.localScale.y, _player.transform.localScale.z);
+        else _player.transform.localScale = new Vector3(_playerScale, _player.transform.localScale.y, _player.transform.localScale.z);
 
     }
     private Vector2 VectorHorizontalDisplacement(Vector3 vectorpoint)
     {
-        return (vectorpoint - rb.transform.position).x * Vector2.right;
+        return (vectorpoint - _rb.transform.position).x * Vector2.right;
+    }
+    public void Push(Vector2 vector)
+    {
+        _rb.velocity = Vector2.zero;
+        _rb.AddForce(vector*_forcePushRatio);
+        StartCoroutine(ControlDisable());
+    }
+
+    public IEnumerator ControlDisable()
+    {
+        _controlDisable = true;
+        yield return new WaitForSeconds(0.5f);
+        _controlDisable = false;
     }
 }

@@ -31,8 +31,6 @@ public class BirdMover : MonoBehaviour
         {
             _targetFlightPosition = NewTargetPosition();
             bool directionRight = (_targetFlightPosition - transform.position).x > 0;
-            Debug.Log("directionRight=" + directionRight);
-            Debug.Log("directionRightOld=" + _directionRightOld);
             if (directionRight != _directionRightOld)
             {
                 ChangeScale();

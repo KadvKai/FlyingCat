@@ -11,14 +11,16 @@ GameObject:
   - component: {fileID: 3459578961841966606}
   - component: {fileID: 3459578961841966607}
   - component: {fileID: 3459578961841966604}
-  - component: {fileID: 6244479646783337382}
+  - component: {fileID: 7337196888498913247}
+  - component: {fileID: 2918843642859608359}
+  - component: {fileID: 5938616489890926646}
   - component: {fileID: 7387497814740194378}
   - component: {fileID: 2646582724094024131}
   - component: {fileID: 6436682983613051274}
   - component: {fileID: 5567437483803362709}
   - component: {fileID: 4305134624343292582}
   m_Layer: 0
-  m_Name: Bird2Blue
+  m_Name: Bird5Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7068613016846842766, guid: b2aa4dabd5098a44d9db709d0d3c77f6, type: 3}
+  m_Sprite: {fileID: 765240584191287021, guid: 76bc3bf21b5e15b42bb9e34982fcfcc6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +101,7 @@ Animator:
   m_GameObject: {fileID: 3459578961841966605}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 115dda2a2c9bdd6498353b03b68d7c4a, type: 2}
+  m_Controller: {fileID: 9100000, guid: c102963661c07954f9ddd433418b2306, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -108,7 +110,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!58 &6244479646783337382
+--- !u!58 &7337196888498913247
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,8 +125,24 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.25
---- !u!114 &7387497814740194378
+  m_Radius: 0.3
+--- !u!58 &2918843642859608359
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3459578961841966605}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4
+--- !u!114 &5938616489890926646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,10 +151,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 3459578961841966605}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3762d6139c2168147b51aa9496fd2fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeAction: 5
+  _collider: {fileID: 7337196888498913247}
+--- !u!114 &7387497814740194378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3459578961841966605}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04882c0c4defc0048a0d6da70ebcde42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _foodQuantity: 2
+  _foodQuantity: 5
   _destroyEffect: {fileID: 3052101275658370736, guid: a85d3970e71384348ad530c928ab2f85, type: 3}
   _destroySound: {fileID: 8300000, guid: 97815f5dc38390041887d77de02e580f, type: 3}
 --- !u!114 &2646582724094024131
@@ -151,9 +183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce26c4a5483ed2640a10cfe55933c3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1.5
+  _speed: 0.75
   _way: {fileID: 0}
-  _random: 1
+  _random: 0
 --- !u!114 &6436682983613051274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,5 +222,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7c4be05e8277945b285715187b0cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _birdSound: {fileID: 8300000, guid: 3051cfc6a6658c84c836a0f49ee79aaf, type: 3}
-  _timeBirdSound: 3
+  _birdSound: {fileID: 8300000, guid: d8ad88a844fa5ee46af27af6956d5b71, type: 3}
+  _timeBirdSound: 5

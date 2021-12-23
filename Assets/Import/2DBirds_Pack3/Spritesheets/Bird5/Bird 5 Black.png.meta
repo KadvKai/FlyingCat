@@ -84,7 +84,6 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -107,7 +106,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 800
+  spritePixelsToUnits: 600
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -150,6 +149,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
@@ -593,27 +604,6 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Bird 5 Black_16: 2535698236777170634
-      Bird 5 Black_3: 1760468852727708152
-      Bird 5 Black_7: -1904470941400534214
-      Bird 5 Black_12: -5287526327338453121
-      Bird 5 Black_2: -6852321974472699171
-      Bird 5 Black_4: 3758695256229493329
-      Bird 5 Black_17: 4450450616908887577
-      Bird 5 Black_5: -3210268314835915200
-      Bird 5 Black_18: -3354693555789698917
-      Bird 5 Black_19: 8640357475756825809
-      Bird 5 Black_8: -5203057007884947080
-      Bird 5 Black_10: 4640414078738273301
-      Bird 5 Black_13: -8557375607236082976
-      Bird 5 Black_1: -6910798243153082234
-      Bird 5 Black_6: 3033042730991164051
-      Bird 5 Black_9: -1304962673023371238
-      Bird 5 Black_11: -793713036357031622
-      Bird 5 Black_0: 7270778152439584896
-      Bird 5 Black_15: 3673025805075306348
-      Bird 5 Black_14: -5361422760821392900
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
