@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     private SaveLoadSystem _saveLoadSystem;
     private SaveData _saveData;
     private AdMobManager _adMob;
+    private int _starQuantity=3;
 
     private void Awake()
     {
@@ -36,7 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         _mainMenu.gameObject.SetActive(true);
        Time.timeScale = 0;
-        _mainMenu.StartMainMenu(_saveData._userName);
+        _mainMenu.StartMainMenu(_saveData._userName,_starQuantity);
         _adMob.ShowBanner();
     }
 
@@ -49,7 +50,7 @@ public class LevelManager : MonoBehaviour
 
     private void LoadingLevel(int level)
     {
-
+        _starQuantity--;
         Time.timeScale = 1;
         _level = level;
         SetLevelMapParameters();

@@ -21,12 +21,12 @@ public class AdMobManager
     //загружено или нет, делегат отвечающий за вручение пользователю вознаграждения, делегат отвечающий за трансляцию состояния рекламы
     //загружена или нет - этот делегат я использую для установки состояния кнопок показа рекламы, устанавливая их прозрачность, тем самым, невзрачно,
     //намекая пользователю что он может посмотреть рекламу и получить награду или же нажатие на кнопку не к чему не приведет)
-    private const int TIME_RELOAD=1;
-    
+    private const int TIME_RELOAD = 1;
+
     //public bool AppOnenedAdLoad;
     private DateTime _AppOpenedLoadTime;
 
-   //public bool BanerAdLoad;
+    //public bool BanerAdLoad;
     public bool InterstitialAdsLoad;
     public bool RewardInterstitialAdsLoad;
 
@@ -59,14 +59,13 @@ public class AdMobManager
         _rewardId = rewardId;
         MobileAds.Initialize(initStatus =>
         {
-            LoadAds();
+            PreLoadAds();
         });
     }
 
-    private void LoadAds()
+    private void PreLoadAds()
     {
-        if(_appOpenedId!=null) RequestAndLoadAppOpenAd();//Загружаем AppOpenedAds рекламу
-        if (_bannerId != null) RequestBanner();//Загружае Баннерную рекламу
+        if (_appOpenedId != null) RequestAndLoadAppOpenAd();//Загружаем AppOpenedAds рекламу
         if (_interstitionId != null) RequestInterstitial();//Загружаем Интерститиальную рекламу
         if (_rewardInterstitionId != null) RequestRewardInterstitial();//Загружаем Вознаграждаемую интерститиальную рекламу
         if (_rewardId != null) RequestRewardedAd();//Загружаем Вознаграждаемую рекламу 
@@ -180,41 +179,41 @@ public class AdMobManager
 
 
     //********** BANNER *************//
-    //Метод загружающий и показывающий баннер
-    public void RequestBanner()
-    {
-        //Если баннер ранее использовался очищаем его
-        if (_bannerAd != null)
-            _bannerAd.Destroy();
-
-
-        //Cоздаем объект баннера
-        _bannerAd = new BannerView(_bannerId, AdSize.Banner, AdPosition.Top);
-
-        //Добавляем слушателей: Удачная загрузка, Неудачная загрузка, Отработка клика по баннеру, Возвращение игрока в приложение после перехода (клика)
-        _bannerAd.OnAdLoaded += HandleOnAdLoadedBanner;
-        _bannerAd.OnAdFailedToLoad += HandleOnAdFailedToLoadBanner;
-        _bannerAd.OnAdOpening += HandleOnAdOpenedBanner;
-        _bannerAd.OnAdClosed += HandleOnAdClosedBanner;
-
-        //Загружаем баннер для показа (показ начинается автоматически)
-        _bannerAd.LoadAd(GetAdRequest());
-        _bannerAd.Hide();
-    }
     public void ShowBanner()
     {
-        _bannerAd.Show();
+        if (_bannerAd != null)
+            _bannerAd.Show();
+        else
+            RequestBanner();
     }
     public void HideBanner()
     {
         _bannerAd.Hide();
     }
+    //Метод загружающий и показывающий баннер
+    public void RequestBanner()
+    {
+        if (_bannerId != null)
+        {
+            if (_bannerAd != null)
+                _bannerAd.Destroy();
+            _bannerAd = new BannerView(_bannerId, AdSize.SmartBanner, AdPosition.Top);
 
+            _bannerAd.OnAdLoaded += HandleOnAdLoadedBanner;
+            _bannerAd.OnAdFailedToLoad += HandleOnAdFailedToLoadBanner;
+            _bannerAd.OnAdOpening += HandleOnAdOpenedBanner;
+            _bannerAd.OnAdClosed += HandleOnAdClosedBanner;
 
+            //Загружаем баннер для показа (показ начинается автоматически)
+            _bannerAd.LoadAd(GetAdRequest());
+        }
+    }
 
     //Вызывается когда баннер загружен
     private void HandleOnAdLoadedBanner(object sender, EventArgs args)
     {
+        _bannerAd.Hide();
+        Debug.Log("Удачный банер");
         //Отмечаем удачную загрузку рекламы
         //BanerAdLoad = true;
     }
@@ -222,9 +221,10 @@ public class AdMobManager
     //Вызывается если произошла ошибка загрузки баннера
     private void HandleOnAdFailedToLoadBanner(object sender, AdFailedToLoadEventArgs args)
     {
+        Debug.Log("Неудачный банер");
         //Отмечаем НЕ удачную загрузку рекламы
         //BanerAdLoad = false;
-        ReLoadBanner();
+        RequestBanner();
     }
 
     //Вызывается когда игрок кликает по баннеру
@@ -239,13 +239,6 @@ public class AdMobManager
     {
         RequestBanner();
     }
-
-    private IEnumerator ReLoadBanner()
-    {
-        yield return new WaitForSeconds(TIME_RELOAD);
-        RequestBanner();
-    }
-
 
 
     //******** INTERSTITIAL ************//
@@ -390,10 +383,8 @@ public class AdMobManager
     //Метод загружающий вознаграждаемую рекламу
     public void RequestRewardedAd()
     {
-        //Создаем объект вознагражденной рекламы
         _rewardedAd = new RewardedAd(_rewardId);
 
-        //Добавляем слушателей: Удачная загрузка рекламы, Неудачная загрузка рекламы, Отвечающий за вознаграждение, Закрытие объявления
         _rewardedAd.OnAdLoaded += HandleRewardedAdLoaded;
         _rewardedAd.OnAdFailedToLoad += HandleRewardedAdFailedToLoad;
         _rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;

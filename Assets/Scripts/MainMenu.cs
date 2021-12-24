@@ -10,26 +10,22 @@ using UnityEngine.Events;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
+    [SerializeField] TMP_Text _starQuantity;
     [SerializeField] TMP_Text _versionText;
     [SerializeField] GameObject _mainMenuPanel;
     private MenuUserNameAge _menyUserNameAge;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int> MainMenuUserNameAgeSet;
-    public void StartMainMenu(string userName)
+    public void StartMainMenu(string userName, int starQuantity)
     {
         _versionText.text= Application.version;
         if (userName!=null)
         {
-            MainMenuPanel(userName);
+            _userName.text = userName;
+            _starQuantity.text = starQuantity.ToString();
         }
         else UserNameAge();
 
-    }
-  
-    public void MainMenuPanel(string userName)
-    {
-        //_mainMenuPanel.SetActive(true);
-        _userName.text = userName;
     }
     private void UserNameAge()
     {
@@ -40,7 +36,7 @@ public class MainMenu : MonoBehaviour
 
     private void UserNameAgeSet(string name, int age)
     {
-        MainMenuPanel(name);
+        _userName.text = name;
         _menyUserNameAge.UserNameAgeSet -= UserNameAgeSet;
         MainMenuUserNameAgeSet?.Invoke(name,age);
     }

@@ -102,11 +102,13 @@ public class Player : MonoBehaviour
         //GetComponent<PlayerMover>().enabled = false;
         EndLevel?.Invoke();
         gameObject.SetActive(false);
+        _canvas.gameObject.SetActive(false);
     }
     private void PlayerExit()
     {
         //GetComponent<PlayerMover>().enabled = false;
         Exit?.Invoke();
         gameObject.SetActive(false);
+        _canvas.gameObject.SetActive(false);
     }
 }
