@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2daf2160ff3c94fa0ce717473f5e05, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  _numberLevelParts: 0
+  _numberLevelParts: 5
   _startPartLevel: {fileID: 4107358076843380325, guid: 6b0c96c1277e0864aa233c68f595f599, type: 3}
   _partLevel:
-  - {fileID: 4107358076843380325, guid: b783dd0bec11e3342839d27596b0cd5d, type: 3}
-  - {fileID: 4107358076843380325, guid: 6117eb3bba59d9e4bab6537e6e1ca29c, type: 3}
-  - {fileID: 4107358076843380325, guid: 21e0ad8c17fa3f34a94a0b354777360f, type: 3}
-  - {fileID: 4107358076843380325, guid: 47838bf08d6521e4c95697f4ac657572, type: 3}
-  - {fileID: 4107358076843380325, guid: 1cc1a57d7ea0bd842bdc83a5b2458b22, type: 3}
-  - {fileID: 4107358076843380325, guid: 47a61d7522fe870499a447cefd029c50, type: 3}
-  - {fileID: 4107358076843380325, guid: a2d08ad35ca73824eabde024474dd1fa, type: 3}
-  - {fileID: 4107358076843380325, guid: ca487bbde2b235547b194817c69529c0, type: 3}
+  - {fileID: 6421825413905637304, guid: 21f2e67b5b8fd1c4b9d6a7ab07887b70, type: 3}
+  - {fileID: 6421825413905637304, guid: 6d0ceae0fd53d3843b9f5c7bbdb978ad, type: 3}
+  - {fileID: 6421825413905637304, guid: 144dac90300691641b48c102efb3bd17, type: 3}
+  - {fileID: 6421825413905637304, guid: b9f8819a21de44649957870c305d3658, type: 3}
+  - {fileID: 6421825413905637304, guid: 158fd9fb1ac0b394eb5bdb2a8cadd7b4, type: 3}
+  - {fileID: 6421825413905637304, guid: ba51a109bc402d5448bedf6f71698443, type: 3}
+  - {fileID: 6421825413905637304, guid: a5c4d917f250b394080f2f77640659c5, type: 3}
+  - {fileID: 6421825413905637304, guid: e7a6811afc5f9d147bdc04f0a4742cc6, type: 3}
   _finishPartLevel: {fileID: 4107358076843380325, guid: 12fd7a6ced0a6224a8b8537b071199e2, type: 3}
   _maxWindForce: 1

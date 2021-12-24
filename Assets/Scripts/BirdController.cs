@@ -10,7 +10,7 @@ public class BirdController : MonoBehaviour
     private BirdMover _birdMover;
     private BirdSound _birdSound;
 
-    private void Awake()
+    private void OnEnable()
     {
         _birdMover = GetComponent<BirdMover>();
         _birdSound = GetComponent<BirdSound>();
