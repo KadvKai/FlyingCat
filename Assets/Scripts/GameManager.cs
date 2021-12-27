@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class LevelManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player _player;
     [SerializeField] private LevelMap _levelMap;
@@ -13,16 +13,17 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Wind _wind;
     [SerializeField] private EndCanvas _endCanvas;
     [SerializeField] private MainMenu _mainMenu;
+    [SerializeField] private int _starQuantity;
     [SerializeField] private string _bannerId;
+    [SerializeField] private string _rewardId;
     private int _level;
     private SaveLoadSystem _saveLoadSystem;
     private SaveData _saveData;
     private AdMobManager _adMob;
-    private int _starQuantity=3;
 
     private void Awake()
     {
-        _adMob = new AdMobManager(personalization:false,adForChild:true,bannerId:_bannerId);
+        _adMob = new AdMobManager(personalization:false,adForChild:true,bannerId:_bannerId,rewardId: _rewardId);
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
@@ -37,15 +38,9 @@ public class LevelManager : MonoBehaviour
     {
         _mainMenu.gameObject.SetActive(true);
        Time.timeScale = 0;
-        _mainMenu.StartMainMenu(_saveData._userName,_starQuantity);
+        _mainMenu.StartMainMenu(_saveData._userName);
+        _mainMenu.StarQuantityChanged(_starQuantity);
         _adMob.ShowBanner();
-    }
-
-    private void MainMenuUserNameAgeSet(string userName, int userAge)
-    {
-        _saveData._userName=userName;
-        _saveData._userAge = userAge;
-        _saveLoadSystem.Save(_saveData);
     }
 
     private void LoadingLevel(int level)
@@ -82,6 +77,16 @@ public class LevelManager : MonoBehaviour
         _wind.SetStartParameters(_levelParameters[_level].MaxWindForce);
         _wind.enabled = true;
     }
+    private void MainMenuUserNameAgeSet(string userName, int userAge)
+    {
+        _saveData._userName=userName;
+        _saveData._userAge = userAge;
+        _saveLoadSystem.Save(_saveData);
+    }
+    private void AddStarButton()
+    {
+        _adMob.ShowRewardAd(RewardEvent);
+    }
 
     private void PlayerExit()
     {
@@ -113,26 +118,41 @@ public class LevelManager : MonoBehaviour
         MainMenu();
         _adMob.HideBanner();
     }
+    private void RewardeStatus(bool rewardeAdLoad)
+    {
+        _mainMenu.AddStarButtonActive(rewardeAdLoad);
+    }
+
+    private void RewardEvent()
+    {
+        _starQuantity++;
+        _mainMenu.StarQuantityChanged(_starQuantity);
+        _adMob.RewardEvent -= RewardEvent;
+    }
     private void OnEnable()
     {
         _mainMenu.PlayLevel += LoadingLevel;
         _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
+        _mainMenu.AddStarButton += AddStarButton;
         _player.EndLevel += PlayerEndLevel;
         _player.GameOver += PlayerGameOver;
         _player.Exit += PlayerExit;
         _endCanvas.EndCanvasExit += EndCanvasExit;
         _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
-        
+        _adMob.AddRewardedAdListener(RewardeStatus);
     }
+
 
     private void OnDisable()
     {
         _mainMenu.PlayLevel -= LoadingLevel;
         _mainMenu.MainMenuUserNameAgeSet -= MainMenuUserNameAgeSet;
+        _mainMenu.AddStarButton -= AddStarButton;
         _player.EndLevel -= PlayerEndLevel;
         _player.GameOver -= PlayerGameOver;
         _player.Exit -= PlayerExit;
         _endCanvas.EndCanvasExit -= EndCanvasExit;
         _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
+        _adMob.RewardeStatus -= RewardeStatus;
     }
 }

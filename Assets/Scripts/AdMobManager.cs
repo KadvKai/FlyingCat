@@ -21,23 +21,21 @@ public class AdMobManager
     //загружено или нет, делегат отвечающий за вручение пользователю вознаграждения, делегат отвечающий за трансляцию состояния рекламы
     //загружена или нет - этот делегат я использую для установки состояния кнопок показа рекламы, устанавливая их прозрачность, тем самым, невзрачно,
     //намекая пользователю что он может посмотреть рекламу и получить награду или же нажатие на кнопку не к чему не приведет)
-    private const int TIME_RELOAD = 1;
-
-    //public bool AppOnenedAdLoad;
+    public bool AppOnenedAdLoad;
     private DateTime _AppOpenedLoadTime;
 
-    //public bool BanerAdLoad;
     public bool InterstitialAdsLoad;
     public bool RewardInterstitialAdsLoad;
 
-    public bool RewardeAdsLoad;
-    public Action RewardEvent;
-    public Action<bool> RewardeStatus;
+    public event Action RewardEvent;
+    public event Action<bool> RewardeStatus;
 
     private bool _isResumeGameOnShowingAd;//Показывает что приложение свернуто изза перехода по рекламе
 
-    //Тестовые идентификаторы Рекламных блоков: ApOpenAd, баннера, интерститиальной, вознаграждаемой интерститиальной и вознагрждаемой рекламы соответственно
-    //Сдесь Вам необходимо указать свои Действующие идентификаторы Ваших рекламных блоков
+    private int _maxFailedLoadBanner = 50;
+    private int _maxFailedLoadReward = 20;
+
+    //Тестовые идентификаторы Рекламных блоков: ApOpenAd, баннера, интерститиальной, вознаграждаемой интерститиальной и вознагрждаемой рекламы
     private readonly string _appOpenedId;
     private readonly string _bannerId;
     private readonly string _interstitionId;
@@ -92,15 +90,14 @@ public class AdMobManager
         if (error != null)
         {
             //Отмечаем НЕ удачаную загрузку рекламы, обнуляем объект
-            //AppOnenedAdLoad = false;
-            ReLoadAppOpenAd();
+            AppOnenedAdLoad = false;
             _appOpenAd = null;
             return;
         }
 
 
         //Отмечаем удачаную загрузку
-        //AppOnenedAdLoad = true;
+        AppOnenedAdLoad = true;
 
         //Запоминаем время загрузки объявления
         _AppOpenedLoadTime = DateTime.UtcNow;
@@ -121,8 +118,7 @@ public class AdMobManager
         if (_appOpenAd == null)
         {
             //Отмечаем выгрузку рекламы
-            //AppOnenedAdLoad = false;
-            ReLoadAppOpenAd();
+            AppOnenedAdLoad = false;
             return;
         }
 
@@ -149,8 +145,7 @@ public class AdMobManager
     private void HandleAdDidDismissFullScreenContent_AppOpened(object sender, EventArgs args)
     {
         //Отмечаем что объявление было выгружено
-        //AppOnenedAdLoad = false;
-        ReLoadAppOpenAd();
+        AppOnenedAdLoad = false;
 
         //Загружаем новое объявление
         RequestAndLoadAppOpenAd();
@@ -160,8 +155,7 @@ public class AdMobManager
     private void HandleAdFailedToPresentFullScreenContent_AppOpened(object sender, AdErrorEventArgs args)
     {
         //Отмечаем что объявление было выгружено
-        //AppOnenedAdLoad = false;
-        ReLoadAppOpenAd();
+        AppOnenedAdLoad = false;
     }
 
     //Вызывается когда объявление показывается
@@ -169,12 +163,7 @@ public class AdMobManager
     {
         //Отмечаем что идет показ объявления
         _isResumeGameOnShowingAd = true;
-    }
 
-    private IEnumerator ReLoadAppOpenAd()
-    {
-        yield return new WaitForSeconds(TIME_RELOAD);
-        RequestAndLoadAppOpenAd();
     }
 
 
@@ -212,23 +201,22 @@ public class AdMobManager
     //Вызывается когда баннер загружен
     private void HandleOnAdLoadedBanner(object sender, EventArgs args)
     {
-        _bannerAd.Hide();
-        //Отмечаем удачную загрузку рекламы
-        //BanerAdLoad = true;
     }
 
     //Вызывается если произошла ошибка загрузки баннера
     private void HandleOnAdFailedToLoadBanner(object sender, AdFailedToLoadEventArgs args)
     {
-        //Отмечаем НЕ удачную загрузку рекламы
-        //BanerAdLoad = false;
-        RequestBanner();
+        if (_maxFailedLoadBanner > 0)
+        {
+            _maxFailedLoadBanner--;
+            RequestBanner();
+        }
     }
 
     //Вызывается когда игрок кликает по баннеру
     private void HandleOnAdOpenedBanner(object sender, EventArgs args)
     {
-        //Отмечаем что мы перешли из баннера в браузер и - идет показ по переходу с баннера
+        //Отмечаем что мы перешли из баннера в браузер
         _isResumeGameOnShowingAd = true;
     }
 
@@ -378,8 +366,27 @@ public class AdMobManager
 
 
     //*********** REWARD  *************//
+    //Метод показывающий ВОЗНАГРАЖДЕННУЮ РЕКЛАМУ
+    public void ShowRewardAd(Action EnterDelegateReward)
+    {
+        if (_rewardedAd != null && _rewardedAd.IsLoaded())
+        {
+            //Назначаем делегат вознаграждающий пользователя
+            RewardEvent = EnterDelegateReward;
+
+            //Инициируем показ рекламы
+            _rewardedAd.Show();
+        }
+    }
+
+    public void AddRewardedAdListener(Action<bool> RewardedAdListener)
+    {
+        RewardedAdListener.Invoke(_rewardedAd.IsLoaded());
+        RewardeStatus += RewardedAdListener;
+    }
+
     //Метод загружающий вознаграждаемую рекламу
-    public void RequestRewardedAd()
+    private void RequestRewardedAd()
     {
         _rewardedAd = new RewardedAd(_rewardId);
 
@@ -389,16 +396,12 @@ public class AdMobManager
         _rewardedAd.OnAdOpening += HandleRewaedeAdOpened;
         _rewardedAd.OnAdClosed += HandleRewardedAdClosed;
 
-        //Загружаем рекламу
         _rewardedAd.LoadAd(GetAdRequest());
     }
 
     //Вызывается когда обявление загружено
     private void HandleRewardedAdLoaded(object sender, EventArgs args)
     {
-        //Отмечаем удачную загрузку рекламы
-        RewardeAdsLoad = true;
-
         //Вызываем Делегаты подписанные на событие загрузки рекламы, она позволяет кнопкам узначть, что реклама загружена, готова к показу и изменить свое состояние
         RewardeStatus?.Invoke(true);
     }
@@ -407,11 +410,13 @@ public class AdMobManager
     //Вызывается  когда по каким то причинам объявление не загружается - передает и перечисляет ошибки
     private void HandleRewardedAdFailedToLoad(object sender, EventArgs args)
     {
-        //Отмечаем НЕ удачную загрузку рекламы
-        RewardeAdsLoad = false;
-
         //Вызываем Делегаты подписанные на событие неудачной загрузки рекламы, она позволяет кнопкам узначть, что реклама НЕ была загружена, НЕ готова к показу и изменить свое состояние
         RewardeStatus?.Invoke(false);
+        if (_maxFailedLoadReward > 0)
+        {
+            _maxFailedLoadReward--;
+            RequestRewardedAd();
+        }
     }
 
     //Вызывается  когда пользователь должен быть вознагражден за просмотр видео.
@@ -422,9 +427,6 @@ public class AdMobManager
 
         //Вызываем событие выгрузки рекламы
         RewardeStatus?.Invoke(false);
-
-        //Отмечаем что реклама выгружена и новая порция не загружена
-        RewardeAdsLoad = false;
     }
 
     //Вызывается когда объявление открывается
@@ -441,21 +443,6 @@ public class AdMobManager
         RequestRewardedAd();
     }
 
-    //Метод показывающий ВОЗНАГРАЖДЕННУЮ РЕКЛАМУ
-    public void ShowRewardAd(Action EnterDelegateReward)
-    {
-        if (_rewardedAd != null && RewardeAdsLoad)
-        {
-            if (_rewardedAd.IsLoaded())
-            {
-                //Назначаем делегат вознаграждающий пользователя
-                RewardEvent = EnterDelegateReward;
-
-                //Инициируем показ рекламы
-                _rewardedAd.Show();
-            }
-        }
-    }
 
     //Метод формирования запроса на загрузку рекламы, включая неперсонализированную рекламу
     private AdRequest GetAdRequest()

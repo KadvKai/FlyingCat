@@ -13,19 +13,38 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TMP_Text _starQuantity;
     [SerializeField] TMP_Text _versionText;
     [SerializeField] GameObject _mainMenuPanel;
+    [SerializeField] Button _addStar;
+    [SerializeField] Button _playButton;
     private MenuUserNameAge _menyUserNameAge;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int> MainMenuUserNameAgeSet;
-    public void StartMainMenu(string userName, int starQuantity)
+    public event UnityAction AddStarButton;
+    public void StartMainMenu(string userName)
     {
         _versionText.text= Application.version;
         if (userName!=null)
         {
             _userName.text = userName;
-            _starQuantity.text = starQuantity.ToString();
         }
         else UserNameAge();
 
+    }
+
+    public void StarQuantityChanged(int starQuantity)
+    {
+        if (starQuantity>0) _playButton.interactable = true;
+        else _playButton.interactable = false;
+        _starQuantity.text = starQuantity.ToString();
+    }
+
+    public void AddStarButtonActive(bool active)
+    {
+        _addStar.interactable=active;
+    }
+
+    public void AddStarButtonPress()
+    {
+        AddStarButton?.Invoke();
     }
     private void UserNameAge()
     {

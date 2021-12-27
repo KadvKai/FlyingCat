@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     private int lives;
     private bool _pause;
     private int _food;
+    delegate void MultiDelegate();
+  
+
 
     void Update()
     {
