@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[RequireComponent(typeof(StarManager))]
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -13,20 +13,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Wind _wind;
     [SerializeField] private EndCanvas _endCanvas;
     [SerializeField] private MainMenu _mainMenu;
-    [SerializeField] private int _starQuantity;
     [SerializeField] private string _bannerId;
     [SerializeField] private string _rewardId;
     private int _level;
     private SaveLoadSystem _saveLoadSystem;
     private SaveData _saveData;
     private AdMobManager _adMob;
+    private StarManager _starManager;
 
     private void Awake()
     {
+        _starManager = GetComponent<StarManager>();
         _adMob = new AdMobManager(personalization:false,adForChild:true,bannerId:_bannerId,rewardId: _rewardId);
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
+        _starManager.SetStartParameters(_saveData, _mainMenu, _adMob);
     }
 
     private void Start()
@@ -38,14 +40,13 @@ public class GameManager : MonoBehaviour
     {
         _mainMenu.gameObject.SetActive(true);
        Time.timeScale = 0;
-        _mainMenu.StartMainMenu(_saveData._userName);
-        _mainMenu.StarQuantityChanged(_starQuantity);
+        _mainMenu.StartMainMenu(_saveData.UserName);
         _adMob.ShowBanner();
     }
 
     private void LoadingLevel(int level)
     {
-        _starQuantity--;
+        _starManager.StarChanged(-1);
         Time.timeScale = 1;
         _level = level;
         SetLevelMapParameters();
@@ -79,13 +80,8 @@ public class GameManager : MonoBehaviour
     }
     private void MainMenuUserNameAgeSet(string userName, int userAge)
     {
-        _saveData._userName=userName;
-        _saveData._userAge = userAge;
-        _saveLoadSystem.Save(_saveData);
-    }
-    private void AddStarButton()
-    {
-        _adMob.ShowRewardAd(RewardEvent);
+        _saveData.UserName=userName;
+        _saveData.UserAge = userAge;
     }
 
     private void PlayerExit()
@@ -118,28 +114,16 @@ public class GameManager : MonoBehaviour
         MainMenu();
         _adMob.HideBanner();
     }
-    private void RewardeStatus(bool rewardeAdLoad)
-    {
-        _mainMenu.AddStarButtonActive(rewardeAdLoad);
-    }
-
-    private void RewardEvent()
-    {
-        _starQuantity++;
-        _mainMenu.StarQuantityChanged(_starQuantity);
-        _adMob.RewardEvent -= RewardEvent;
-    }
+   
     private void OnEnable()
     {
         _mainMenu.PlayLevel += LoadingLevel;
         _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
-        _mainMenu.AddStarButton += AddStarButton;
         _player.EndLevel += PlayerEndLevel;
         _player.GameOver += PlayerGameOver;
         _player.Exit += PlayerExit;
         _endCanvas.EndCanvasExit += EndCanvasExit;
         _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
-        _adMob.AddRewardedAdListener(RewardeStatus);
     }
 
 
@@ -147,12 +131,15 @@ public class GameManager : MonoBehaviour
     {
         _mainMenu.PlayLevel -= LoadingLevel;
         _mainMenu.MainMenuUserNameAgeSet -= MainMenuUserNameAgeSet;
-        _mainMenu.AddStarButton -= AddStarButton;
         _player.EndLevel -= PlayerEndLevel;
         _player.GameOver -= PlayerGameOver;
         _player.Exit -= PlayerExit;
         _endCanvas.EndCanvasExit -= EndCanvasExit;
         _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
-        _adMob.RewardeStatus -= RewardeStatus;
+    }
+
+    private void OnDestroy()
+    {
+        _saveLoadSystem.Save(_saveData);
     }
 }

@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
     [SerializeField] TMP_Text _starQuantity;
+    [SerializeField] TMP_Text _timeToStar;
     [SerializeField] TMP_Text _versionText;
     [SerializeField] GameObject _mainMenuPanel;
     [SerializeField] Button _addStar;
@@ -35,6 +36,10 @@ public class MainMenu : MonoBehaviour
         if (starQuantity>0) _playButton.interactable = true;
         else _playButton.interactable = false;
         _starQuantity.text = starQuantity.ToString();
+    }
+    public void TimeToStar(int time)
+    {
+        _timeToStar.text = time + " min";
     }
 
     public void AddStarButtonActive(bool active)

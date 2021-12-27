@@ -3,6 +3,7 @@ using System;
 [Serializable]
 public class SaveData
 {
-    public string _userName;
-    public int _userAge;
+    public string UserName;
+    public int UserAge;
+    public int StarQuantity=10;
 }
