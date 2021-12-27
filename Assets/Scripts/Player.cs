@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public event UnityAction Exit;
     private int lives;
     private bool _pause;
+    private int _food;
 
     void Update()
     {
@@ -73,12 +74,17 @@ public class Player : MonoBehaviour
         GetComponent<PlayerMover>().enabled = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+   
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        var endLevel = collision.GetComponent<EndLevel>();
+        var endLevel = collision.gameObject.GetComponent<EndLevel>();
         if (endLevel != null) PlayerEndLevel();
-        var eating = collision.GetComponent<Eating>();
-        if (eating != null) _canvas.SetFoodQuantity(eating.GetFoodQuantity());
+        var eating = collision.gameObject.GetComponent<Eating>();
+        if (eating != null)
+            {
+            _food += eating.GetFoodQuantity();
+                _canvas.SetFoodQuantity(_food); 
+            }
     }
 
     public void TakeDamage()

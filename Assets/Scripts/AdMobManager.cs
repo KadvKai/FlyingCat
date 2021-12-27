@@ -213,7 +213,6 @@ public class AdMobManager
     private void HandleOnAdLoadedBanner(object sender, EventArgs args)
     {
         _bannerAd.Hide();
-        Debug.Log("Удачный банер");
         //Отмечаем удачную загрузку рекламы
         //BanerAdLoad = true;
     }
@@ -221,7 +220,6 @@ public class AdMobManager
     //Вызывается если произошла ошибка загрузки баннера
     private void HandleOnAdFailedToLoadBanner(object sender, AdFailedToLoadEventArgs args)
     {
-        Debug.Log("Неудачный банер");
         //Отмечаем НЕ удачную загрузку рекламы
         //BanerAdLoad = false;
         RequestBanner();
