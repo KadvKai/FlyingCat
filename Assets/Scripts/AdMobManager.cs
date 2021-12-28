@@ -24,6 +24,7 @@ public class AdMobManager
     public bool AppOnenedAdLoad;
     private DateTime _AppOpenedLoadTime;
 
+    private bool _rewardAdsLoad; 
     public bool InterstitialAdsLoad;
     public bool RewardInterstitialAdsLoad;
 
@@ -369,19 +370,23 @@ public class AdMobManager
     //Метод показывающий ВОЗНАГРАЖДЕННУЮ РЕКЛАМУ
     public void ShowRewardAd(Action EnterDelegateReward)
     {
-        if (_rewardedAd != null && _rewardedAd.IsLoaded())
+        if (_rewardedAd != null && _rewardAdsLoad)
         {
-            //Назначаем делегат вознаграждающий пользователя
-            RewardEvent = EnterDelegateReward;
+            if (_rewardedAd.IsLoaded())
+            {
+                //Назначаем делегат вознаграждающий пользователя
+                RewardEvent = EnterDelegateReward;
 
-            //Инициируем показ рекламы
-            _rewardedAd.Show();
+                //Инициируем показ рекламы
+                _rewardedAd.Show(); 
+            }
         }
     }
 
     public void AddRewardedAdListener(Action<bool> RewardedAdListener)
     {
-        RewardedAdListener.Invoke(_rewardedAd.IsLoaded());
+        //RewardedAdListener.Invoke(_rewardedAd.IsLoaded());
+        RewardedAdListener.Invoke(_rewardAdsLoad);
         RewardeStatus += RewardedAdListener;
     }
 
@@ -404,6 +409,8 @@ public class AdMobManager
     {
         //Вызываем Делегаты подписанные на событие загрузки рекламы, она позволяет кнопкам узначть, что реклама загружена, готова к показу и изменить свое состояние
         RewardeStatus?.Invoke(true);
+        _rewardAdsLoad = true;
+
     }
 
 
@@ -412,6 +419,7 @@ public class AdMobManager
     {
         //Вызываем Делегаты подписанные на событие неудачной загрузки рекламы, она позволяет кнопкам узначть, что реклама НЕ была загружена, НЕ готова к показу и изменить свое состояние
         RewardeStatus?.Invoke(false);
+        _rewardAdsLoad = false;
         if (_maxFailedLoadReward > 0)
         {
             _maxFailedLoadReward--;
@@ -426,6 +434,7 @@ public class AdMobManager
         RewardEvent?.Invoke();
 
         //Вызываем событие выгрузки рекламы
+        _rewardAdsLoad = false;
         RewardeStatus?.Invoke(false);
     }
 

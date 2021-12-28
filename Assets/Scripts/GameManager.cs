@@ -25,10 +25,14 @@ public class GameManager : MonoBehaviour
     {
         _starManager = GetComponent<StarManager>();
         _adMob = new AdMobManager(personalization:false,adForChild:true,bannerId:_bannerId,rewardId: _rewardId);
+        //_adMob = new AdMobManager(personalization: false, adForChild: true, rewardId: _rewardId);
+        
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
         _starManager.SetStartParameters(_saveData, _mainMenu, _adMob);
+        _mainMenu.gameObject.SetActive(true);
+       /* MainMenu();*/
     }
 
     private void Start()

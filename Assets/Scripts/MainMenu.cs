@@ -39,7 +39,18 @@ public class MainMenu : MonoBehaviour
     }
     public void TimeToStar(int time)
     {
+        if (time==0)
+        {
+            _timeToStar.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (_timeToStar.gameObject.activeSelf == false)
+            {
+                _timeToStar.gameObject.SetActive(true);
+            }
         _timeToStar.text = time + " min";
+        }
     }
 
     public void AddStarButtonActive(bool active)
