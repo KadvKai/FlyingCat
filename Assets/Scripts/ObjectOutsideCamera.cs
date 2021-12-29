@@ -15,14 +15,14 @@ public class ObjectOutsideCamera : MonoBehaviour
     {
         _cam = UnityEngine.Camera.main;
         _objectPos = _cam.WorldToViewportPoint(transform.position);
-        ObjectOutside(_objectPos.x < -0 || _objectPos.x > 1 || _objectPos.y < -0 || _objectPos.y > 1);
+        ObjectOutside(_objectPos.x < -0.1f || _objectPos.x > 1.1f || _objectPos.y < -0.1f || _objectPos.y > 1.1f);
     }
 
 
     protected void Update()
     {
         _objectPos = _cam.WorldToViewportPoint(transform.position);
-        if (_objectPos.x < -0 || _objectPos.x > 1 || _objectPos.y < -0 || _objectPos.y > 1)
+        if (_objectPos.x < -0.1f || _objectPos.x > 1.1f || _objectPos.y < -0.1f || _objectPos.y > 1.1f)
         {
 
             if (_objectOutsideCamera == false)

@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     public void SetStartParameters()
     {
         _canvas.gameObject.SetActive(true);
-        transform.position = new Vector3(-2, -8, 0);
+        transform.position = new Vector3(-2, -7, 0);
         lives = _balloon.Length;
         foreach (var balloon in _balloon)
         {
