@@ -25,14 +25,10 @@ public class GameManager : MonoBehaviour
     {
         _starManager = GetComponent<StarManager>();
         _adMob = new AdMobManager(personalization:false,adForChild:true,bannerId:_bannerId,rewardId: _rewardId);
-        //_adMob = new AdMobManager(personalization: false, adForChild: true, rewardId: _rewardId);
-        
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
         _starManager.SetStartParameters(_saveData, _mainMenu, _adMob);
-        _mainMenu.gameObject.SetActive(true);
-       /* MainMenu();*/
     }
 
     private void Start()
@@ -43,7 +39,7 @@ public class GameManager : MonoBehaviour
     private void MainMenu()
     {
         _mainMenu.gameObject.SetActive(true);
-       Time.timeScale = 0;
+       //Time.timeScale = 0;
         _mainMenu.StartMainMenu(_saveData.UserName);
         _adMob.ShowBanner();
     }
@@ -51,7 +47,7 @@ public class GameManager : MonoBehaviour
     private void LoadingLevel(int level)
     {
         _starManager.StarChanged(-1);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         _level = level;
         SetLevelMapParameters();
         SetPlayerParameters();
@@ -67,10 +63,8 @@ public class GameManager : MonoBehaviour
 
     private void SetLevelMapParameters()
     {
-        _levelMap.SetCameraTransform(_camera);
+        _levelMap.SetCamera(_camera);
         _levelMap.CreateNewLevel(_levelParameters[_level].NumberLevelParts, _levelParameters[_level].StartPartLevel, _levelParameters[_level].PartLevel, _levelParameters[_level].FinishPartLevel);
-        StartCoroutine(_levelMap.LevelController());
-        _levelMap.gameObject.SetActive(true);
     }
     private void SetPlayerParameters()
     {
@@ -107,7 +101,7 @@ public class GameManager : MonoBehaviour
         _adMob.ShowBanner();
     }
 
-    private void EndCanvasReiterate()
+    private void EndCanvasRepeat()
     {
         LoadingLevel(_level);
         _adMob.HideBanner();
@@ -127,7 +121,7 @@ public class GameManager : MonoBehaviour
         _player.GameOver += PlayerGameOver;
         _player.Exit += PlayerExit;
         _endCanvas.EndCanvasExit += EndCanvasExit;
-        _endCanvas.EndCanvasReiterate += EndCanvasReiterate;
+        _endCanvas.EndCanvasReiterate += EndCanvasRepeat;
     }
 
 
@@ -139,7 +133,7 @@ public class GameManager : MonoBehaviour
         _player.GameOver -= PlayerGameOver;
         _player.Exit -= PlayerExit;
         _endCanvas.EndCanvasExit -= EndCanvasExit;
-        _endCanvas.EndCanvasReiterate -= EndCanvasReiterate;
+        _endCanvas.EndCanvasReiterate -= EndCanvasRepeat;
     }
 
     private void OnDestroy()

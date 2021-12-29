@@ -268,7 +268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reiterate
+  m_Text: Repeat
 --- !u!222 &39610530
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6633,7 +6633,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reiterate
+  m_Text: Repeat
 --- !u!222 &393232622
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7411,7 +7411,7 @@ GameObject:
   - component: {fileID: 681191184}
   - component: {fileID: 681191183}
   m_Layer: 0
-  m_Name: ReiterateButton
+  m_Name: RepeatButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9392,7 +9392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1397841002
 Transform:
   m_ObjectHideFlags: 0
@@ -9948,7 +9948,7 @@ GameObject:
   - component: {fileID: 1592413764}
   - component: {fileID: 1592413763}
   m_Layer: 0
-  m_Name: ReiterateButton
+  m_Name: RepeatButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

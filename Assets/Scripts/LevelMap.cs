@@ -12,13 +12,14 @@ public class LevelMap : MonoBehaviour
     private Transform _camTransform;
     private CameraMover _cameraMover;
     private float _musicStartVolume;
+    private Coroutine _coroutineLevelController;
 
     private void Awake()
     {
         _musicStartVolume = GetComponent<AudioSource>().volume; 
     }
 
-    public void SetCameraTransform(CameraMover camera)
+    public void SetCamera(CameraMover camera)
     {
         _cameraMover = camera;
         _camTransform = camera.gameObject.transform;
@@ -54,6 +55,8 @@ public class LevelMap : MonoBehaviour
         {
             _levelGameObject[i].SetActive(false);
         }
+        if (_coroutineLevelController != null) StopCoroutine(_coroutineLevelController);
+        _coroutineLevelController=StartCoroutine(LevelController());
     }
 
     public IEnumerator LevelController()

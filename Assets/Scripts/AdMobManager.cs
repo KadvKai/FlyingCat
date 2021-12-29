@@ -5,38 +5,30 @@ using GoogleMobileAds.Api;
 
 public class AdMobManager
 {
-    private readonly bool _personalizationAdsUser;//Персонализация рекламы
+    private readonly bool _personalizationAdsUser;
 
-    //Объекты с рекламой
     private AppOpenAd _appOpenAd;
     private BannerView _bannerAd;
     private InterstitialAd _interstitialAd;
     private RewardedInterstitialAd _rewardInterstitialAd;
     private RewardedAd _rewardedAd;
-
-    //Флаги состояния рекламы для внешнего взаимодействия (bool загружен и готов к показу/выгружен или незагружен, к показу не готов):
-    //1 - AppOpened реклама (2 поля: флаг состояния рекламы загружена или нет,
-    //время загрузки для проверки действительности объявления), 2 - состояние баннера, 3 - состояние межстраничной рекламы,
-    //4 - состояние вознаграждаемой межстраничной рекламы, 5 - состояние вознаграждаемой рекламы (3 поля: флаг состояния рекламы
-    //загружено или нет, делегат отвечающий за вручение пользователю вознаграждения, делегат отвечающий за трансляцию состояния рекламы
-    //загружена или нет - этот делегат я использую для установки состояния кнопок показа рекламы, устанавливая их прозрачность, тем самым, невзрачно,
-    //намекая пользователю что он может посмотреть рекламу и получить награду или же нажатие на кнопку не к чему не приведет)
-    public bool AppOnenedAdLoad;
+    
     private DateTime _AppOpenedLoadTime;
 
     private bool _rewardAdsLoad; 
-    public bool InterstitialAdsLoad;
-    public bool RewardInterstitialAdsLoad;
+    private bool InterstitialAdsLoad;
+    private bool RewardInterstitialAdsLoad;
 
     public event Action RewardEvent;
     public event Action<bool> RewardeStatus;
 
     private bool _isResumeGameOnShowingAd;//Показывает что приложение свернуто изза перехода по рекламе
-
+    private int _maxFailedLoadAppOpened = 20;
     private int _maxFailedLoadBanner = 50;
+    private int _maxFailedLoadInterstition = 20;
+    private int _maxFailedLoadRewardInterstition = 20;
     private int _maxFailedLoadReward = 20;
 
-    //Тестовые идентификаторы Рекламных блоков: ApOpenAd, баннера, интерститиальной, вознаграждаемой интерститиальной и вознагрждаемой рекламы
     private readonly string _appOpenedId;
     private readonly string _bannerId;
     private readonly string _interstitionId;
@@ -72,91 +64,79 @@ public class AdMobManager
 
 
     //********** AP OPPENED AD *************//
-    //Активация рекламы, показываемой перед запуском приложения или после возвращения в него после сварачивания
-    public void RequestAndLoadAppOpenAd()
-    {
-        //Если ранее было загружено объявление уничтожаем и обнуляем его объект
-        if (_appOpenAd != null)
-        {
-            _appOpenAd.Destroy();
-            _appOpenAd = null;
-        }
-
-        //Посылаем запрос на рекламу
-        AppOpenAd.LoadAd(_appOpenedId, ScreenOrientation.AutoRotation, GetAdRequest(), AdLoadAppOpenedCallback);
-    }
-
-    private void AdLoadAppOpenedCallback(AppOpenAd ad, AdFailedToLoadEventArgs error)
-    {
-        if (error != null)
-        {
-            //Отмечаем НЕ удачаную загрузку рекламы, обнуляем объект
-            AppOnenedAdLoad = false;
-            _appOpenAd = null;
-            return;
-        }
-
-
-        //Отмечаем удачаную загрузку
-        AppOnenedAdLoad = true;
-
-        //Запоминаем время загрузки объявления
-        _AppOpenedLoadTime = DateTime.UtcNow;
-
-        //Присваиваем объекту _appOpenAd загруженную порцию рекламы
-        _appOpenAd = ad;
-    }
+    //Метод запуска рекламы при следующем возвращении в приложение из свернутого состояния
     public void ShowAppOpenAd()
     {
-        //Если при вызове показа объявления оно уже показывается или небыло загружено - прерываем попытку нового показа
+        //Только что показывалась реклама, вирнулись после показа рекламы
         if (_isResumeGameOnShowingAd)
         {
             _isResumeGameOnShowingAd = false;
             return;
         }
 
-        //Если объект небыл создан, прерываем попытку показа
         if (_appOpenAd == null)
         {
-            //Отмечаем выгрузку рекламы
-            AppOnenedAdLoad = false;
             return;
         }
-
-        //Если при попытке показа объявления его время загрузки превышает 4 часа - прерываем попытку показа и перезагружаем объявление
-        //Внимание, 4 часа это время срока хранения объявления, после которого его показ уже не принесет владельцу приложения
-        //денежное вознаграждение, на 27.09.2021 года это время дейтвительно, согласно документации "Быстрый старт с Unity", однако
-        //это времяможет быть увеличено или уменьшено по инициативе AdMob в любое время. См. документацию
+        
+        //Реклама устарела
         if ((DateTime.UtcNow - _AppOpenedLoadTime).TotalHours > 4)
         {
             RequestAndLoadAppOpenAd();
             return;
         }
-
-        //Регистрация слушателей: Реакция на закрытие объявления, Реакция на неудачный показ, Реакция на удачный показ
         _appOpenAd.OnAdDidDismissFullScreenContent += HandleAdDidDismissFullScreenContent_AppOpened;
         _appOpenAd.OnAdFailedToPresentFullScreenContent += HandleAdFailedToPresentFullScreenContent_AppOpened;
         _appOpenAd.OnAdDidPresentFullScreenContent += HandleAdDidPresentFullScreenContent_AppOpened;
 
-        //Вызываем показ объявления
         _appOpenAd.Show();
     }
 
+    //Загрузка рекламы, показываемой перед запуском приложения или после возвращения в него после сварачивания
+    private void RequestAndLoadAppOpenAd()
+    {
+        if (_appOpenAd != null)
+        {
+            _appOpenAd.Destroy();
+            _appOpenAd = null;
+        }
+
+        AppOpenAd.LoadAd(_appOpenedId, ScreenOrientation.AutoRotation, GetAdRequest(), AdLoadAppOpenedCallback);
+    }
+    //Реакция на удачную или не удачную загрузку рекламы
+    private void AdLoadAppOpenedCallback(AppOpenAd ad, AdFailedToLoadEventArgs error)
+    {
+            
+        if (error != null) //НЕ удачаная загрузку рекламы
+        {
+            if (_maxFailedLoadAppOpened > 0)
+            {
+                _maxFailedLoadAppOpened--;
+                RequestAndLoadAppOpenAd();
+            }
+            else _appOpenAd = null;
+            return;
+        }
+        
+        _AppOpenedLoadTime = DateTime.UtcNow;
+        
+        _appOpenAd = ad;
+    }
     //Вызывается когда игрок закрывает объявление
     private void HandleAdDidDismissFullScreenContent_AppOpened(object sender, EventArgs args)
     {
-        //Отмечаем что объявление было выгружено
-        AppOnenedAdLoad = false;
-
-        //Загружаем новое объявление
         RequestAndLoadAppOpenAd();
     }
 
     //Вызывается при неудачной попытке показа объявления
     private void HandleAdFailedToPresentFullScreenContent_AppOpened(object sender, AdErrorEventArgs args)
     {
-        //Отмечаем что объявление было выгружено
-        AppOnenedAdLoad = false;
+        if (_maxFailedLoadAppOpened > 0)
+        {
+            _maxFailedLoadAppOpened--;
+            RequestAndLoadAppOpenAd();
+        }
+        else _appOpenAd = null;
     }
 
     //Вызывается когда объявление показывается
@@ -229,55 +209,7 @@ public class AdMobManager
 
 
     //******** INTERSTITIAL ************//
-    //Метод загружающий интерстициональную рекламу
-    public void RequestInterstitial()
-    {
-        //Если объект рекламы уже был загружен - удаляем его
-        if (_interstitialAd != null)
-            _interstitialAd.Destroy();
-
-        //Создаем объект интерстиционной рекламы
-        _interstitialAd = new InterstitialAd(_interstitionId);
-
-        //добавляем слушателей: Удачная загрузка рекламы, Неудачная загрузка рекламы, Открытие объявления, Закрытие объявления
-        _interstitialAd.OnAdLoaded += HandleOnAdLoaded_Interstitial;
-        _interstitialAd.OnAdFailedToLoad += HandleOnAdFailedToLoad_Interstitial;
-        _interstitialAd.OnAdOpening += HandleAdOpened_Interstitial;
-        _interstitialAd.OnAdClosed += HandleOnAdClosed_Interstitial;
-
-        //Загружаем рекламу для показа
-        _interstitialAd.LoadAd(GetAdRequest());
-    }
-
-    //Вызывается после завершения загрузки объявления.
-    private void HandleOnAdLoaded_Interstitial(object sender, EventArgs args)
-    {
-        //Отмечаем удачную загрузку рекламы
-        InterstitialAdsLoad = true;
-    }
-
-    //Вызывается когда объявление не загружается. Этот Message параметр описывает тип возникшего сбоя.
-    private void HandleOnAdFailedToLoad_Interstitial(object sender, AdFailedToLoadEventArgs args)
-    {
-        //Отмечаем неудачнуюзагрузку рекламы
-        InterstitialAdsLoad = false;
-    }
-
-    //Вызывается когда объявление открывается
-    private void HandleAdOpened_Interstitial(object sender, EventArgs args)
-    {
-        //Отмечаем что начат показ рекламы
-        _isResumeGameOnShowingAd = true;
-    }
-
-    //Вызывается когда интерстициальное объявление закрывается из - за того, что пользователь нажимает на значок закрытия или кнопку Назад. 
-    private void HandleOnAdClosed_Interstitial(object sender, EventArgs args)
-    {
-        //В момент закрытия объявления загружаем новую порцию рекламы для предстоящего показа
-        RequestInterstitial();
-    }
-
-    //Метод показа интерсстициальной рекламы
+    //Метод показа межстраничной рекламы
     public void ShowInterstitialAd()
     {
         if (_interstitialAd != null && InterstitialAdsLoad)
@@ -291,60 +223,55 @@ public class AdMobManager
             }
         }
     }
-
-    //******** REWAR INTERSTITIAL ************//
-    //Метод загружающий вознаграждаемую интерстициональную рекламу
-    public void RequestRewardInterstitial()
+    //Метод загружающий интерстициональную рекламу
+    private void RequestInterstitial()
     {
-        if (_rewardInterstitialAd != null)
-            _rewardInterstitialAd.Destroy();
+        if (_interstitialAd != null)
+            _interstitialAd.Destroy();
 
-        //Посылаем запрос на загрузку рекламы
-        RewardedInterstitialAd.LoadAd(_rewardInterstitionId, GetAdRequest(), AdLoadRewardInterstitialCallback);
+        _interstitialAd = new InterstitialAd(_interstitionId);
+
+        _interstitialAd.OnAdLoaded += HandleOnAdLoaded_Interstitial;
+        _interstitialAd.OnAdFailedToLoad += HandleOnAdFailedToLoad_Interstitial;
+        _interstitialAd.OnAdOpening += HandleAdOpened_Interstitial;
+        _interstitialAd.OnAdClosed += HandleOnAdClosed_Interstitial;
+
+        _interstitialAd.LoadAd(GetAdRequest());
     }
 
-    //Метод вызываемый после запроса
-    private void AdLoadRewardInterstitialCallback(RewardedInterstitialAd ad, AdFailedToLoadEventArgs error)
+    //Вызывается после завершения загрузки объявления.
+    private void HandleOnAdLoaded_Interstitial(object sender, EventArgs args)
     {
-        if (error != null)
+        InterstitialAdsLoad = true;
+    }
+
+    //Вызывается когда объявление не загружается. Этот Message параметр описывает тип возникшего сбоя.
+    private void HandleOnAdFailedToLoad_Interstitial(object sender, AdFailedToLoadEventArgs args)
+    {
+        //Отмечаем неудачнуюзагрузку рекламы
+        InterstitialAdsLoad = false;
+        if (_maxFailedLoadInterstition > 0)
         {
-            //Отмечаем неудачнуюзагрузку рекламы
-            RewardInterstitialAdsLoad = false;
-            return;
+            _maxFailedLoadInterstition--;
+            RequestInterstitial();
         }
-
-        //Отмечаем удачную загрузку рекламы
-        RewardInterstitialAdsLoad = true;
-
-        _rewardInterstitialAd = ad;
-
-        //Регистрация слушателей: Неудачный показ, Объявление открыто и показывается, Объявление закрыто пользователем
-        _rewardInterstitialAd.OnAdDidPresentFullScreenContent += HandleAdDidPresent;
-        _rewardInterstitialAd.OnAdFailedToPresentFullScreenContent += HandleAdFailedToPresent;
-        _rewardInterstitialAd.OnAdDidDismissFullScreenContent += HandleAdDidDismiss;
     }
 
-    //Вызывается при неудачной попытке показа объявления
-    private void HandleAdFailedToPresent(object sender, AdErrorEventArgs args)
+    //Вызывается когда объявление открывается
+    private void HandleAdOpened_Interstitial(object sender, EventArgs args)
     {
-        //Отмечаем выгрузку рекламы
-        RewardInterstitialAdsLoad = false;
-    }
-
-    //Вызывается когда игрок закрывает объявление
-    private void HandleAdDidDismiss(object sender, EventArgs args)
-    {
-        //Перезагружаем рекламный блок для следующего показа
-        RequestRewardInterstitial();
-    }
-
-    //Вызывается когда объявление открыто для показа и показывается
-    private void HandleAdDidPresent(object sender, EventArgs args)
-    {
-        //Отмечаем реклама показывается
+        //Отмечаем что начат показ рекламы
         _isResumeGameOnShowingAd = true;
     }
 
+    //Вызывается когда интерстициальное объявление закрывается из - за того, что пользователь нажимает на значок закрытия или кнопку Назад. 
+    private void HandleOnAdClosed_Interstitial(object sender, EventArgs args)
+    {
+        RequestInterstitial();
+    }
+
+
+    //******** REWAR INTERSTITIAL ************//
     //Метод пока интерсстициальной рекламы
     public void ShowRewarInterstitialAd(Action EnterDelegateRewar)
     {
@@ -364,7 +291,63 @@ public class AdMobManager
             });
         }
     }
+    //Метод загружающий вознаграждаемую межстраничную рекламу
+    private void RequestRewardInterstitial()
+    {
+        if (_rewardInterstitialAd != null)
+            _rewardInterstitialAd.Destroy();
 
+        //Посылаем запрос на загрузку рекламы
+        RewardedInterstitialAd.LoadAd(_rewardInterstitionId, GetAdRequest(), AdLoadRewardInterstitialCallback);
+    }
+
+    //Реакция на удачную или не удачную загрузку рекламы
+    private void AdLoadRewardInterstitialCallback(RewardedInterstitialAd ad, AdFailedToLoadEventArgs error)
+    {
+        if (error != null) //Неудачная загрузка рекламы
+        {
+            
+            if (_maxFailedLoadRewardInterstition > 0)
+            {
+                _maxFailedLoadRewardInterstition--;
+                RequestRewardInterstitial();
+            }
+            RewardInterstitialAdsLoad = false;
+            return;
+        }
+
+        //Отмечаем удачную загрузку рекламы
+        RewardInterstitialAdsLoad = true;
+
+        _rewardInterstitialAd = ad;
+
+        _rewardInterstitialAd.OnAdDidPresentFullScreenContent += HandleAdDidPresent;
+        _rewardInterstitialAd.OnAdFailedToPresentFullScreenContent += HandleAdFailedToPresent;
+        _rewardInterstitialAd.OnAdDidDismissFullScreenContent += HandleAdDidDismiss;
+    }
+
+    //Вызывается при неудачной попытке показа объявления
+    private void HandleAdFailedToPresent(object sender, AdErrorEventArgs args)
+    {
+        if (_maxFailedLoadRewardInterstition > 0)
+        {
+            _maxFailedLoadRewardInterstition--;
+            RequestRewardInterstitial();
+        }
+        RewardInterstitialAdsLoad = false;
+    }
+
+    //Вызывается когда игрок закрывает объявление
+    private void HandleAdDidDismiss(object sender, EventArgs args)
+    {
+        RequestRewardInterstitial();
+    }
+
+    //Вызывается когда объявление открыто для показа и показывается
+    private void HandleAdDidPresent(object sender, EventArgs args)
+    {
+        _isResumeGameOnShowingAd = true;
+    }
 
     //*********** REWARD  *************//
     //Метод показывающий ВОЗНАГРАЖДЕННУЮ РЕКЛАМУ
