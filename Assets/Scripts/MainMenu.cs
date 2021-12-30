@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(MenuUserNameAge))]
+[RequireComponent(typeof(MenuStartingParameters))]
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject _mainMenuPanel;
     [SerializeField] Button _addStar;
     [SerializeField] Button _playButton;
-    private MenuUserNameAge _menyUserNameAge;
+    private MenuStartingParameters _menyUserNameAge;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int> MainMenuUserNameAgeSet;
     public event UnityAction AddStarButton;
@@ -64,13 +64,15 @@ public class MainMenu : MonoBehaviour
     }
     private void UserNameAge()
     {
-        _menyUserNameAge = GetComponent<MenuUserNameAge>();
+        _mainMenuPanel.SetActive(false);
+        _menyUserNameAge = GetComponent<MenuStartingParameters>();
         _menyUserNameAge.UserNameAgeSet += UserNameAgeSet;
         _menyUserNameAge.StartMenuUserNameAge();
     }
 
-    private void UserNameAgeSet(string name, int age)
+    private void UserNameAgeSet(string name, int age, bool personalizationAds)
     {
+        _mainMenuPanel.SetActive(true);
         _userName.text = name;
         _menyUserNameAge.UserNameAgeSet -= UserNameAgeSet;
         MainMenuUserNameAgeSet?.Invoke(name,age);

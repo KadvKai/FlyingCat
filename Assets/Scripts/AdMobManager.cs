@@ -5,7 +5,7 @@ using GoogleMobileAds.Api;
 
 public class AdMobManager
 {
-    private readonly bool _personalizationAdsUser;
+    private readonly bool _personalizationAds;
 
     private AppOpenAd _appOpenAd;
     private BannerView _bannerAd;
@@ -37,7 +37,7 @@ public class AdMobManager
 
     public AdMobManager(bool personalization = false, bool adForChild = true, string appOpenedId = null, string bannerId = null, string interstitionId = null, string rewardInterstitionId = null, string rewardId = null)
     {
-        _personalizationAdsUser = personalization;
+        _personalizationAds = personalization;
         if (adForChild)
         {
             RequestConfiguration requestConfiguration = new RequestConfiguration.Builder().SetTagForChildDirectedTreatment(TagForChildDirectedTreatment.True).build();
@@ -440,7 +440,7 @@ public class AdMobManager
     private AdRequest GetAdRequest()
     {
         //Если пользователь дал согласие на Персонализацию рекламы - создаем простой универсальный запрос по умолчанию, он предоставляет персонализированные объявления
-        if (_personalizationAdsUser)
+        if (_personalizationAds)
             return new AdRequest.Builder().Build();
 
         //Если пользователь отказался от персонализации рекламы - создаем запрос на неперсонифицированную рекламу (npa - Non-personalized ads (NPA) и 1 активна)
