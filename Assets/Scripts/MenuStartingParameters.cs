@@ -11,7 +11,7 @@ public class MenuStartingParameters : MonoBehaviour
     [SerializeField] GameObject _menuPersonalizationAds;
     [SerializeField] InputField _userName;
     [SerializeField] InputField _userAge;
-    public event UnityAction<string, int,bool> UserNameAgeSet;
+    public event UnityAction<string, int,bool> StartingParametersSet;
     public void StartMenuUserNameAge()
     {
         _menyUserNameAge.SetActive(true);
@@ -25,12 +25,12 @@ public class MenuStartingParameters : MonoBehaviour
 
     public void ButtonPersonalizationAdsOK()
     {
-        UserNameAgeSet?.Invoke(_userName.text, int.Parse(_userAge.text),true);
+        StartingParametersSet?.Invoke(_userName.text, int.Parse(_userAge.text),true);
         _menuPersonalizationAds.SetActive(false);
     }
     public void ButtonPersonalizationAdsNO()
     {
-        UserNameAgeSet?.Invoke(_userName.text, int.Parse(_userAge.text), true);
+        StartingParametersSet?.Invoke(_userName.text, int.Parse(_userAge.text), true);
         _menuPersonalizationAds.SetActive(false);
     }
     public void ButtonPrivacyPolicy()

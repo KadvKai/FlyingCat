@@ -80,14 +80,19 @@ public class Player : MonoBehaviour
    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var endLevel = collision.gameObject.GetComponent<EndLevel>();
-        if (endLevel != null) PlayerEndLevel();
         var eating = collision.gameObject.GetComponent<Eating>();
         if (eating != null)
             {
             _food += eating.GetFoodQuantity();
                 _canvas.SetFoodQuantity(_food); 
             }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var endLevel = collision.gameObject.GetComponent<EndLevel>();
+        if (endLevel != null) PlayerEndLevel();
+        
     }
 
     public void TakeDamage()

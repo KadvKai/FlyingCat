@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Button _playButton;
     private MenuStartingParameters _menyUserNameAge;
     public event UnityAction<int> PlayLevel;
-    public event UnityAction<string, int> MainMenuUserNameAgeSet;
+    public event UnityAction<string, int,bool> MainMenuStartingParametersSet;
     public event UnityAction AddStarButton;
     public void StartMainMenu(string userName)
     {
@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
         {
             _userName.text = userName;
         }
-        else UserNameAge();
+        else StartingParameters();
 
     }
 
@@ -62,20 +62,20 @@ public class MainMenu : MonoBehaviour
     {
         AddStarButton?.Invoke();
     }
-    private void UserNameAge()
+    private void StartingParameters()
     {
         _mainMenuPanel.SetActive(false);
         _menyUserNameAge = GetComponent<MenuStartingParameters>();
-        _menyUserNameAge.UserNameAgeSet += UserNameAgeSet;
+        _menyUserNameAge.StartingParametersSet += StartingParametersSet;
         _menyUserNameAge.StartMenuUserNameAge();
     }
 
-    private void UserNameAgeSet(string name, int age, bool personalizationAds)
+    private void StartingParametersSet(string name, int age, bool personalizationAds)
     {
         _mainMenuPanel.SetActive(true);
         _userName.text = name;
-        _menyUserNameAge.UserNameAgeSet -= UserNameAgeSet;
-        MainMenuUserNameAgeSet?.Invoke(name,age);
+        _menyUserNameAge.StartingParametersSet -= StartingParametersSet;
+        MainMenuStartingParametersSet?.Invoke(name,age, personalizationAds);
     }
 
     public void Play()

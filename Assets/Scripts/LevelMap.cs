@@ -26,6 +26,7 @@ public class LevelMap : MonoBehaviour
     }
     public void CreateNewLevel(int numberLevelParts, GameObject startPartLevel, GameObject[] partLevel, GameObject finishPartLevel)
     {
+        StartCamera();
         if (_levelGameObject != null)
         {
             foreach (var gameObject in _levelGameObject)
@@ -58,8 +59,8 @@ public class LevelMap : MonoBehaviour
         if (_coroutineLevelController != null) StopCoroutine(_coroutineLevelController);
         _coroutineLevelController=StartCoroutine(LevelController());
     }
-
-    public IEnumerator LevelController()
+    
+    private IEnumerator LevelController()
     {
         for (int i = 1; i < _levelGameObject.Length; i++)
         {
@@ -70,6 +71,16 @@ public class LevelMap : MonoBehaviour
         StopCamera();
     }
 
+    private void StartCamera()
+    {
+        _cameraMover.enabled = true;
+        ParallaxBackground[] parallaxBackground = _background.GetComponentsInChildren<ParallaxBackground>();
+        foreach (var item in parallaxBackground)
+        {
+            item.SetStart();
+        }
+        GetComponent<AudioSource>().volume = _musicStartVolume / 2;
+    }
     public void StopCamera()
     {
         _cameraMover.enabled = false;

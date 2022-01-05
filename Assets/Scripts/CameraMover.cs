@@ -7,7 +7,8 @@ public class CameraMover : MonoBehaviour
     [SerializeField] private float _speed;
     public void SetStartParameters()
     {
-        gameObject.transform.position = new Vector3(0f, 0f, -10f);  
+        gameObject.transform.position = new Vector3(0f, 0f, -10f);
+        this.enabled = true;
     }
 
     private void Update()

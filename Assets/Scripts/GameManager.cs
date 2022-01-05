@@ -24,10 +24,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _starManager = GetComponent<StarManager>();
-        _adMob = new AdMobManager(personalization:false,adForChild:true,bannerId:_bannerId,rewardId: _rewardId);
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
+        _adMob = new AdMobManager(personalization: _saveData.PersonalizationAds, adForChild: _saveData.AdForChild, bannerId:_bannerId,rewardId: _rewardId);
         _starManager.SetStartParameters(_saveData, _mainMenu, _adMob);
     }
 
@@ -49,10 +49,10 @@ public class GameManager : MonoBehaviour
         _starManager.StarChanged(-1);
         //Time.timeScale = 1;
         _level = level;
+        SetCameraParametrs();
+        SetWindParameters();
         SetLevelMapParameters();
         SetPlayerParameters();
-        SetWindParameters();
-        SetCameraParametrs();
         _adMob.HideBanner();
     }
 
@@ -76,10 +76,12 @@ public class GameManager : MonoBehaviour
         _wind.SetStartParameters(_levelParameters[_level].MaxWindForce);
         _wind.enabled = true;
     }
-    private void MainMenuUserNameAgeSet(string userName, int userAge)
+    private void MainMenuStartingParametersSet(string userName, int userAge,bool personalizationAds)
     {
         _saveData.UserName=userName;
-        _saveData.UserAge = userAge;
+        if (userAge < 13) _saveData.AdForChild = true;
+        else _saveData.AdForChild = false;
+        _saveData.PersonalizationAds = personalizationAds;
     }
 
     private void PlayerExit()
@@ -116,7 +118,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         _mainMenu.PlayLevel += LoadingLevel;
-        _mainMenu.MainMenuUserNameAgeSet += MainMenuUserNameAgeSet;
+        _mainMenu.MainMenuStartingParametersSet += MainMenuStartingParametersSet;
         _player.EndLevel += PlayerEndLevel;
         _player.GameOver += PlayerGameOver;
         _player.Exit += PlayerExit;
@@ -128,7 +130,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         _mainMenu.PlayLevel -= LoadingLevel;
-        _mainMenu.MainMenuUserNameAgeSet -= MainMenuUserNameAgeSet;
+        _mainMenu.MainMenuStartingParametersSet -= MainMenuStartingParametersSet;
         _player.EndLevel -= PlayerEndLevel;
         _player.GameOver -= PlayerGameOver;
         _player.Exit -= PlayerExit;
