@@ -15,11 +15,13 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _forceWindRatio;
     [SerializeField] private float _forcePushRatio;
     [SerializeField] private GameObject _player;
+    [SerializeField] private Animator _wingsAnimation;
     private Rigidbody2D _rb;
     private float _playerScale;
     private bool _buttonDown=false;
     private Vector2 _windForceVector;
     private bool _controlDisable;
+    private bool _moveDown;
 
     private void Awake()
     {
@@ -49,6 +51,7 @@ public class PlayerMover : MonoBehaviour
             {
                 _buttonDown = true;
                 AddForcePlayer();
+                _wingsAnimation.SetTrigger("WingFlap");
             }
             if (Input.GetMouseButton(0) == false && _buttonDown == true)
             {
@@ -57,9 +60,29 @@ public class PlayerMover : MonoBehaviour
             SpeedCorrection();
             WindForce(); 
         }
+        WingsAnimation();
     }
 
-   
+    private void WingsAnimation()
+    {
+        if (_rb.velocity.y < 0.1f)
+        {
+            if (_moveDown == false)
+            {
+                _moveDown = true;
+                _wingsAnimation.SetBool("MoveDown",true);
+            }
+        }
+        else
+        {
+            if (_moveDown == true)
+            {
+                _moveDown = false;
+                _wingsAnimation.SetBool("MoveDown", false);
+            }
+        }
+    }
+
     private void WindChanged(Vector2 wind)
     {
         _windForceVector = new Vector2(wind.x * _forceWindRatio, wind.y * _forceWindRatio);

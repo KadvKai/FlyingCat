@@ -63,6 +63,8 @@ public class Player : MonoBehaviour
 
     public void SetStartParameters()
     {
+        _food = 0;
+        _canvas.SetFoodQuantity(_food);
         _canvas.gameObject.SetActive(true);
         transform.position = new Vector3(-2, -7, 0);
         lives = _balloon.Length;
