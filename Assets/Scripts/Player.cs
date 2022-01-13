@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     private bool _pause;
     private int _food;
     delegate void MultiDelegate();
-  
+    private PlayerMover _playerMover;
+
 
 
     void Update()
@@ -76,7 +77,8 @@ public class Player : MonoBehaviour
         {
             balloon.SetActive(false);
         }
-        GetComponent<PlayerMover>().enabled = true;
+        _playerMover = GetComponent<PlayerMover>();
+            _playerMover.enabled = true;
     }
 
    
@@ -94,7 +96,12 @@ public class Player : MonoBehaviour
     {
         var endLevel = collision.gameObject.GetComponent<EndLevel>();
         if (endLevel != null) PlayerEndLevel();
-        
+        var water= collision.gameObject.GetComponent<WaterAnimation>();
+        if (water != null)
+        {
+            _playerMover.Push(2*Vector2.up);
+        TakeDamage();
+        } 
     }
 
     public void TakeDamage()
@@ -107,7 +114,6 @@ public class Player : MonoBehaviour
 
     private void PlayerGameOver()
     {
-        //GetComponent<PlayerMover>().enabled = false;
         GameOver?.Invoke();
         gameObject.SetActive(false);
 
@@ -115,14 +121,12 @@ public class Player : MonoBehaviour
 
     private void PlayerEndLevel()
     {
-        //GetComponent<PlayerMover>().enabled = false;
         EndLevel?.Invoke();
         gameObject.SetActive(false);
         _canvas.gameObject.SetActive(false);
     }
     private void PlayerExit()
     {
-        //GetComponent<PlayerMover>().enabled = false;
         Exit?.Invoke();
         gameObject.SetActive(false);
         _canvas.gameObject.SetActive(false);

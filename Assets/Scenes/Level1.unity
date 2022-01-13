@@ -1190,6 +1190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameOverScreen: {fileID: 1017227357}
   _endLevelScreen: {fileID: 865572961}
+  _gameOverScreenRepeatButton: {fileID: 1592413763}
+  _endLevelRepeatButton: {fileID: 681191183}
 --- !u!114 &163906272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6807,6 +6809,7 @@ MonoBehaviour:
   _levelMap: {fileID: 1941216210}
   _camera: {fileID: 519420033}
   _levelParameters:
+  - {fileID: 11400000, guid: 16f4b869488d65248b3ea53a170dd0c9, type: 2}
   - {fileID: 11400000, guid: 09c994434afb97445a625f398fff795f, type: 2}
   _wind: {fileID: 519420034}
   _endCanvas: {fileID: 163906271}

@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class EndCanvas : MonoBehaviour
 {
     [SerializeField] private GameObject _gameOverScreen;
     [SerializeField] private GameObject _endLevelScreen;
+    [SerializeField] private Button _gameOverScreenRepeatButton;
+    [SerializeField] private Button _endLevelRepeatButton;
     public event UnityAction EndCanvasExit;
     public event UnityAction EndCanvasReiterate;
 
@@ -18,18 +21,17 @@ public class EndCanvas : MonoBehaviour
         }
     }
 
-    public IEnumerator GameOver()
+    public void GameOver(bool repeatButtonInteractable)
     {
-        yield return new WaitForSeconds(0);
         _gameOverScreen.SetActive(true);
         _endLevelScreen.SetActive(false);
-
+        _gameOverScreenRepeatButton.interactable = repeatButtonInteractable;
     }
-    public IEnumerator EndLevel()
+    public void EndLevel(bool repeatButtonInteractable)
     {
-        yield return new WaitForSeconds(0);
         _endLevelScreen.SetActive(true);
         _gameOverScreen.SetActive(false);
+        _endLevelRepeatButton.interactable = repeatButtonInteractable;
     }
 
     public void ExitButton()

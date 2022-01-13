@@ -54,6 +54,10 @@ public class StarManager : MonoBehaviour
         if (_starQuantity < 0) _starQuantity = 0;
         _mainMenu.StarQuantityChanged(_starQuantity);
     }
+    public int GetStarQuantity()
+    {
+        return _starQuantity;
+    }
 
     private void AddStarButton()
     {

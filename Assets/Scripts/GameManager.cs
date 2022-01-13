@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
     private void PlayerGameOver()
     {
         _endCanvas.gameObject.SetActive(true);
-        StartCoroutine(_endCanvas.GameOver());
+        _endCanvas.GameOver(_starManager.GetStarQuantity()>0);
         _levelMap.StopCamera();
         _adMob.ShowBanner();
     }
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     private void PlayerEndLevel()
     {
         _endCanvas.gameObject.SetActive(true);
-        StartCoroutine(_endCanvas.EndLevel());
+        _endCanvas.EndLevel(_starManager.GetStarQuantity() > 0);
         _adMob.ShowBanner();
     }
 
