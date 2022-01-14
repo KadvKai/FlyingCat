@@ -10,8 +10,10 @@ public class EndCanvas : MonoBehaviour
     [SerializeField] private GameObject _endLevelScreen;
     [SerializeField] private Button _gameOverScreenRepeatButton;
     [SerializeField] private Button _endLevelRepeatButton;
+    [SerializeField] private Button _nextLevelButton;
     public event UnityAction EndCanvasExit;
     public event UnityAction EndCanvasReiterate;
+    public event UnityAction EndCanvasNextLevel;
 
     void Update()
     {
@@ -27,11 +29,13 @@ public class EndCanvas : MonoBehaviour
         _endLevelScreen.SetActive(false);
         _gameOverScreenRepeatButton.interactable = repeatButtonInteractable;
     }
-    public void EndLevel(bool repeatButtonInteractable)
+    public void EndLevel(bool repeatButtonInteractable, bool nextLevelButtonActive)
     {
         _endLevelScreen.SetActive(true);
         _gameOverScreen.SetActive(false);
         _endLevelRepeatButton.interactable = repeatButtonInteractable;
+        _nextLevelButton.interactable = repeatButtonInteractable;
+        _nextLevelButton.gameObject.SetActive(nextLevelButtonActive);
     }
 
     public void ExitButton()
@@ -45,5 +49,10 @@ public class EndCanvas : MonoBehaviour
     {
         gameObject.SetActive(false);
         EndCanvasReiterate?.Invoke();
+    }
+    public void NextLevelButton()
+    {
+        gameObject.SetActive(false);
+        EndCanvasNextLevel?.Invoke();
     }
 }

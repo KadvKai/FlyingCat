@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     private void PlayerEndLevel()
     {
         _endCanvas.gameObject.SetActive(true);
-        _endCanvas.EndLevel(_starManager.GetStarQuantity() > 0);
+        _endCanvas.EndLevel(_starManager.GetStarQuantity() > 0,_level< _levelParameters.Length-1);
         _adMob.ShowBanner();
     }
 
@@ -114,7 +114,14 @@ public class GameManager : MonoBehaviour
         MainMenu();
         _adMob.HideBanner();
     }
-   
+    private void EndCanvasNextLevel()
+    {
+        _level++;
+        LoadingLevel(_level);
+        _adMob.HideBanner();
+
+    }
+
     private void OnEnable()
     {
         _mainMenu.PlayLevel += LoadingLevel;
@@ -124,6 +131,7 @@ public class GameManager : MonoBehaviour
         _player.Exit += PlayerExit;
         _endCanvas.EndCanvasExit += EndCanvasExit;
         _endCanvas.EndCanvasReiterate += EndCanvasRepeat;
+        _endCanvas.EndCanvasNextLevel += EndCanvasNextLevel;
     }
 
 
@@ -136,6 +144,7 @@ public class GameManager : MonoBehaviour
         _player.Exit -= PlayerExit;
         _endCanvas.EndCanvasExit -= EndCanvasExit;
         _endCanvas.EndCanvasReiterate -= EndCanvasRepeat;
+        _endCanvas.EndCanvasNextLevel -= EndCanvasNextLevel;
     }
 
     private void OnDestroy()
