@@ -4,30 +4,35 @@ using UnityEngine;
 using System;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using UnityEngine.UI;
+using TMPro;
 
-public class LanguageManager : MonoBehaviour
+public class LanguageManager :  MonoBehaviour
 {
-    private void Start()
+    [SerializeField] private TMP_Dropdown _dropdown;
+
+    public IEnumerator StartLanguageManager()
     {
-        Debug.Log("Первый");
-        Debug.Log(LocalizationSettings.AvailableLocales.Locales.Count);
-    }
-    /*static List<string> GeTListLanguages()
-    {
-         var stri= LocalizationSettings.AvailableLocales.Locales[1].ToString();
-    }*/
-    public void LoadLocale(string languageIdentifier)
-    {
-        LocalizationSettings settings = LocalizationSettings.Instance;
-        LocaleIdentifier localeCode = new LocaleIdentifier(languageIdentifier);//can be "en" "de" "ja" etc.
-        for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; i++)
+        yield return LocalizationSettings.InitializationOperation;
+
+        var options = new List<TMP_Dropdown.OptionData>();
+        int selected = 0;
+        for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
         {
-            Locale aLocale = LocalizationSettings.AvailableLocales.Locales[i];
-            LocaleIdentifier anIdentifier = aLocale.Identifier;
-            if (anIdentifier == localeCode)
-            {
-                LocalizationSettings.SelectedLocale = aLocale;
-            }
+            var locale = LocalizationSettings.AvailableLocales.Locales[i];
+            if (LocalizationSettings.SelectedLocale == locale)
+                selected = i;
+            options.Add(new TMP_Dropdown.OptionData(locale.LocaleName ));
         }
+
+        _dropdown.options = options;
+
+        _dropdown.value = selected;
+        _dropdown.onValueChanged.AddListener(LocaleSelected);
+    }
+
+    private void LocaleSelected(int index)
+    {
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
     }
 }

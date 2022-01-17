@@ -7176,6 +7176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dfdd0b1798ab24d8b4e2b7fcc1be28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dropdown: {fileID: 0}
 --- !u!1 &328499443
 GameObject:
   m_ObjectHideFlags: 0
@@ -11700,6 +11701,7 @@ GameObject:
   - component: {fileID: 1545406923}
   - component: {fileID: 1545406921}
   - component: {fileID: 1545406920}
+  - component: {fileID: 1545406922}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -11743,6 +11745,19 @@ MonoBehaviour:
   _addStar: {fileID: 1125850596}
   _playButton: {fileID: 93010759}
   _Localizationdropdown: {fileID: 0}
+--- !u!114 &1545406922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545406919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65dfdd0b1798ab24d8b4e2b7fcc1be28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dropdown: {fileID: 1950989188}
 --- !u!114 &1545406923
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,7 +18,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Button _playButton;
     [SerializeField] Dropdown _Localizationdropdown;
     private MenuStartingParameters _menyUserNameAge;
-    private LanguageManager _languageManager;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int,bool> MainMenuStartingParametersSet;
     public event UnityAction AddStarButton;
@@ -31,7 +30,7 @@ public class MainMenu : MonoBehaviour
             _userName.text = userName;
         }
         else StartingParameters();
-
+        StartCoroutine(GetComponent<LanguageManager>().StartLanguageManager());
     }
 
     public void StarQuantityChanged(int starQuantity)
