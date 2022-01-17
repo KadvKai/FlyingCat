@@ -16,10 +16,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject _mainMenuPanel;
     [SerializeField] Button _addStar;
     [SerializeField] Button _playButton;
+    [SerializeField] Dropdown _Localizationdropdown;
     private MenuStartingParameters _menyUserNameAge;
+    private LanguageManager _languageManager;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int,bool> MainMenuStartingParametersSet;
     public event UnityAction AddStarButton;
+
     public void StartMainMenu(string userName)
     {
         _versionText.text= Application.version;
