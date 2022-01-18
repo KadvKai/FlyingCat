@@ -14,9 +14,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TMP_Text _timeToStar;
     [SerializeField] TMP_Text _versionText;
     [SerializeField] GameObject _mainMenuPanel;
+    [SerializeField] GameObject _optionsPanel;
     [SerializeField] Button _addStar;
     [SerializeField] Button _playButton;
-    //[SerializeField] TMP_Dropdown _Localizationdropdown;
     private MenuStartingParameters _menyUserNameAge;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int,bool> MainMenuStartingParametersSet;
@@ -91,4 +91,18 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Options()
+    {
+        _mainMenuPanel.SetActive(false);
+        _optionsPanel.SetActive(true);
+    }
+
+    public void Reset()
+    {
+        _mainMenuPanel.SetActive(true);
+        _optionsPanel.SetActive(false);
+        StartMainMenu(null);
+    }
+
 }

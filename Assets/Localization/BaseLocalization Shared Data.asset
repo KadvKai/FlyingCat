@@ -67,6 +67,14 @@ MonoBehaviour:
     m_Key: PrivacyPolacyNo
     m_Metadata:
       m_Items: []
+  - m_Id: 436951460155392
+    m_Key: ResetDefaultSettings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437200484372480
+    m_Key: Reset
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

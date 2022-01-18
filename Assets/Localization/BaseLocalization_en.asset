@@ -84,6 +84,14 @@ MonoBehaviour:
     m_Localized: NO, I DO NOT CONSENT
     m_Metadata:
       m_Items: []
+  - m_Id: 436951460155392
+    m_Localized: Reset to default settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437200484372480
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
     00000000:
