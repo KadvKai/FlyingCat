@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale
   - m_GUID: ecdd749ab73643647a5d98af99eead8d
-    m_Address: Russian
+    m_Address: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale

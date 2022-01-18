@@ -35,6 +35,38 @@ MonoBehaviour:
     m_Key: PlayerOutsideCameraText
     m_Metadata:
       m_Items: []
+  - m_Id: 399376183791616
+    m_Key: EnterYourName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 399592857341952
+    m_Key: EnterYourAge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 399731651055616
+    m_Key: EnterName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 399942108647424
+    m_Key: EnterAge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 401692899217408
+    m_Key: UserAgreement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402000094236672
+    m_Key: PrivacyPolacy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402136128098304
+    m_Key: PrivacyPolacyOK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402192545681408
+    m_Key: PrivacyPolacyNo
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

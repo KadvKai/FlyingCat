@@ -38,10 +38,52 @@ MonoBehaviour:
   - m_Id: 340829429370880
     m_Localized: 'Go back to the screen!!!
 
-      {apple-component.Time}'
+      {Time.Time}'
     m_Metadata:
       m_Items:
       - id: 0
+  - m_Id: 399376183791616
+    m_Localized: Enter your name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 399592857341952
+    m_Localized: Enter your age
+    m_Metadata:
+      m_Items: []
+  - m_Id: 399731651055616
+    m_Localized: Enter name...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 399942108647424
+    m_Localized: Enter age...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 401692899217408
+    m_Localized: "Terms of use:\nthis app personalizes your advertising experience
+      with integrated advertising platforms. Advertising platforms may collect and
+      process personal data in order to provide advertisements tailored to you, please
+      read and accept our terms of use and privacy policy.\nBy clicking YES, I ACCEPT
+      - you confirm that you have read and fully familiarized yourself with our terms
+      of use and privacy policy, fully agree with them and consent to the collection
+      and processing of personal information.\nBy clicking NO, I DO NOT CONSENT,
+      you do not opt \u200B\u200Bout of viewing non-personalized advertising and
+      confirm the refusal of personalized advertising, refuse the collection of your
+      personal data, data about your preferences and understand that ads with a random
+      theme will be provided to you."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402000094236672
+    m_Localized: PRIVACY POLICY AND TERMS OF USE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402136128098304
+    m_Localized: YES, I ACCEPT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402192545681408
+    m_Localized: NO, I DO NOT CONSENT
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
     00000000:
