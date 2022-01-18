@@ -31,6 +31,10 @@ MonoBehaviour:
     m_Key: NextLevel
     m_Metadata:
       m_Items: []
+  - m_Id: 340829429370880
+    m_Key: PlayerOutsideCameraText
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

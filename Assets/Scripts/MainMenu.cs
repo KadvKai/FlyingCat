@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject _mainMenuPanel;
     [SerializeField] Button _addStar;
     [SerializeField] Button _playButton;
-    [SerializeField] Dropdown _Localizationdropdown;
+    //[SerializeField] TMP_Dropdown _Localizationdropdown;
     private MenuStartingParameters _menyUserNameAge;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int,bool> MainMenuStartingParametersSet;

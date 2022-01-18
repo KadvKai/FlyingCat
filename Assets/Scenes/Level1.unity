@@ -7106,7 +7106,6 @@ GameObject:
   - component: {fileID: 312821715}
   - component: {fileID: 312821714}
   - component: {fileID: 312821713}
-  - component: {fileID: 312821716}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -7164,19 +7163,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &312821716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312821712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65dfdd0b1798ab24d8b4e2b7fcc1be28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dropdown: {fileID: 0}
 --- !u!1 &328499443
 GameObject:
   m_ObjectHideFlags: 0
@@ -9242,6 +9228,7 @@ GameObject:
   - component: {fileID: 892231350}
   - component: {fileID: 892231349}
   - component: {fileID: 892231354}
+  - component: {fileID: 892231355}
   m_Layer: 0
   m_Name: PlayerCanvas
   m_TagString: Untagged
@@ -9263,6 +9250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerOutsideCameraText: {fileID: 1487343779}
   _playerOutsideCamera: {fileID: 1397841006}
+  localizeString: {fileID: 892231355}
 --- !u!114 &892231350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9360,6 +9348,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textFood: {fileID: 1004492477}
   _pauseScreen: {fileID: 40251997}
+--- !u!114 &892231355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892231348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:e3125b6c9016e5944aaa47846eb31f1f
+    m_TableEntryReference:
+      m_KeyId: 340829429370880
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables:
+    - name: apple-component
+      variable:
+        id: 0
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1487343779}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: ObjectVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: {fileID: 892231349}
 --- !u!1 &934868999
 GameObject:
   m_ObjectHideFlags: 0
@@ -11744,7 +11778,6 @@ MonoBehaviour:
   _mainMenuPanel: {fileID: 1685043121}
   _addStar: {fileID: 1125850596}
   _playButton: {fileID: 93010759}
-  _Localizationdropdown: {fileID: 0}
 --- !u!114 &1545406922
 MonoBehaviour:
   m_ObjectHideFlags: 0
