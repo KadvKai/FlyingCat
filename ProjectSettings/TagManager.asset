@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Global Light
+    uniqueID: 2833388031
+    locked: 0
