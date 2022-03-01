@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db2daf2160ff3c94fa0ce717473f5e05, type: 3}
+  m_Name: Water
+  m_EditorClassIdentifier: 
+  _numberLevelParts: 3
+  _startPartLevel: {fileID: 4107358076843380325, guid: 067b08e9c7bc84b4bbad104447d4abbb, type: 3}
+  _partLevel:
+  - {fileID: 6421825413905637304, guid: b0223ee7bc106404cb390a8fda0bc1be, type: 3}
+  - {fileID: 6421825413905637304, guid: 88b669e5124df674c9037193bf35e0d6, type: 3}
+  - {fileID: 6421825413905637304, guid: 8e1215fdb3b71044a8223adcf9448950, type: 3}
+  - {fileID: 6421825413905637304, guid: 9f9a090b6300d3d4c853f44f825ec3bf, type: 3}
+  - {fileID: 6421825413905637304, guid: 5e60665976de0bd47ad3b099b0686ade, type: 3}
+  - {fileID: 6421825413905637304, guid: 96938efedb7d4564b8e6767de4682c73, type: 3}
+  - {fileID: 6421825413905637304, guid: 6fc75fd2153bd594183006cf489be815, type: 3}
+  - {fileID: 6421825413905637304, guid: 06433b419c860714e989f4a321e3def1, type: 3}
+  _finishPartLevel: {fileID: 4107358076843380325, guid: 4602b09bfcd4e224ebc0945e4e741a61, type: 3}
+  _maxWindForce: 0

@@ -87,6 +87,13 @@ public class MainMenu : MonoBehaviour
         PlayLevel?.Invoke(0);
     }
 
+    public void Ñreate()
+    {
+        //_mainMenuPanel.SetActive(false);
+        gameObject.SetActive(false);
+        PlayLevel?.Invoke(0);
+    }
+
     public void Exit()
     {
         Application.Quit();
