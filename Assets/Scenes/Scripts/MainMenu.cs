@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(MenuStartingParameters))]
+[RequireComponent(typeof(CreateLevel))]
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
@@ -80,21 +81,21 @@ public class MainMenu : MonoBehaviour
         MainMenuStartingParametersSet?.Invoke(name,age, personalizationAds);
     }
 
-    public void Play()
+    public void PlayButton()
     {
         //_mainMenuPanel.SetActive(false);
         gameObject.SetActive(false);
         PlayLevel?.Invoke(0);
     }
 
-    public void Ñreate()
+    public void ÑreateButton()
     {
-        //_mainMenuPanel.SetActive(false);
-        gameObject.SetActive(false);
-        PlayLevel?.Invoke(0);
+        _mainMenuPanel.SetActive(false);
+        GetComponent<CreateLevel>().StartCreateLevel();
+        //PlayLevel?.Invoke(0);
     }
 
-    public void Exit()
+    public void ExitButton()
     {
         Application.Quit();
     }

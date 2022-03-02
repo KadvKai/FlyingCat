@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class LevelParameters : ScriptableObject
 {
+    public enum TimesDay { day, evening, night, morning };
+    [SerializeField] private TimesDay _timesDay;
     [SerializeField] private int _numberLevelParts;
     [SerializeField] private GameObject _startPartLevel;
     [SerializeField] private GameObject[] _partLevel;
