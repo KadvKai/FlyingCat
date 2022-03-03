@@ -19,9 +19,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Button _addStar;
     [SerializeField] Button _playButton;
     private MenuStartingParameters _menyUserNameAge;
+    private CreateLevel _createLevel;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int,bool> MainMenuStartingParametersSet;
     public event UnityAction AddStarButton;
+    public event UnityAction<LevelParameters> EventCreateLevel;
 
     public void StartMainMenu(string userName)
     {
@@ -32,6 +34,7 @@ public class MainMenu : MonoBehaviour
         }
         else StartingParameters();
         StartCoroutine(GetComponent<LanguageManager>().StartLanguageManager());
+        _createLevel = GetComponent<CreateLevel>();
     }
 
     public void StarQuantityChanged(int starQuantity)
@@ -91,9 +94,11 @@ public class MainMenu : MonoBehaviour
     public void ÑreateButton()
     {
         _mainMenuPanel.SetActive(false);
-        GetComponent<CreateLevel>().StartCreateLevel();
+        _createLevel.EventCreateLevel += CreateLevel;
+        _createLevel.StartCreateLevel();
         //PlayLevel?.Invoke(0);
     }
+
 
     public void ExitButton()
     {
@@ -111,6 +116,18 @@ public class MainMenu : MonoBehaviour
         _mainMenuPanel.SetActive(true);
         _optionsPanel.SetActive(false);
         StartMainMenu(null);
+    }
+    private void CreateLevel(LevelParameters levelParameters)
+    {
+        if (levelParameters==null)
+        {
+            _mainMenuPanel.SetActive(true);
+        }
+        else
+        {
+            EventCreateLevel?.Invoke(levelParameters);
+        }
+        _createLevel.EventCreateLevel -= CreateLevel;
     }
 
 }

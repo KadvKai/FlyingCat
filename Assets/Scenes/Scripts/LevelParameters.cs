@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class LevelParameters : ScriptableObject
 {
-    public enum TimesDay { day, evening, night, morning };
-    [SerializeField] private TimesDay _timesDay;
+    public enum TimesDay { Day, Evening, Night, Morning };
+    [SerializeField] private TimesDay _currentTimesDay;
     [SerializeField] private int _numberLevelParts;
     [SerializeField] private GameObject _startPartLevel;
     [SerializeField] private GameObject[] _partLevel;
@@ -21,4 +21,11 @@ public class LevelParameters : ScriptableObject
     public GameObject[] PartLevel => _partLevel;
     public GameObject FinishPartLevel =>_finishPartLevel;
     public int MaxWindForce => _maxWindForce;
+    public TimesDay CurrentTimesDay => _currentTimesDay;
+    public void SetParameters(TimesDay timesDay, int numberLevelParts, int maxWindForce)
+    {
+        _currentTimesDay = timesDay;
+        _numberLevelParts = numberLevelParts;
+        _maxWindForce = maxWindForce;
+    }
 }

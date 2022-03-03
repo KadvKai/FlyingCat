@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Experimental.Rendering.Universal;
 
 [RequireComponent(typeof(PlayerOutsideCamera))]
 [RequireComponent(typeof(PlayerMover))]
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject[] _balloon;
     [SerializeField] private GameObject[] _balloonBurst;
     [SerializeField] private PlayerCanvas _canvas;
+    [SerializeField] Light2D _light;
     public event UnityAction EndLevel;
     public event UnityAction GameOver;
     public event UnityAction Exit;
@@ -62,7 +64,7 @@ public class Player : MonoBehaviour
         _pause = false;
     }
 
-    public void SetStartParameters()
+    public void SetStartParameters(LevelParameters.TimesDay timesDay)
     {
         _food = 0;
         _canvas.SetFoodQuantity(_food);
@@ -78,30 +80,54 @@ public class Player : MonoBehaviour
             balloon.SetActive(false);
         }
         _playerMover = GetComponent<PlayerMover>();
-            _playerMover.enabled = true;
+        _playerMover.enabled = true;
+
+        switch (timesDay)
+        {
+            case LevelParameters.TimesDay.Day:
+                {
+                    _light.enabled = false;
+                    return;
+                }
+            case LevelParameters.TimesDay.Evening:
+                {
+                    _light.enabled = false;
+                    return;
+                }
+            case LevelParameters.TimesDay.Night:
+                {
+                    _light.enabled = true;
+                    return;
+                }
+            case LevelParameters.TimesDay.Morning:
+                {
+                    _light.enabled = false;
+                    return;
+                }
+        }
     }
 
-   
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var eating = collision.gameObject.GetComponent<Eating>();
         if (eating != null)
-            {
+        {
             _food += eating.GetFoodQuantity();
-                _canvas.SetFoodQuantity(_food); 
-            }
+            _canvas.SetFoodQuantity(_food);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var endLevel = collision.gameObject.GetComponent<EndLevel>();
         if (endLevel != null) PlayerEndLevel();
-        var water= collision.gameObject.GetComponent<WaterAnimation>();
+        var water = collision.gameObject.GetComponent<WaterAnimation>();
         if (water != null)
         {
-            _playerMover.Push(2*Vector2.up);
-        TakeDamage();
-        } 
+            _playerMover.Push(2 * Vector2.up);
+            TakeDamage();
+        }
     }
 
     public void TakeDamage()

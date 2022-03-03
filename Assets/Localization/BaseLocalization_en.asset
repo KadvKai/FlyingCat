@@ -96,6 +96,26 @@ MonoBehaviour:
     m_Localized: Create
     m_Metadata:
       m_Items: []
+  - m_Id: 16284940304977920
+    m_Localized: Create a level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16293901909430272
+    m_Localized: Times day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16294411685138432
+    m_Localized: Type level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16298922646507520
+    m_Localized: Level length
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16299429150658560
+    m_Localized: Wind force
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
     00000000:

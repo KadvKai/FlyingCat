@@ -11,10 +11,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraMover _camera;
     [SerializeField] private LevelParameters[] _levelParameters;
     [SerializeField] private Wind _wind;
+    [SerializeField] private GlobalLight _globalLight;
     [SerializeField] private EndCanvas _endCanvas;
     [SerializeField] private MainMenu _mainMenu;
     [SerializeField] private string _bannerId;
     [SerializeField] private string _rewardId;
+    private LevelParameters[] _currentLevelParameters;
     private int _level;
     private SaveLoadSystem _saveLoadSystem;
     private SaveData _saveData;
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
     private void MainMenu()
     {
         _mainMenu.gameObject.SetActive(true);
+        _currentLevelParameters = _levelParameters;
        //Time.timeScale = 0;
         _mainMenu.StartMainMenu(_saveData.UserName);
         _adMob.ShowBanner();
@@ -51,10 +54,12 @@ public class GameManager : MonoBehaviour
         _level = level;
         SetCameraParametrs();
         SetWindParameters();
+        SetGlobalLight();
         SetLevelMapParameters();
         SetPlayerParameters();
         _adMob.HideBanner();
     }
+
 
     private void SetCameraParametrs()
     {
@@ -64,17 +69,21 @@ public class GameManager : MonoBehaviour
     private void SetLevelMapParameters()
     {
         _levelMap.SetCamera(_camera);
-        _levelMap.CreateNewLevel(_levelParameters[_level].NumberLevelParts, _levelParameters[_level].StartPartLevel, _levelParameters[_level].PartLevel, _levelParameters[_level].FinishPartLevel);
+        _levelMap.CreateNewLevel(_currentLevelParameters[_level].NumberLevelParts, _currentLevelParameters[_level].StartPartLevel, _currentLevelParameters[_level].PartLevel, _currentLevelParameters[_level].FinishPartLevel);
     }
     private void SetPlayerParameters()
     {
-        _player.SetStartParameters();
+        _player.SetStartParameters(_currentLevelParameters[_level].CurrentTimesDay);
         _player.gameObject.SetActive(true);
     }
     private void SetWindParameters()
     {
-        _wind.SetStartParameters(_levelParameters[_level].MaxWindForce);
+        _wind.SetStartParameters(_currentLevelParameters[_level].MaxWindForce);
         _wind.enabled = true;
+    }
+    private void SetGlobalLight()
+    {
+        _globalLight.SetLight(_currentLevelParameters[_level].CurrentTimesDay);
     }
     private void MainMenuStartingParametersSet(string userName, int userAge,bool personalizationAds)
     {
@@ -99,7 +108,7 @@ public class GameManager : MonoBehaviour
     private void PlayerEndLevel()
     {
         _endCanvas.gameObject.SetActive(true);
-        _endCanvas.EndLevel(_starManager.GetStarQuantity() > 0,_level< _levelParameters.Length-1);
+        _endCanvas.EndLevel(_starManager.GetStarQuantity() > 0,_level< _currentLevelParameters.Length-1);
         _adMob.ShowBanner();
     }
 
@@ -121,11 +130,18 @@ public class GameManager : MonoBehaviour
         _adMob.HideBanner();
 
     }
+    private void CreateLevel(LevelParameters levelParameters)
+    {
+        _currentLevelParameters = new LevelParameters[] {levelParameters };
+        LoadingLevel(0);
+
+    }
 
     private void OnEnable()
     {
         _mainMenu.PlayLevel += LoadingLevel;
         _mainMenu.MainMenuStartingParametersSet += MainMenuStartingParametersSet;
+        _mainMenu.EventCreateLevel += CreateLevel;
         _player.EndLevel += PlayerEndLevel;
         _player.GameOver += PlayerGameOver;
         _player.Exit += PlayerExit;
@@ -139,6 +155,7 @@ public class GameManager : MonoBehaviour
     {
         _mainMenu.PlayLevel -= LoadingLevel;
         _mainMenu.MainMenuStartingParametersSet -= MainMenuStartingParametersSet;
+        _mainMenu.EventCreateLevel -= CreateLevel;
         _player.EndLevel -= PlayerEndLevel;
         _player.GameOver -= PlayerGameOver;
         _player.Exit -= PlayerExit;
