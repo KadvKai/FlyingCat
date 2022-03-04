@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class CreateLevel : MonoBehaviour
 {
@@ -14,9 +15,6 @@ public class CreateLevel : MonoBehaviour
     [SerializeField] private TMP_Dropdown _typeLevelDropdown;
     [SerializeField] private Slider _levelLengthSlider;
     [SerializeField] private Slider _windForceSlider;
-    private LevelParameters.TimesDay _timesDay;
-    private int _numberLevelParts;
-    private int _maxWindForce;
     private LevelParameters _levelParameters;
     public event UnityAction<LevelParameters> EventCreateLevel;
 
@@ -29,18 +27,23 @@ public class CreateLevel : MonoBehaviour
 
     private List<string> TimesDayOptions()
     {
-        var options= new List<string>();
+        var options = new List<string>
+        {
+            "Random"
+        };
         foreach (var item in Enum.GetValues(typeof(LevelParameters.TimesDay)))
         {
             options.Add(item.ToString());
         }
-        
         return options;
     }
 
     private List<string> TypeLeveOptions()
     {
-        var options = new List<string>();
+        var options = new List<string>
+        {
+            "Random"
+        };
         foreach (var item in _typeLevelParameters)
         {
             options.Add(item.name);
@@ -49,8 +52,16 @@ public class CreateLevel : MonoBehaviour
     }
     public void OKButton()
     {
-        _levelParameters = _typeLevelParameters[_typeLevelDropdown.value];
-        _levelParameters.SetParameters((LevelParameters.TimesDay)_timesDayDropdown.value, (int)_levelLengthSlider.value, (int)_windForceSlider.value);
+        if (_typeLevelDropdown.value==0)
+        {
+            _typeLevelDropdown.value = Random.Range(1,_typeLevelDropdown.options.Count);
+        }
+        if (_timesDayDropdown.value == 0)
+        {
+            _timesDayDropdown.value = Random.Range(1, _timesDayDropdown.options.Count);
+        }
+        _levelParameters = _typeLevelParameters[_typeLevelDropdown.value-1];
+        _levelParameters.SetParameters((LevelParameters.TimesDay)(_timesDayDropdown.value-1), (int)_levelLengthSlider.value, (int)_windForceSlider.value);
        CancelButton();
     }
 
@@ -60,5 +71,10 @@ public class CreateLevel : MonoBehaviour
         EventCreateLevel?.Invoke(_levelParameters);
     }
 
+    public void GetElements(out TMP_Dropdown timesDayDropdown, out TMP_Dropdown typeLevelDropdown)
+    {
+        timesDayDropdown = _timesDayDropdown;
+        typeLevelDropdown = _typeLevelDropdown;
+    }
 
 }

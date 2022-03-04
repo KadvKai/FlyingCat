@@ -8,6 +8,8 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(MenuStartingParameters))]
 [RequireComponent(typeof(CreateLevel))]
+[RequireComponent(typeof(MainMunuScreen))]
+
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMP_Text _userName;
@@ -20,6 +22,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Button _playButton;
     private MenuStartingParameters _menyUserNameAge;
     private CreateLevel _createLevel;
+    private MainMunuScreen _mainMunuScreen;
     public event UnityAction<int> PlayLevel;
     public event UnityAction<string, int,bool> MainMenuStartingParametersSet;
     public event UnityAction AddStarButton;
@@ -27,6 +30,8 @@ public class MainMenu : MonoBehaviour
 
     public void StartMainMenu(string userName)
     {
+        _mainMunuScreen=GetComponent<MainMunuScreen>();
+        _mainMunuScreen.enabled = true;
         _versionText.text= Application.version;
         if (userName!=null)
         {
@@ -89,6 +94,7 @@ public class MainMenu : MonoBehaviour
         //_mainMenuPanel.SetActive(false);
         gameObject.SetActive(false);
         PlayLevel?.Invoke(0);
+        _mainMunuScreen.enabled = false;
     }
 
     public void ÑreateButton()
@@ -126,6 +132,8 @@ public class MainMenu : MonoBehaviour
         else
         {
             EventCreateLevel?.Invoke(levelParameters);
+            _mainMunuScreen.enabled = false;
+
         }
         _createLevel.EventCreateLevel -= CreateLevel;
     }
