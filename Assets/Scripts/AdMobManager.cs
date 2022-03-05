@@ -35,7 +35,7 @@ public class AdMobManager
     private readonly string _rewardInterstitionId;
     private readonly string _rewardId;
 
-    public AdMobManager(bool personalization = false, bool adForChild = true, string appOpenedId = null, string bannerId = null, string interstitionId = null, string rewardInterstitionId = null, string rewardId = null)
+    public AdMobManager(bool personalization = false, bool adForChild = false, string appOpenedId = null, string bannerId = null, string interstitionId = null, string rewardInterstitionId = null, string rewardId = null)
     {
         _personalizationAds = personalization;
         if (adForChild)
@@ -48,7 +48,7 @@ public class AdMobManager
         _interstitionId = interstitionId;
         _rewardInterstitionId = rewardInterstitionId;
         _rewardId = rewardId;
-        MobileAds.Initialize(initStatus =>
+       MobileAds.Initialize(initStatus =>
         {
             PreLoadAds();
         });
@@ -158,7 +158,7 @@ public class AdMobManager
     }
     public void HideBanner()
     {
-        _bannerAd.Hide();
+        if (_bannerAd != null) _bannerAd.Hide();
     }
     //Метод загружающий и показывающий баннер
     public void RequestBanner()

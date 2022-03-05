@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
         _saveLoadSystem = new SaveLoadSystem();
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
-        _adMob = new AdMobManager(personalization: _saveData.PersonalizationAds, adForChild: _saveData.AdForChild, bannerId:_bannerId,rewardId: _rewardId);
+        //_adMob = new AdMobManager(/*personalization: _saveData.PersonalizationAds, adForChild: _saveData.AdForChild, bannerId:_bannerId,rewardId: _rewardId*/);
+        _adMob = null;
+        _mainMenu.gameObject.SetActive(true);
         _starManager.SetStartParameters(_saveData, _mainMenu, _adMob);
     }
 
@@ -41,10 +43,10 @@ public class GameManager : MonoBehaviour
     private void MainMenu()
     {
         _mainMenu.gameObject.SetActive(true);
-        _currentLevelParameters = _levelParameters;
        //Time.timeScale = 0;
         _mainMenu.StartMainMenu(_saveData.UserName);
-        _adMob.ShowBanner();
+        if (_adMob!=null) _adMob.ShowBanner();
+        _currentLevelParameters = _levelParameters;
     }
 
     private void LoadingLevel(int level)
@@ -57,7 +59,7 @@ public class GameManager : MonoBehaviour
         SetGlobalLight();
         SetLevelMapParameters();
         SetPlayerParameters();
-        _adMob.HideBanner();
+        if (_adMob != null)  _adMob.HideBanner();
     }
 
 
@@ -95,6 +97,7 @@ public class GameManager : MonoBehaviour
 
     private void PlayerExit()
     {
+        _levelMap.DestroyLevel();
         MainMenu(); 
     }
     private void PlayerGameOver()
@@ -102,32 +105,32 @@ public class GameManager : MonoBehaviour
         _endCanvas.gameObject.SetActive(true);
         _endCanvas.GameOver(_starManager.GetStarQuantity()>0);
         _levelMap.StopCamera();
-        _adMob.ShowBanner();
+        if (_adMob != null) _adMob.ShowBanner();
     }
 
     private void PlayerEndLevel()
     {
         _endCanvas.gameObject.SetActive(true);
         _endCanvas.EndLevel(_starManager.GetStarQuantity() > 0,_level< _currentLevelParameters.Length-1);
-        _adMob.ShowBanner();
+        if (_adMob != null) _adMob.ShowBanner();
     }
 
     private void EndCanvasRepeat()
     {
         LoadingLevel(_level);
-        _adMob.HideBanner();
+        if (_adMob != null) _adMob.HideBanner();
     }
 
     private void EndCanvasExit()
     {
         MainMenu();
-        _adMob.HideBanner();
+        if (_adMob != null) _adMob.HideBanner();
     }
     private void EndCanvasNextLevel()
     {
         _level++;
         LoadingLevel(_level);
-        _adMob.HideBanner();
+        if (_adMob != null) _adMob.HideBanner();
 
     }
     private void CreateLevel(LevelParameters levelParameters)

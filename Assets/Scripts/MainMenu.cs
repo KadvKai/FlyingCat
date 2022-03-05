@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject _optionsPanel;
     [SerializeField] Button _addStar;
     [SerializeField] Button _playButton;
+    [SerializeField] Button _createButton;
     private MenuStartingParameters _menyUserNameAge;
     private CreateLevel _createLevel;
     private MainMunuScreen _mainMunuScreen;
@@ -44,8 +45,16 @@ public class MainMenu : MonoBehaviour
 
     public void StarQuantityChanged(int starQuantity)
     {
-        if (starQuantity>0) _playButton.interactable = true;
-        else _playButton.interactable = false;
+        if (starQuantity > 0)
+        {
+            _playButton.interactable = true;
+            _createButton.interactable = true;
+        }
+        else
+        {
+            _createButton.interactable = false;
+            _playButton.interactable = false;
+        } 
         _starQuantity.text = starQuantity.ToString();
     }
     public void TimeToStar(int time)

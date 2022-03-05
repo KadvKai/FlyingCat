@@ -6,9 +6,9 @@ using UnityEngine;
 public class LevelMap : MonoBehaviour
 {
     [SerializeField] Canvas _background;
-    private readonly int _quantityuniqueNumber = 3;//число не повтор€ющихс€ частей уровн€
+    private const int _quantityuniqueNumber = 3;//число не повтор€ющихс€ частей уровн€
     private GameObject[] _levelGameObject;
-    private readonly int _lengthPartLevel = 61;
+    private const int _lengthPartLevel = 61;
     private Transform _camTransform;
     private CameraMover _cameraMover;
     private float _musicStartVolume;
@@ -26,14 +26,8 @@ public class LevelMap : MonoBehaviour
     }
     public void CreateNewLevel(int numberLevelParts, GameObject startPartLevel, GameObject[] partLevel, GameObject finishPartLevel)
     {
+        DestroyLevel();
         StartCamera();
-        if (_levelGameObject != null)
-        {
-            foreach (var gameObject in _levelGameObject)
-            {
-                Destroy(gameObject);
-            }
-        }
 
         _levelGameObject = new GameObject[numberLevelParts + 2];
         _levelGameObject[0] = Instantiate(startPartLevel, new Vector3(0, 0, 0), Quaternion.identity);
@@ -90,6 +84,18 @@ public class LevelMap : MonoBehaviour
             item.SetStop();
         }
         GetComponent<AudioSource>().volume = _musicStartVolume / 2;
+    }
+
+    public void DestroyLevel()
+    {
+        _cameraMover.enabled = false;
+        if (_levelGameObject != null)
+        {
+            foreach (var gameObject in _levelGameObject)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
 }

@@ -25,9 +25,10 @@ public class MainMunuScreen : MonoBehaviour
 
     private void OnDisable()
     {
-        if (_levelPart != null)
+
+        foreach (var part in _levelPart)
         {
-            foreach (var part in _levelPart)
+            if (part != null)
             {
                 part.SetActive(false);
             }

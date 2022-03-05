@@ -23,7 +23,7 @@ public class StarManager : MonoBehaviour
         _timeToStar = _saveData.TimeToStar;
         _coroutineWaitingTimeToStar = StartCoroutine(WaitingTimeToStar());
         _mainMenu.AddStarButton += AddStarButton;
-        _adMob.AddRewardedAdListener(RewardeStatus);
+        if (_adMob != null) _adMob.AddRewardedAdListener(RewardeStatus);
         CountingStarTimeToStar();
     }
 
@@ -61,12 +61,12 @@ public class StarManager : MonoBehaviour
 
     private void AddStarButton()
     {
-        _adMob.ShowRewardAd(RewardEvent);
+        if (_adMob != null) _adMob.ShowRewardAd(RewardEvent);
     }
     private void RewardEvent()
     {
         StarChanged(1);
-        _adMob.RewardEvent -= RewardEvent;
+        if (_adMob != null) _adMob.RewardEvent -= RewardEvent;
     }
 
     private void RewardeStatus(bool rewardeAdLoad)
@@ -99,7 +99,7 @@ public class StarManager : MonoBehaviour
     private void OnDisable()
     {
         _mainMenu.AddStarButton -= AddStarButton;
-        _adMob.RewardeStatus -= RewardeStatus;
+        if (_adMob != null) _adMob.RewardeStatus -= RewardeStatus;
         _saveData.StarQuantity = _starQuantity;
         _saveData.TimeToStar = _timeToStar;
     }
