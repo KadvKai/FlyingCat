@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         _saveData=_saveLoadSystem.Load();
         //_adMob = new AdMobManager(/*personalization: _saveData.PersonalizationAds, adForChild: _saveData.AdForChild, bannerId:_bannerId,rewardId: _rewardId*/);
         _adMob = null;
-        _mainMenu.gameObject.SetActive(true);
+        //_mainMenu.gameObject.SetActive(true);
         _starManager.SetStartParameters(_saveData, _mainMenu, _adMob);
     }
 
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     private void MainMenu()
     {
-        _mainMenu.gameObject.SetActive(true);
+        //_mainMenu.gameObject.SetActive(true);
        //Time.timeScale = 0;
         _mainMenu.StartMainMenu(_saveData.UserName);
         if (_adMob!=null) _adMob.ShowBanner();

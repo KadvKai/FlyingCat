@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartMainMenu(string userName)
     {
-        _mainMunuScreen=GetComponent<MainMunuScreen>();
+        _mainMunuScreen =GetComponent<MainMunuScreen>();
         _mainMunuScreen.enabled = true;
         _versionText.text= Application.version;
         if (userName!=null)
@@ -41,6 +41,7 @@ public class MainMenu : MonoBehaviour
         else StartingParameters();
         StartCoroutine(GetComponent<LanguageManager>().StartLanguageManager());
         _createLevel = GetComponent<CreateLevel>();
+        _mainMenuPanel.SetActive(true);
     }
 
     public void StarQuantityChanged(int starQuantity)
@@ -100,8 +101,8 @@ public class MainMenu : MonoBehaviour
 
     public void PlayButton()
     {
-        //_mainMenuPanel.SetActive(false);
-        gameObject.SetActive(false);
+        _mainMenuPanel.SetActive(false);
+        //gameObject.SetActive(false);
         PlayLevel?.Invoke(0);
         _mainMunuScreen.enabled = false;
     }
