@@ -32,8 +32,9 @@ public class MainMenu : MonoBehaviour
     public void StartMainMenu(string userName)
     {
         _mainMunuScreen =GetComponent<MainMunuScreen>();
-        _mainMunuScreen.enabled = true;
+       // _mainMunuScreen.enabled = true;
         _versionText.text= Application.version;
+        _mainMenuPanel.SetActive(true);
         if (userName!=null)
         {
             _userName.text = userName;
@@ -41,7 +42,6 @@ public class MainMenu : MonoBehaviour
         else StartingParameters();
         StartCoroutine(GetComponent<LanguageManager>().StartLanguageManager());
         _createLevel = GetComponent<CreateLevel>();
-        _mainMenuPanel.SetActive(true);
     }
 
     public void StarQuantityChanged(int starQuantity)

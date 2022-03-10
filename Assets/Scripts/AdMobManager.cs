@@ -12,10 +12,10 @@ public class AdMobManager
     private InterstitialAd _interstitialAd;
     private RewardedInterstitialAd _rewardInterstitialAd;
     private RewardedAd _rewardedAd;
-    
+
     private DateTime _AppOpenedLoadTime;
 
-    private bool _rewardAdsLoad; 
+    private bool _rewardAdsLoad;
     private bool InterstitialAdsLoad;
     private bool RewardInterstitialAdsLoad;
 
@@ -35,7 +35,7 @@ public class AdMobManager
     private readonly string _rewardInterstitionId;
     private readonly string _rewardId;
 
-    public AdMobManager(bool personalization = false, bool adForChild = false, string appOpenedId = null, string bannerId = null, string interstitionId = null, string rewardInterstitionId = null, string rewardId = null)
+    public AdMobManager(bool personalization = false, bool adForChild = true, string appOpenedId = null, string bannerId = null, string interstitionId = null, string rewardInterstitionId = null, string rewardId = null)
     {
         _personalizationAds = personalization;
         if (adForChild)
@@ -48,7 +48,7 @@ public class AdMobManager
         _interstitionId = interstitionId;
         _rewardInterstitionId = rewardInterstitionId;
         _rewardId = rewardId;
-       MobileAds.Initialize(initStatus =>
+        MobileAds.Initialize(initStatus =>
         {
             PreLoadAds();
         });
@@ -78,7 +78,7 @@ public class AdMobManager
         {
             return;
         }
-        
+
         //Реклама устарела
         if ((DateTime.UtcNow - _AppOpenedLoadTime).TotalHours > 4)
         {
@@ -106,7 +106,7 @@ public class AdMobManager
     //Реакция на удачную или не удачную загрузку рекламы
     private void AdLoadAppOpenedCallback(AppOpenAd ad, AdFailedToLoadEventArgs error)
     {
-            
+
         if (error != null) //НЕ удачаная загрузку рекламы
         {
             if (_maxFailedLoadAppOpened > 0)
@@ -117,9 +117,9 @@ public class AdMobManager
             else _appOpenAd = null;
             return;
         }
-        
+
         _AppOpenedLoadTime = DateTime.UtcNow;
-        
+
         _appOpenAd = ad;
     }
     //Вызывается когда игрок закрывает объявление
@@ -158,7 +158,7 @@ public class AdMobManager
     }
     public void HideBanner()
     {
-        if (_bannerAd != null) _bannerAd.Hide();
+        _bannerAd.Hide();
     }
     //Метод загружающий и показывающий баннер
     public void RequestBanner()
@@ -306,7 +306,7 @@ public class AdMobManager
     {
         if (error != null) //Неудачная загрузка рекламы
         {
-            
+
             if (_maxFailedLoadRewardInterstition > 0)
             {
                 _maxFailedLoadRewardInterstition--;
@@ -361,7 +361,7 @@ public class AdMobManager
                 RewardEvent = EnterDelegateReward;
 
                 //Инициируем показ рекламы
-                _rewardedAd.Show(); 
+                _rewardedAd.Show();
             }
         }
     }

@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
         _saveData = new SaveData();
         _saveData=_saveLoadSystem.Load();
         //_adMob = new AdMobManager(/*personalization: _saveData.PersonalizationAds, adForChild: _saveData.AdForChild, bannerId:_bannerId,rewardId: _rewardId*/);
-        _adMob = null;
+        //_adMob = null;
+        _adMob = new AdMobManager(personalization: _saveData.PersonalizationAds, adForChild: _saveData.AdForChild, bannerId: _bannerId, rewardId: _rewardId);
         //_mainMenu.gameObject.SetActive(true);
         _starManager.SetStartParameters(_saveData, _mainMenu, _adMob);
     }
